@@ -1,0 +1,26 @@
+FileVersion = 1
+Dependencies = {corlib = "*", raylib-beef = "*", ImGui = "*", GLFW = "*", ImGuiImplGlfw = "*", ImGuiImplOpenGL3 = "*", OpenGL = "*"}
+
+[Project]
+Name = "Leaf"
+StartupObject = "Leaf.Program"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)\\dist\\windows"
+TargetName = "$(ProjectName)_d"
+
+[Configs.Debug.wasm32]
+TargetDirectory = "$(ProjectDir)\\dist\\web"
+OtherLinkFlags = "$(LinkFlags) -o index.html -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_TTF=2 --use-preload-plugins --preload-file ../../res -s INITIAL_MEMORY=67108864 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=1 -s SAFE_HEAP=0 -s DETERMINISTIC=1 --shell-file D:/Software/Beef/wasm/shell.html"
+DebugCommand = ""
+
+[Configs.Release.Win64]
+TargetDirectory = "$(WorkspaceDir)\\dist\\windows"
+
+[Configs.Release.wasm32]
+TargetDirectory = "$(ProjectDir)\\dist\\web"
+OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --use-preload-plugins --preload-file res -Wno-missing-braces -Wunused-result -Os -I. -I C:/raylib/raylib/src -I C:/raylib/raylib/src/external -L. -L C:/raylib/raylib/src -s USE_GLFW=3 -s TOTAL_MEMORY=67108864 -s FORCE_FILESYSTEM=1 --shell-file D:/Software/Beef/wasm/shell.html C:/raylib/raylib/src/web/libraylib.a -DPLATFORM_WEB -s EXPORTED_FUNCTIONS=['_free','_malloc','_main'] -s EXPORTED_RUNTIME_METHODS=ccall"
+
+[[ProjectFolder.Items]]
+Type = "IgnoreSource"
+Name = "Tweenie.bf"

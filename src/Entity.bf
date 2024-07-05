@@ -1,0 +1,6 @@
+namespace Leaf;
+
+class Entity
+{
+
+}

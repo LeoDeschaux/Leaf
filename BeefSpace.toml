@@ -1,0 +1,11 @@
+FileVersion = 1
+Projects = {TalentShow = {Path = "."}, raylib-beef = "*"}
+WorkspaceFolders = {Libs = ["corlib", "raylib-beef"]}
+
+[Workspace]
+StartupProject = "Leaf"
+
+[Configs.Debug.wasm32]
+AllocType = "CRT"
+EnableObjectDebugFlags = false
+EmitObjectAccessCheck = false

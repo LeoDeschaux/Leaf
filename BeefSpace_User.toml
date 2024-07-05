@@ -1,0 +1,184 @@
+FileVersion = 1
+LastConfig = "Release"
+LastPlatform = "Win64"
+RecentFilesList = ["src\\Game.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Diagnostics\\Stopwatch.bf", "Disassembly", "Disassembly"]
+
+[MainWindow]
+X = 2486
+Y = 102
+Width = 1178
+Height = 884
+ShowKind = "ShowMaximized"
+
+[MainDockingFrame]
+Type = "DockingFrame"
+SplitType = 2
+
+[[MainDockingFrame.DockedWidgets]]
+RequestedWidth = 350.0
+RequestedHeight = 834.0
+SizePriority = 834.0
+Type = "DockingFrame"
+SplitType = 1
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+RequestedWidth = 265.0
+RequestedHeight = 200.0
+Type = "DockingFrame"
+SplitType = 2
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets]]
+RequestedWidth = 250.0
+RequestedHeight = 200.0
+SizePriority = 0.7871674
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Workspace"
+TabWidth = 115.0
+TabIsPinned = false
+Type = "ProjectPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets]]
+RequestedWidth = 1918.0
+RequestedHeight = 207.0
+SizePriority = 0.2128326
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Autocomplete"
+TabWidth = 131.0
+TabIsPinned = false
+Type = "AutoCompletePanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+IsFillWidget = true
+Permanent = true
+RequestedWidth = 1667.0
+RequestedHeight = 150.0
+SizePriority = 1667.0
+DefaultDocumentsTabbedView = true
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Game.bf"
+TabWidth = 79.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Game.bf"
+CursorPos = 211
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Program.bf"
+TabWidth = 96.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Program.bf"
+CursorPos = 1483
+VertPos = 1114.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets]]
+RequestedWidth = 250.0
+RequestedHeight = 185.0
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Output"
+TabWidth = 90.0
+TabIsPinned = false
+Type = "OutputPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Call Stack"
+TabWidth = 105.0
+TabIsPinned = false
+Type = "CallStackPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Errors"
+TabWidth = 86.0
+TabIsPinned = false
+Type = "ErrorsPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Modules"
+TabWidth = 101.0
+TabIsPinned = false
+Type = "ModulePanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Threads"
+TabWidth = 97.0
+TabIsPinned = false
+Type = "ThreadPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Profile"
+TabWidth = 87.0
+TabIsPinned = false
+Type = "ProfilePanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Bookmarks"
+TabWidth = 114.0
+TabIsPinned = false
+Type = "BookmarksPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Breakpoints"
+TabWidth = 118.0
+TabIsPinned = false
+Type = "BreakpointPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Find Results"
+TabWidth = 119.0
+TabIsPinned = false
+Type = "FindResultsPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Immediate"
+TabWidth = 111.0
+TabIsPinned = false
+Type = "ImmediatePanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Memory"
+TabWidth = 99.0
+TabIsPinned = false
+Type = "MemoryPanel"
+AutoResize = "Auto_Mul8"
+RequestedWidth = 300.0
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Watch"
+TabWidth = 86.0
+TabIsPinned = false
+Type = "WatchPanel"
+Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
+Items = [""]
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Auto Watches"
+TabWidth = 130.0
+TabIsPinned = false
+Type = "AutoWatchPanel"
+Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
+
+[[BookmarkFolders]]
+Title = ""
+
+[OutputFilters]
+ModuleLoadMessages = false
+ModuleUnloadMessages = false
+ProcessExitMessages = false
+ThreadCreateMessages = false
+ThreadExitMessages = false
+SymbolLoadMessages = false
+ProgramOutput = false

@@ -1,0 +1,132 @@
+using System;
+using RaylibBeef;
+using static RaylibBeef.Raylib;
+using System.Diagnostics;
+using System.IO;
+
+/*
+using ImGui;
+using GLFW;
+using ImGui;
+using OpenGL;
+*/
+
+namespace Leaf;
+
+class GameEngine
+{
+#if BF_PLATFORM_WASM
+	private const int WEB_FRAME_RATE = 60;
+	private function void em_callback_func();
+
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern void emscripten_set_main_loop(em_callback_func func, int32 fps, int32 simulateInfinteLoop);
+
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern int32 emscripten_set_main_loop_timing(int32 mode, int32 value);
+
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern double emscripten_get_now();
+
+	private static void EmscriptenMainLoop()
+	{
+		Tick();
+	}
+#endif
+
+	private BaseGame mGame;
+	private RenderTexture2D renderTexture;
+
+	private int32 screenWidth = 1280;
+	private int32 screenHeight = 720;
+
+	public this()
+	{
+		SetConfigFlags((int32)ConfigFlags.FLAG_WINDOW_RESIZABLE);
+		InitWindow(screenWidth, screenHeight, scope $"Title");
+		InitAudioDevice();
+
+		SetWindowFocused();
+
+		// Request a texture to render to. The size is the screen size of the raylib example.
+		renderTexture = LoadRenderTexture(screenWidth, screenHeight);
+
+		//ImGui.CreateContext();
+		//ImGuiImplGlfw.InitForOpenGL(window, true);
+		//ImGuiImplOpenGL3.Init();
+	}
+
+	public ~this()
+	{
+		delete mGame;
+
+		CloseAudioDevice();
+		CloseWindow();
+
+		//ImGui.DestroyContext();
+	}
+
+	public void AddGame(BaseGame game)
+	{
+		mGame = game;
+		mGame.mGameEngine = this;
+
+#if BF_PLATFORM_WASM
+		emscripten_set_main_loop(=> EmscriptenMainLoop, 0, 1);
+		//emscripten_set_main_loop_timing(1, 0);
+#else
+		SetTargetFPS(60);
+
+		while (!WindowShouldClose())
+		{
+			Tick();
+		}
+#endif
+	}
+
+	public void RestartGame()
+	{
+		Type t = mGame.GetType();
+
+		delete mGame;
+
+		var obj = t.CreateObject();
+		if(obj case .Err(let err))
+			Console.WriteLine(err);
+
+		mGame = (BaseGame)obj;
+		mGame.mGameEngine = this;
+	}
+
+	private void Tick()
+	{
+		//UPDATE
+		mGame.InternalUpdate();
+
+		//ImGui.NewFrame();
+
+		//DRAW
+		BeginTextureMode(renderTexture);
+		EndTextureMode();
+		
+		BeginDrawing();
+
+		mGame.InternalDraw();
+
+		/*
+		DrawTexturePro(
+			renderTexture.texture,
+			Rectangle(0, 0, renderTexture.texture.width, -renderTexture.texture.height),
+			Rectangle(0, 0, GetScreenWidth(), GetScreenHeight()),
+			Vector2(0, 0),
+			0,
+			WHITE
+		);
+		*/
+
+		//ImGui.ShowDemoWindow();
+		//ImGui.Render();
+
+		EndDrawing();
+	}
+}

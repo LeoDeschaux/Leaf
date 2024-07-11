@@ -1,11 +1,11 @@
 FileVersion = 1
-LastConfig = "Release"
-LastPlatform = "Win64"
-RecentFilesList = ["src\\Game.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Diagnostics\\Stopwatch.bf", "Disassembly", "Disassembly"]
+LastConfig = "Debug"
+LastPlatform = "wasm32"
+RecentFilesList = ["src\\Program.bf", "src\\GameEngine.bf", "src\\Extensions\\ExtVector2.bf", "src\\Game.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Diagnostics\\Stopwatch.bf", "Disassembly", "Disassembly"]
 
 [MainWindow]
-X = 2486
-Y = 102
+X = 248
+Y = 0
 Width = 1178
 Height = 884
 ShowKind = "ShowMaximized"
@@ -36,7 +36,7 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Workspace"
-TabWidth = 115.0
+TabWidth = 110.2273
 TabIsPinned = false
 Type = "ProjectPanel"
 
@@ -49,7 +49,7 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Autocomplete"
-TabWidth = 131.0
+TabWidth = 127.2727
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
@@ -63,94 +63,103 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
-TabLabel = "Game.bf"
-TabWidth = 79.0
+TabLabel = "GameEngine.bf"
+TabWidth = 112.9546
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Game.bf"
-CursorPos = 211
+FilePath = "src\\GameEngine.bf"
+CursorPos = 1524
+VertPos = 864.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "ExtVector2.bf"
+TabWidth = 102.7273
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Extensions\\ExtVector2.bf"
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Program.bf"
-TabWidth = 96.0
+TabWidth = 89.09093
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Program.bf"
-CursorPos = 1483
-VertPos = 1114.0
+CursorPos = 435
+VertPos = 124.76
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 185.0
+RequestedHeight = 302.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Output"
-TabWidth = 90.0
+TabWidth = 88.63637
 TabIsPinned = false
 Type = "OutputPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Call Stack"
-TabWidth = 105.0
+TabWidth = 104.5455
 TabIsPinned = false
 Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Errors"
-TabWidth = 86.0
+TabWidth = 82.95455
 TabIsPinned = false
 Type = "ErrorsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Modules"
-TabWidth = 101.0
+TabWidth = 97.72728
 TabIsPinned = false
 Type = "ModulePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Threads"
-TabWidth = 97.0
+TabWidth = 94.31819
 TabIsPinned = false
 Type = "ThreadPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Profile"
-TabWidth = 87.0
+TabWidth = 85.22728
 TabIsPinned = false
 Type = "ProfilePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Bookmarks"
-TabWidth = 114.0
+TabWidth = 109.0909
 TabIsPinned = false
 Type = "BookmarksPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Breakpoints"
-TabWidth = 118.0
+TabWidth = 114.7727
 TabIsPinned = false
 Type = "BreakpointPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
-TabWidth = 119.0
+TabWidth = 117.0455
 TabIsPinned = false
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Immediate"
-TabWidth = 111.0
+TabWidth = 109.0909
 TabIsPinned = false
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Memory"
-TabWidth = 99.0
+TabWidth = 95.45455
 TabIsPinned = false
 Type = "MemoryPanel"
 AutoResize = "Auto_Mul8"
@@ -158,7 +167,7 @@ RequestedWidth = 300.0
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Watch"
-TabWidth = 86.0
+TabWidth = 85.22728
 TabIsPinned = false
 Type = "WatchPanel"
 Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
@@ -166,7 +175,7 @@ Items = [""]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Auto Watches"
-TabWidth = 130.0
+TabWidth = 127.2727
 TabIsPinned = false
 Type = "AutoWatchPanel"
 Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]

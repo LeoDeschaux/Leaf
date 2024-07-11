@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", raylib-beef = "*", ImGui = "*", GLFW = "*", ImGuiImplGlfw = "*", ImGuiImplOpenGL3 = "*", OpenGL = "*"}
+Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*"}
 
 [Project]
 Name = "Leaf"

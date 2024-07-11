@@ -8,8 +8,25 @@ namespace Leaf;
 
 class Program
 {
-	public static int Main(String[] args)
+	public static void Main()
 	{
-		return 0;
+		var gameEngine = new GameEngine();
+
+		gameEngine.AddGame(new DebugGame());
+
+		delete gameEngine;
+	}
+}
+
+class DebugGame : BaseGame
+{
+	public override void Update()
+	{
+
+	}
+
+	public override void Draw()
+	{
+		DrawRectangle(0,0,100,100,BLUE);
 	}
 }

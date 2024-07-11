@@ -34,8 +34,8 @@ class GameEngine
 	}
 #endif
 
-	private BaseGame mGame;
-	private RenderTexture2D renderTexture;
+	private static BaseGame Game;
+	private static RenderTexture2D RenderTexture;
 
 	private int32 screenWidth = 1280;
 	private int32 screenHeight = 720;
@@ -49,7 +49,7 @@ class GameEngine
 		SetWindowFocused();
 
 		// Request a texture to render to. The size is the screen size of the raylib example.
-		renderTexture = LoadRenderTexture(screenWidth, screenHeight);
+		RenderTexture = LoadRenderTexture(screenWidth, screenHeight);
 
 		//ImGui.CreateContext();
 		//ImGuiImplGlfw.InitForOpenGL(window, true);
@@ -58,7 +58,7 @@ class GameEngine
 
 	public ~this()
 	{
-		delete mGame;
+		delete Game;
 
 		CloseAudioDevice();
 		CloseWindow();
@@ -68,8 +68,9 @@ class GameEngine
 
 	public void AddGame(BaseGame game)
 	{
-		mGame = game;
-		mGame.mGameEngine = this;
+		Game = game;
+		Game.mGameEngine = this;
+
 
 #if BF_PLATFORM_WASM
 		emscripten_set_main_loop(=> EmscriptenMainLoop, 0, 1);
@@ -86,32 +87,32 @@ class GameEngine
 
 	public void RestartGame()
 	{
-		Type t = mGame.GetType();
+		Type t = Game.GetType();
 
-		delete mGame;
+		delete Game;
 
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
 			Console.WriteLine(err);
 
-		mGame = (BaseGame)obj;
-		mGame.mGameEngine = this;
+		Game = (BaseGame)obj;
+		Game.mGameEngine = this;
 	}
 
-	private void Tick()
+	private static void Tick()
 	{
 		//UPDATE
-		mGame.InternalUpdate();
+		Game.InternalUpdate();
 
 		//ImGui.NewFrame();
 
 		//DRAW
-		BeginTextureMode(renderTexture);
+		BeginTextureMode(RenderTexture);
 		EndTextureMode();
 		
 		BeginDrawing();
 
-		mGame.InternalDraw();
+		Game.InternalDraw();
 
 		/*
 		DrawTexturePro(

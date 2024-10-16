@@ -1,15 +1,12 @@
 using System;
+using System.IO;
+using System.Diagnostics;
+
 using RaylibBeef;
 using static RaylibBeef.Raylib;
-using System.Diagnostics;
-using System.IO;
 
-/*
 using ImGui;
-using GLFW;
-using ImGui;
-using OpenGL;
-*/
+using rlCImGuiBeef;
 
 namespace Leaf;
 
@@ -46,24 +43,22 @@ class GameEngine
 		InitWindow(screenWidth, screenHeight, scope $"Title");
 		InitAudioDevice();
 
+		rlCImGuiBeef.rlCImGuiSetup();
+
 		SetWindowFocused();
 
 		// Request a texture to render to. The size is the screen size of the raylib example.
 		RenderTexture = LoadRenderTexture(screenWidth, screenHeight);
-
-		//ImGui.CreateContext();
-		//ImGuiImplGlfw.InitForOpenGL(window, true);
-		//ImGuiImplOpenGL3.Init();
 	}
 
 	public ~this()
 	{
 		delete Game;
 
+		rlCImGuiBeef.rlCImGuiShutdown();
+
 		CloseAudioDevice();
 		CloseWindow();
-
-		//ImGui.DestroyContext();
 	}
 
 	public void AddGame(BaseGame game)
@@ -82,6 +77,7 @@ class GameEngine
 		{
 			Tick();
 		}
+
 #endif
 	}
 
@@ -104,8 +100,6 @@ class GameEngine
 		//UPDATE
 		Game.InternalUpdate();
 
-		//ImGui.NewFrame();
-
 		//DRAW
 		BeginTextureMode(RenderTexture);
 		EndTextureMode();
@@ -125,8 +119,10 @@ class GameEngine
 		);
 		*/
 
-		//ImGui.ShowDemoWindow();
-		//ImGui.Render();
+		rlCImGuiBeef.rlCImGuiBegin();
+		bool open = true;
+		ImGui.ShowDemoWindow(&open);
+		rlCImGuiBeef.rlCImGuiEnd();
 
 		EndDrawing();
 	}

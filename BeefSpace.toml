@@ -1,6 +1,6 @@
 FileVersion = 1
-Projects = {TalentShow = {Path = "."}, raylib-beef = "*"}
-WorkspaceFolders = {Libs = ["corlib", "raylib-beef"]}
+Projects = {TalentShow = {Path = "."}, raylib-beef = "*", rlCImGuiBeef = {Path = "../rlCImGuiBeef"}}
+WorkspaceFolders = {Libs = ["corlib", "raylib-beef", "rlCImGuiBeef", "ImGui"]}
 
 [Workspace]
 StartupProject = "Leaf"

@@ -105,6 +105,7 @@ class GameEngine
 		EndTextureMode();
 		
 		BeginDrawing();
+		rlCImGuiBeef.rlCImGuiBegin();
 
 		Game.InternalDraw();
 
@@ -119,11 +120,8 @@ class GameEngine
 		);
 		*/
 
-		rlCImGuiBeef.rlCImGuiBegin();
-		bool open = true;
-		ImGui.ShowDemoWindow(&open);
+		
 		rlCImGuiBeef.rlCImGuiEnd();
-
 		EndDrawing();
 	}
 }

@@ -16,7 +16,6 @@ abstract class BaseGame
 
 	public this()
 	{
-
 		mTimer = new Timer();
 		timeline = new Timeline();
 	}

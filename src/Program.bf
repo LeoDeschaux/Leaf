@@ -1,8 +1,11 @@
 using System;
+using System.IO;
+using System.Diagnostics;
+
 using RaylibBeef;
 using static RaylibBeef.Raylib;
-using System.Diagnostics;
-using System.IO;
+
+using ImGui;
 
 namespace Leaf;
 
@@ -28,5 +31,7 @@ class DebugGame : BaseGame
 	public override void Draw()
 	{
 		DrawRectangle(0,0,100,100,BLUE);
+
+		ImGui.ShowDemoWindow();
 	}
 }

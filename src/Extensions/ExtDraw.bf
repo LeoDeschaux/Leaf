@@ -14,7 +14,7 @@ public extension Raylib
 		rlRotatef(rotation.x, 1, 0, 0);
 		rlRotatef(rotation.y, 0, 1, 0);
 		rlRotatef(rotation.z, 0, 0, 1);
-		DrawCubeV(.(0,0,0), scale, color);
+		DrawCubeV(RaylibBeef.Vector3(0,0,0), scale, color);
 		rlPopMatrix();
 	}
 

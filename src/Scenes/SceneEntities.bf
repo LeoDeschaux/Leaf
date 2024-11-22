@@ -16,6 +16,7 @@ class SceneEntities : BaseScene
 	public Player Player1;
 	public Player Player2;
 
+	[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 	public this()
 	{
 		Player1 = new Player();
@@ -50,7 +51,8 @@ class SceneEntities : BaseScene
 
 	public override void Update()
 	{
-		
+		if(IsKeyPressed((int32)KeyboardKey.KEY_R))
+			Restart();
 	}
 
 	public override void Draw()

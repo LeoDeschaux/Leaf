@@ -16,9 +16,7 @@ class Program
 	{
 		var gameEngine = new GameEngine();
 
-		//gameEngine.AddGame(new Leaf.Scenes.DebugGame());
-		gameEngine.RunGame(new Leaf.Scenes.SceneAutoConfig());
-		//gameEngine.AddGame(new ParticleEditor());
+		gameEngine.RunGame(new Leaf.Scenes.SceneEntities());
 
 		delete gameEngine;
 	}

@@ -30,6 +30,8 @@ public class EntitySystem
 
 	public void Draw()
 	{
+		SortDrawOrder();
+
 		for(var entity in Entities)
 			entity.Draw();
 	}

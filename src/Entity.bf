@@ -1,6 +1,0 @@
-namespace Leaf;
-
-class Entity
-{
-
-}

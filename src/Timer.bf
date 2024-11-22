@@ -6,7 +6,7 @@ using static RaylibBeef.Raylib;
 namespace Leaf;
 
 
-class Teemo
+class TimedEvent
 {
 	public delegate void() event;
 
@@ -50,28 +50,28 @@ class Teemo
 
 class Timer
 {
-	List<Teemo> timers;
+	List<TimedEvent> mTimedEvents;
 
 	bool hasBeenDeleted;
 
 	public this()
 	{
-		timers = new List<Teemo>();
+		mTimedEvents = new List<TimedEvent>();
 	}
 
 	public ~this()
 	{
-		for(var timer in timers)
+		for(var timer in mTimedEvents)
 			delete timer;
 
-		delete timers;
+		delete mTimedEvents;
 	}
 
 	public void Update()
 	{
-		for(int i = 0; i < timers.Count; i++)
+		for(int i = 0; i < mTimedEvents.Count; i++)
 		{
-			var timer = timers[i];
+			var timer = mTimedEvents[i];
 			timer.Update();
 			if(hasBeenDeleted)
 			{
@@ -86,22 +86,22 @@ class Timer
 		*/
 	}
 
-	public Teemo DelayedAction(float delay, delegate void() myEvent)
+	public TimedEvent DelayedAction(float delay, delegate void() myEvent)
 	{
-		var teemo = new Teemo(delay, myEvent);
-		timers.Add(teemo);
+		var timedEvent = new TimedEvent(delay, myEvent);
+		mTimedEvents.Add(timedEvent);
 
-		teemo.event = new () => {
-			timers.Remove(teemo);
+		timedEvent.event = new () => {
+			mTimedEvents.Remove(timedEvent);
 			myEvent.Invoke(); //same as delete this, because it call the delete in Game
 		};
 
-		return teemo;
+		return timedEvent;
 	}
 
 	public void SetNow()
 	{
-		for(var timer in timers)
+		for(var timer in mTimedEvents)
 			timer.SetNow();
 	}
 

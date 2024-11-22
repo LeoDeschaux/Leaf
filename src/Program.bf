@@ -6,6 +6,7 @@ using RaylibBeef;
 using static RaylibBeef.Raylib;
 
 using ImGui;
+using Leaf.ParticleSystem;
 
 namespace Leaf;
 
@@ -15,23 +16,10 @@ class Program
 	{
 		var gameEngine = new GameEngine();
 
-		gameEngine.AddGame(new DebugGame());
+		//gameEngine.AddGame(new Leaf.Scenes.DebugGame());
+		gameEngine.RunGame(new Leaf.Scenes.SceneAutoConfig());
+		//gameEngine.AddGame(new ParticleEditor());
 
 		delete gameEngine;
-	}
-}
-
-class DebugGame : BaseGame
-{
-	public override void Update()
-	{
-
-	}
-
-	public override void Draw()
-	{
-		DrawRectangle(0,0,100,100,BLUE);
-
-		ImGui.ShowDemoWindow();
 	}
 }

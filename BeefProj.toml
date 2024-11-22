@@ -1,24 +1,25 @@
 FileVersion = 1
-Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", rlCImGuiBeef = "*"}
+Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*"}
 
 [Project]
 Name = "Leaf"
 StartupObject = "Leaf.Program"
 
 [Configs.Debug.Win64]
-TargetDirectory = "$(WorkspaceDir)\\dist\\windows"
+TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
 TargetName = "$(ProjectName)_d"
+PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 
 [Configs.Debug.wasm32]
-TargetDirectory = "$(ProjectDir)\\dist\\web"
-OtherLinkFlags = "$(LinkFlags) -o index.html -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_TTF=2 --use-preload-plugins --preload-file ../../res -s INITIAL_MEMORY=67108864 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=1 -s SAFE_HEAP=0 -s DETERMINISTIC=1 --shell-file D:/Software/Beef/wasm/shell.html"
+TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
+OtherLinkFlags = "$(LinkFlags) -o index.html -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html"
+PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 DebugCommand = ""
 
-[Configs.Release.Win64]
-TargetDirectory = "$(WorkspaceDir)\\dist\\windows"
+[Configs.Debug.Win32]
+PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 
 [Configs.Release.wasm32]
-TargetDirectory = "$(ProjectDir)\\dist\\web"
 OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --use-preload-plugins --preload-file res -Wno-missing-braces -Wunused-result -Os -I. -I C:/raylib/raylib/src -I C:/raylib/raylib/src/external -L. -L C:/raylib/raylib/src -s USE_GLFW=3 -s TOTAL_MEMORY=67108864 -s FORCE_FILESYSTEM=1 --shell-file D:/Software/Beef/wasm/shell.html C:/raylib/raylib/src/web/libraylib.a -DPLATFORM_WEB -s EXPORTED_FUNCTIONS=['_free','_malloc','_main'] -s EXPORTED_RUNTIME_METHODS=ccall"
 
 [[ProjectFolder.Items]]

@@ -38,5 +38,10 @@ namespace RaylibBeef
 		{
 			return Raymath.Vector2Distance(left, right);
 		}
+
+		public override void ToString(String strBuffer)
+		{
+			strBuffer.Append(scope $"x:{x},y:{y}");
+		}
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 namespace Leaf;
 
 class Entity
@@ -7,15 +8,21 @@ class Entity
 	public this()
 	{
 		Leaf.Engine.EntitySystem.Entities.Add(this);
-		//TODO sort order
+		Leaf.Serialization.AutoSerializeAttribute.Deserialize(this);
 	}
 
 	public ~this()
 	{
+		OnDelete?.Invoke();
+		delete OnDelete;
+
 		Leaf.Engine.EntitySystem.Entities.Remove(this);
-		//TODO sort order
+		Leaf.Serialization.AutoSerializeAttribute.Serialize(this);
 	}
 
 	public virtual void Update() {};
 	public virtual void Draw() {};
+	public virtual void DrawScreenSpace() {};
+
+	public delegate void() OnDelete;
 }

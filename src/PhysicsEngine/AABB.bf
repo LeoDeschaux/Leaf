@@ -121,8 +121,6 @@ static class AABB
 		float distance = Vector2.Distance(c1.Position, c2.Position);
 		float penetration = distance - (c1.Radius + c2.Radius);
 
-		//Console.WriteLine(penetration);
-
 		if(penetration > 0)
 			return result;
 
@@ -131,8 +129,31 @@ static class AABB
 
 	public static Vector2 Resolve(Circle c1, Rectangle r1)
 	{
+		Vector2 result = c1.Position;
+
+		Vector2 nearestPoint;
+		nearestPoint.x = Math.Clamp(c1.Position.x, r1.x, r1.x+r1.width);
+		nearestPoint.y = Math.Clamp(c1.Position.y, r1.y, r1.y+r1.height);
+
+		Vector2 rayToNearest = nearestPoint - c1.Position;
+		float overlap = c1.Radius - Vector2.Magnitude(rayToNearest);
+
+		if(overlap > 0)
+			result = c1.Position - (rayToNearest.Normalized() * overlap);
+
+		return result;
+	}
+
+	public static Vector2 ResolveOld(Circle c1, Rectangle r1)
+	{
 		var closestVertex = ClosestVertex(c1, r1);
 		var closestPointOnEdge = ClosestPointOnEdge(c1, r1);
+
+		var isClosestVertexOverlapping = Vector2.Distance(c1.Position, closestVertex) < c1.Radius;
+		var isClosestPointOntEdgeOverlapping = Vector2.Distance(c1.Position, closestPointOnEdge) < c1.Radius;
+
+		if(!isClosestVertexOverlapping && !isClosestPointOntEdgeOverlapping)
+			return c1.Position;
 
 		bool shouldResolveVertex =
 			Vector2.Distance(closestVertex, closestPointOnEdge) <= 0;

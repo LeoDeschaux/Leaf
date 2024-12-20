@@ -17,6 +17,7 @@ class GameEngine
 	private static RenderTexture2D RenderTexture;
 
 	public static EntitySystem EntitySystem;
+	public static PhysicsEngine PhysicsEngine;
 
 	private int32 screenWidth = 1280;
 	private int32 screenHeight = 720;
@@ -24,6 +25,10 @@ class GameEngine
 	public this()
 	{
 		SetConfigFlags((int32)ConfigFlags.FLAG_WINDOW_RESIZABLE);
+
+		SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT);
+		//set_target_fps(get_monitor_refresh_rate(get_current_monitor()));
+
 		InitWindow(screenWidth, screenHeight, scope $"Title");
 		InitAudioDevice();
 
@@ -35,12 +40,17 @@ class GameEngine
 		RenderTexture = LoadRenderTexture(screenWidth, screenHeight);
 
 		EntitySystem = new EntitySystem();
+		PhysicsEngine = new PhysicsEngine();
 	}
 
 	public ~this()
 	{
+		CurrentScene.OnBeforeExit();
+
 		delete EntitySystem;
-		delete CurrentScene;
+		delete PhysicsEngine;
+
+		//delete CurrentScene;
 
 		rlCImGuiBeef.rlCImGuiShutdown();
 
@@ -70,14 +80,22 @@ class GameEngine
 		Type t = CurrentScene.GetType();
 		delete CurrentScene;
 
+		EntitySystem.Dispose();
+		delete EntitySystem;
+		EntitySystem = new EntitySystem();
+
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
+		{
 			Console.WriteLine(err);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+		}
 
 		CurrentScene = (BaseScene)obj;
 		CurrentScene.GameEngine = this;
 
 		Console.WriteLine("--- GAME RESTARTED ---");
+		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}
 
 	private static void Tick()
@@ -87,14 +105,21 @@ class GameEngine
 		EntitySystem.Update();
 
 		//DRAW
-		BeginTextureMode(RenderTexture);
-		EndTextureMode();
-		
+		//BeginTextureMode(RenderTexture);
+		//EndTextureMode();
+
 		BeginDrawing();
 		rlCImGuiBeef.rlCImGuiBegin();
 
 		CurrentScene.InternalDraw();
+
+		BeginMode2D(CurrentScene.Camera);
 		EntitySystem.Draw();
+		EndMode2D();
+
+		EntitySystem.DrawScreenSpace();
+
+		Leaf.Config.AutoConfigAttribute.Update(Leaf.Engine.EntitySystem.Entities);
 
 		/*
 		DrawTexturePro(

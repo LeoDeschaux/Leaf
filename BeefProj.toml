@@ -25,3 +25,11 @@ OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --
 [[ProjectFolder.Items]]
 Type = "IgnoreSource"
 Name = "Tweenie.bf"
+
+[[ProjectFolder.Items]]
+Type = "AutoFolder"
+Name = "Serialization"
+
+[[ProjectFolder.Items.Items]]
+Type = "IgnoreSource"
+Name = "DataFileOld.bf"

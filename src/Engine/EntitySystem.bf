@@ -1,10 +1,12 @@
 using System.Collections;
+using System;
 
 namespace Leaf.Engine;
 
 public class EntitySystem
 {
 	public static List<Entity> Entities;
+	private bool mHasBeenDisposed = false;
 
 	public this()
 	{
@@ -13,8 +15,10 @@ public class EntitySystem
 
 	public ~this()
 	{
-		for (int i = Entities.Count-1; i >= 0; i--)
+		int i = Entities.Count-1;
+		for (; i >= 0; i--)
 		{
+			i = Entities.Count-1;
 			var entity = Entities[i];
 			delete entity;
 		}
@@ -22,10 +26,18 @@ public class EntitySystem
 		delete Entities;
 	}
 
+	public void Dispose()
+	{
+		mHasBeenDisposed = true;
+	}
+
 	public void Update()
 	{
-		for(var entity in Entities)
-			entity.Update();
+		for(int i = 0; i < Entities.Count; i++)
+		{
+			var e = Entities[i];
+			e.Update();
+		}
 	}
 
 	public void Draw()
@@ -34,6 +46,14 @@ public class EntitySystem
 
 		for(var entity in Entities)
 			entity.Draw();
+	}
+
+	public void DrawScreenSpace()
+	{
+		SortDrawOrder();
+
+		for(var entity in Entities)
+			entity.DrawScreenSpace();
 	}
 
 	public void SortDrawOrder()

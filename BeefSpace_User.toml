@@ -1,11 +1,11 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Platform\\WebEngine.bf", "src\\Scenes\\SceneAutoConfig.bf", "src\\Config\\ConfigAttribute.bf", "src\\Networking\\ReplicateAttribute.bf", "src\\AnimationPlayerV2.bf", "src\\Game.bf", "Disassembly", "Disassembly"]
+RecentFilesList = ["src\\Program.bf", "src\\Game.bf", "Disassembly", "Disassembly"]
 
 [MainWindow]
-X = 0
-Y = 156
+X = 373
+Y = 0
 Width = 1178
 Height = 884
 ShowKind = "ShowMaximized"
@@ -43,45 +43,27 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneAutoConfig.bf"
-TabWidth = 137.1431
+Active = true
+TabLabel = "Program.bf"
+TabWidth = 90.71439
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneAutoConfig.bf"
-CursorPos = 673
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "ConfigAttribute.bf"
-TabWidth = 128.2145
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Config\\ConfigAttribute.bf"
-CursorPos = 37
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "ReplicateAttribute.bf"
-TabWidth = 150.0003
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Networking\\ReplicateAttribute.bf"
-CursorPos = 243
+FilePath = "src\\Program.bf"
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
-RequestedWidth = 429.0
+RequestedWidth = 266.0
 RequestedHeight = 194.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Autocomplete"
 TabWidth = 126.7859
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Call Stack"
 TabWidth = 101.7858
 TabIsPinned = false
@@ -89,7 +71,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 231.0
+RequestedHeight = 173.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

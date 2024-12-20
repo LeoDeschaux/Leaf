@@ -2,42 +2,70 @@ using System;
 using Leaf;
 using RaylibBeef;
 using Leaf.Serialization;
+using Leaf.Serialize;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
 namespace Leaf.Scenes;
 class SceneDataFile : Leaf.BaseScene
 {
-	[Serialize]
-	public int myInt;
-
-	[Serialize]
+	private int playerID;
 	private PlayerData playerData;
-
-	private int notSerializedInt;
 
     public this()
     {
 		Player player = scope Player();
 
 		/*
-		PlayerData playerData;
-		playerData.PlayerHealth = 500f;
-		DataFile.Serialize();
-		DataFile.Deserialize();
+		{
+			DataFile dataFile = DataFile.LoadFileOrCreate("res/config.json");
+
+			dataFile["PlayerName"] = "John";
+			StringView pName = dataFile["PlayerName"];
+
+			dataFile["PlayerHealth"] = 666;
+			int pHealth = dataFile["PlayerHealth"];
+
+			Log.Message(dataFile);
+
+			dataFile.SaveFileOverwrite("res/config.json");
+
+			delete dataFile;
+		}
+		*/
+		
+		///IDEA
+		//put everything inside struct and automate load/save
+		{
+			DataFile dataFile = scope .();
+
+			playerData.PlayerHealth = 3;
+			playerData.PlayerName = "John";
+
+			var obj = dataFile.Serialize(playerData);
+			dataFile["PlayerData"] = obj;
+
+			dataFile.Deserialize(obj, ref playerData);
+
+			Log.Message(playerData.PlayerHealth);
+		}
+
+		///IDEA 2
+		/* 
+		SaveLocation = map[""]
+		LoadLocation = &playerID
+
+		LoadAndSave.Register(map[""], &playerID)
+
+		Load:
+			LoadLocation = SaveLocation
+		Save:
+			SaveLocation = LoadLocation
 		*/
 
-		for(var type in Type.Types) 
-		{
-			for (var field in type.GetFields())
-			{
-				if (let fieldAttribute = field.GetCustomAttribute<SerializeAttribute>())
-				{
-					SerializationHelper.PrintField(field);
-					Log.Message(fieldAttribute.MyCustomFunction());
-				}
-			}
-		}
+		///IDEA 3
+		//[AutoSerialize]
+
     }
 
     public ~this()
@@ -55,11 +83,12 @@ class SceneDataFile : Leaf.BaseScene
 
 extension SceneDataFile{
 [Reflect]
-struct PlayerData {
+public struct PlayerData {
+	[Reflect]
 	public float PlayerHealth = 100;
 	public String PlayerName = "Hero";
 
-	public Vector2 PlayerPosition = .(1,2);
+	//public Vector2 PlayerPosition = .(1,2);
 	//Player Items[]
 }
 
@@ -69,13 +98,10 @@ class Player {
 
 	public this()
 	{
-		Log.Message(nameof(Position));
-		Log.Message(Position.GetType());
 	}
 
 	public ~this()
 	{
-
 	}
 }
 }

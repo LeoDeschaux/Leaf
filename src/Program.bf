@@ -16,7 +16,7 @@ class Program
 	{
 		var gameEngine = new GameEngine();
 
-		gameEngine.RunGame(new Leaf.Scenes.SceneEntities());
+		gameEngine.RunGame(new Leaf.Scenes.SceneDataFile());
 
 		delete gameEngine;
 	}

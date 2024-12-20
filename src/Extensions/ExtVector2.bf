@@ -34,9 +34,19 @@ namespace RaylibBeef
 			return .(left.x/right, left.y/right);
 		}
 
+		public Vector2 Normalized()
+		{
+			return Raymath.Vector2Normalize(this);
+		}
+
 		public static float Distance(Vector2 left, Vector2 right)
 		{
 			return Raymath.Vector2Distance(left, right);
+		}
+
+		public static float Magnitude(Vector2 left)
+		{
+			return Raymath.Vector2Length(left);
 		}
 
 		public override void ToString(String strBuffer)

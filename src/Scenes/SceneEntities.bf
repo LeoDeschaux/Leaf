@@ -34,6 +34,10 @@ class SceneEntities : BaseScene
 		Swap();
 	}
 
+	public ~this()
+	{
+	}	
+
 	private void Swap()
 	{
 		this.mTimer.DelayedAction(1f, new () => {
@@ -42,11 +46,6 @@ class SceneEntities : BaseScene
 
 			Swap();
 		});
-	}
-
-	public ~this()
-	{
-		
 	}
 
 	public override void Update()

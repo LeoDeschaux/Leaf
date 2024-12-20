@@ -43,6 +43,9 @@ class SceneAnimationPlayer : Leaf.BaseScene
 
     public override void Update()
     {
+		if(IsKeyPressed((int32)KeyboardKey.KEY_R))
+			this.Restart();
+
 		if(IsKeyPressed((int32)KeyboardKey.KEY_RIGHT))
 		{
 			currentAnimIndex = (currentAnimIndex + 1) % anims.Count;

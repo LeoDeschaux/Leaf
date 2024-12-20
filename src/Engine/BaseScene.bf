@@ -6,8 +6,10 @@ using static RaylibBeef.Raymath;
 
 namespace Leaf;
 
-abstract class BaseScene
+class BaseScene : Entity
 {
+	public Camera2D Camera;
+
 	public Color BackgroundColor = Color(20,30,50,255);
 	protected Timer mTimer;
 	protected Timeline mTimeline;
@@ -26,26 +28,26 @@ abstract class BaseScene
 		delete mTimeline;
 	}
 
+	public virtual void OnBeforeExit(){};
+
 	public void Restart()
 	{
 		GameEngine.RestartGame();
 	}
 
-	public abstract void Update();
-	public abstract void Draw();
-
 	public void InternalUpdate()
 	{
+		if(WindowShouldClose())
+			Console.WriteLine("YO");
+
 		mTimer.Update();
 		mTimeline.Update();
-		Update();
 	}
 
-	public void InternalDraw()
+	//SCREEN SPACE
+	public void InternalDraw() 
 	{
 		ClearBackground(BackgroundColor);
-
-		Draw();
 
 		//INFO
 		/*
@@ -53,7 +55,6 @@ abstract class BaseScene
 		DrawText(frameTime, 20,60,24,DARKGREEN);
 		char8* getTime = scope $"getTime: {GetTime()}".ToString(.. scope .());
 		DrawText(getTime, 20,100,24,RED);
-		*/
 
 		void DrawPlatform(char8* text)
 		{
@@ -66,7 +67,11 @@ abstract class BaseScene
 #else
 		DrawPlatform("windows");
 #endif
+		*/
 
 		DrawFPS(GetScreenWidth()-80, 10);
+
+		DrawText(Leaf.Engine.EntitySystem.Entities.Count.ToString(.. scope .()),
+			GetScreenWidth()-80,30, 24, WHITE);
 	}
 }

@@ -19,8 +19,29 @@ class GameEngine
 	public static EntitySystem EntitySystem;
 	public static PhysicsEngine PhysicsEngine;
 
-	private int32 screenWidth = 1280;
-	private int32 screenHeight = 720;
+	private int32 windowWidth = 1280;
+	private int32 windowHeight = 720;
+
+	private DataFile preferences;
+
+	private void LoadPreferences()
+	{
+		preferences = DataFile.LoadFileOrCreate("res/pref.json");
+		windowWidth = 1280;//(int32)preferences["WindowWidth"].data.number;
+		windowHeight = 720;//(int32)preferences["WindowHeight"].data.number;
+	}
+
+	private void SavePreferences()
+	{
+		preferences["WindowWidth"] = GetScreenWidth();
+		preferences["WindowHeight"] = GetScreenHeight();
+
+		preferences["IsMaximized"] = IsWindowMaximized();
+
+		preferences.SaveFileOverwrite("res/pref.json");
+
+		delete preferences;
+	}
 
 	public this()
 	{
@@ -29,15 +50,19 @@ class GameEngine
 		SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT);
 		//set_target_fps(get_monitor_refresh_rate(get_current_monitor()));
 
-		InitWindow(screenWidth, screenHeight, scope $"Title");
+		LoadPreferences();
+
+		InitWindow(windowWidth, windowHeight, scope $"Title");
 		InitAudioDevice();
+
+		if(preferences["IsMaximized"])
+			MaximizeWindow();
 
 		rlCImGuiBeef.rlCImGuiSetup();
 
 		SetWindowFocused();
 
-		// Request a texture to render to. The size is the screen size of the raylib example.
-		RenderTexture = LoadRenderTexture(screenWidth, screenHeight);
+		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);
 
 		EntitySystem = new EntitySystem();
 		PhysicsEngine = new PhysicsEngine();
@@ -45,6 +70,8 @@ class GameEngine
 
 	public ~this()
 	{
+		SavePreferences();
+
 		CurrentScene.OnBeforeExit();
 
 		delete EntitySystem;
@@ -97,6 +124,29 @@ class GameEngine
 		Console.WriteLine("--- GAME RESTARTED ---");
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}
+
+	public void ChangeGame(BaseScene scene)
+	{
+		Type t = scene.GetType();
+		delete CurrentScene;
+
+		EntitySystem.Dispose();
+		delete EntitySystem;
+		EntitySystem = new EntitySystem();
+
+		var obj = t.CreateObject();
+		if(obj case .Err(let err))
+		{
+			Console.WriteLine(err);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+		}
+
+		CurrentScene = (BaseScene)obj;
+		CurrentScene.GameEngine = this;
+
+		Console.WriteLine($"--- LOADED {t} ---");
+		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
+	}	
 
 	private static void Tick()
 	{

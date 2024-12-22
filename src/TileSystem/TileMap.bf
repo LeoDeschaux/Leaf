@@ -38,13 +38,13 @@ class TileMap : Leaf.Entity
     {
     }
 
-	public void AddTile(Vec2Int tileIndex)
+	public void AddTile(Vec2Int tileIndex, Color color)
 	{
 		if(mTiles.ContainsKey(tileIndex))
 			return;
 
 		var pos = GetTilePositionFromIndex(tileIndex);
-		mTiles.TryAdd(tileIndex, new Tile(pos, .(TileSize, TileSize)));
+		mTiles.TryAdd(tileIndex, new Tile(pos, .(TileSize, TileSize), color));
 	}
 
 	public bool CanAddTileAtPos(Vec2Int tileIndex)

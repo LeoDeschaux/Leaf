@@ -10,13 +10,15 @@ class Tile : Leaf.Entity
 {
 	public Vector2 Position;
 	public Vector2 Size;
+	public Color Color = BLUE;
 
 	public PhysicComponent physicComponent;
 
-    public this(Vector2 position, Vector2 size)
+    public this(Vector2 position, Vector2 size, Color color)
     {
 		Position = position;
 		Size = size;
+		Color = color;
 
 		physicComponent = new .(ref Position);
 		physicComponent.OnDelete = new () => {
@@ -46,7 +48,6 @@ class Tile : Leaf.Entity
     public override void Draw()
     {
 		var rec = (physicComponent.CollisionShape as CollisionRectangle).Rectangle;
-		DrawRectangleRec(rec, BLUE);
-		//DrawCircleV(Position, 20, RED);
+		DrawRectangleRec(rec, Color);
     }
 }

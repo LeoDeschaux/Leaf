@@ -21,7 +21,8 @@ class CollisionCircle : CollisionShape
 	public Circle Circle;
 	public override void Draw()
 	{
-		DrawCircleV(Circle.Position, Circle.Radius, GREEN);
+		//DrawCircleV(Circle.Position, Circle.Radius, .(0,255,0,100));
+		DrawCircleLinesV(Circle.Position, Circle.Radius, GREEN);
 	}
 }
 
@@ -33,6 +34,7 @@ class PhysicComponent : Leaf.Entity
 
     public this(ref Vector2 ownerPosition)
     {
+		DrawOrder = 1000;
 		ownerPos = &ownerPosition;
 
 		PhysicsEngine.Components.Add(this);
@@ -65,17 +67,19 @@ class PhysicComponent : Leaf.Entity
 			if(other == this)
 				continue;
 
-			/*
 			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionCircle)
 			{
 				var otherShape = other.CollisionShape as CollisionCircle;
 				var selfShape = this.CollisionShape as CollisionCircle;
 
-				selfShape.Circle.Position = currentPosition;
-				if(AABB.IsOverlapping(selfShape.Circle, otherShape.Circle))
-					newPos = AABB.Resolve(selfShape.Circle, otherShape.Circle);
+				//BUG: maybe here ? we are modifying the actual position
+				var circle = Circle(newPos, selfShape.Circle.Radius);
+
+				//if(AABB.IsOverlapping(selfShape.Circle, otherShape.Circle))
+				newPos = AABB.Resolve(circle, otherShape.Circle);
 			}
 
+			/*
 			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)
 			{
 				var otherShape = other.CollisionShape as CollisionCircle;

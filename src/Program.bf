@@ -15,9 +15,7 @@ class Program
 	public static void Main()
 	{
 		var gameEngine = new GameEngine();
-
-		gameEngine.RunGame(new Leaf.Scenes.SceneDataFile());
-
+		gameEngine.RunGame(new Leaf.Scenes.SceneShader());
 		delete gameEngine;
 	}
 }

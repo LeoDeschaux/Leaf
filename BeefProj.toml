@@ -12,7 +12,7 @@ PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(
 
 [Configs.Debug.wasm32]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
-OtherLinkFlags = "$(LinkFlags) -o index.html -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html"
+OtherLinkFlags = "$(LinkFlags) -o index.html -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1"
 PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 DebugCommand = ""
 

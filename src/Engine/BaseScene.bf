@@ -20,6 +20,9 @@ class BaseScene : Entity
 	{
 		mTimer = new Timer();
 		mTimeline = new Timeline();
+
+		Camera.zoom = 1f;
+		Camera.offset = .(GetScreenWidth()/2,GetScreenHeight()/2);
 	}
 
 	public ~this()

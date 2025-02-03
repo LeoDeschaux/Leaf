@@ -8,6 +8,7 @@ using static RaylibBeef.Raymath;
 namespace Leaf;
 
 class CollisionShape{
+	public Color color = GREEN;
 	public virtual void Draw(){};
 }
 
@@ -21,8 +22,7 @@ class CollisionCircle : CollisionShape
 	public Circle Circle;
 	public override void Draw()
 	{
-		//DrawCircleV(Circle.Position, Circle.Radius, .(0,255,0,100));
-		DrawCircleLinesV(Circle.Position, Circle.Radius, GREEN);
+		DrawCircleLinesV(Circle.Position, Circle.Radius, color);
 	}
 }
 
@@ -31,10 +31,13 @@ class PhysicComponent : Leaf.Entity
 	public CollisionShape CollisionShape;
 
 	private Vector2* ownerPos;
+	public Leaf.Entity Owner;
 
-    public this(ref Vector2 ownerPosition)
+    public this(Leaf.Entity owner, ref Vector2 ownerPosition)
     {
 		DrawOrder = 1000;
+
+		Owner = owner;
 		ownerPos = &ownerPosition;
 
 		PhysicsEngine.Components.Add(this);
@@ -48,19 +51,74 @@ class PhysicComponent : Leaf.Entity
 
 	public override void Update()
 	{
-		if(var circl = CollisionShape as CollisionCircle)
-			circl.Circle.Position = *ownerPos;
+	}
 
-		/*
-		if(var rec = CollisionShape as CollisionRectangle)
-			rec.Rectangle.Center = ownerPos;
-		//(CollisionShape as CollisionCircle).Circle.Position = ownerPos;
-		*/
+	public bool IsTouching()
+	{
+		Vector2 newPos = *ownerPos;
+
+		bool isColliding = false;
+		bool isOverlapping = false;
+
+		for(var other in PhysicsEngine.Components)
+		{
+			if(other == this)
+				continue;
+
+			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionCircle)
+			{
+				var otherShape = other.CollisionShape as CollisionCircle;
+				var selfShape = this.CollisionShape as CollisionCircle;
+
+				var circle = Circle(newPos, selfShape.Circle.Radius);
+
+				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
+			}
+
+			/*
+			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)
+			{
+				var otherShape = other.CollisionShape as CollisionCircle;
+				var selfShape = this.CollisionShape as CollisionRectangle;
+
+				//selfShape.Rectangle.Position = currentPosition;
+				newPos = AABB.Resolve(otherShape.Circle, selfShape.Rectangle);
+			}
+			*/
+
+			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionCircle)
+			{
+				var otherShape = other.CollisionShape as CollisionRectangle;
+				var selfShape = this.CollisionShape as CollisionCircle;
+
+				var circle = Circle(newPos, selfShape.Circle.Radius);
+
+				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+			}
+
+			/*
+			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionRectangle)
+			{
+				var otherShape = other.CollisionShape as CollisionRectangle;
+				var selfShape = this.CollisionShape as CollisionRectangle;
+
+				//selfShape.Rectangle.Position = currentPosition;
+				newPos = AABB.Resolve(selfShape.Rectangle, otherShape.Rectangle);
+			}
+			*/
+		}
+
+		return isColliding || isOverlapping;
 	}
 
     public Vector2 Resolve(Vector2 currentPosition)
     {
 		Vector2 newPos = currentPosition;
+
+		bool isColliding = false;
+		bool isOverlapping = false;
 
 		for(var other in PhysicsEngine.Components)
 		{
@@ -75,7 +133,9 @@ class PhysicComponent : Leaf.Entity
 				//BUG: maybe here ? we are modifying the actual position
 				var circle = Circle(newPos, selfShape.Circle.Radius);
 
-				//if(AABB.IsOverlapping(selfShape.Circle, otherShape.Circle))
+				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
+
 				newPos = AABB.Resolve(circle, otherShape.Circle);
 			}
 
@@ -98,6 +158,9 @@ class PhysicComponent : Leaf.Entity
 				//BUG: maybe here ? we are modifying the actual position
 				var circle = Circle(newPos, selfShape.Circle.Radius);
 
+				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+
 				//if(AABB.IsOverlapping(selfShape.Circle, otherShape.Rectangle))
 				newPos = AABB.Resolve(circle, otherShape.Rectangle);
 				selfShape.Circle.Position = newPos; 
@@ -115,25 +178,84 @@ class PhysicComponent : Leaf.Entity
 			*/
 		}
 
-		/*
-		if(AABB.IsColliding(newCircle, mGame.Circle))
-			Color = RED;
+		if(isColliding || isOverlapping)
+			CollisionShape.color = RED;
 		else
-			Color = GREEN;
-
-		if(AABB.IsOverlapping(newCircle, mGame.Circle))
-			Color = RED;
-		else if(AABB.IsOverlapping(newCircle, mGame.Block.BoundRec))
-			Color = RED;
-		else
-			Color = GREEN;
-		*/
+			CollisionShape.color = GREEN;
 
 		return newPos;
     }
 
+	public List<PhysicComponent> GetCollidingComponents()
+	{
+		List<PhysicComponent> collidingActors = new .();
+
+		Vector2 newPos = *ownerPos;
+
+		for(var other in PhysicsEngine.Components)
+		{
+			bool isColliding = false;
+			bool isOverlapping = false;
+
+			if(other == this)
+				continue;
+
+			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionCircle)
+			{
+				var otherShape = other.CollisionShape as CollisionCircle;
+				var selfShape = this.CollisionShape as CollisionCircle;
+
+				var circle = Circle(newPos, selfShape.Circle.Radius);
+
+				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
+			}
+
+			/*
+			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)
+			{
+				var otherShape = other.CollisionShape as CollisionCircle;
+				var selfShape = this.CollisionShape as CollisionRectangle;
+
+				//selfShape.Rectangle.Position = currentPosition;
+				newPos = AABB.Resolve(otherShape.Circle, selfShape.Rectangle);
+			}
+			*/
+
+			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionCircle)
+			{
+				var otherShape = other.CollisionShape as CollisionRectangle;
+				var selfShape = this.CollisionShape as CollisionCircle;
+
+				var circle = Circle(newPos, selfShape.Circle.Radius);
+
+				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
+				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+			}
+
+			/*
+			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionRectangle)
+			{
+				var otherShape = other.CollisionShape as CollisionRectangle;
+				var selfShape = this.CollisionShape as CollisionRectangle;
+
+				//selfShape.Rectangle.Position = currentPosition;
+				newPos = AABB.Resolve(selfShape.Rectangle, otherShape.Rectangle);
+			}
+			*/
+
+			if(isColliding || isOverlapping)
+				collidingActors.Add(other);
+		}
+
+		return collidingActors;
+	}
+
     public override void Draw()
     {
+		if(var circle = CollisionShape as CollisionCircle)
+			circle.Circle.Position = *ownerPos;
+
 		CollisionShape.Draw();
     }
 }

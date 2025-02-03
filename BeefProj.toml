@@ -12,7 +12,7 @@ PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(
 
 [Configs.Debug.wasm32]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
-OtherLinkFlags = "$(LinkFlags) -o index.html -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1"
+OtherLinkFlags = "$(LinkFlags) -o index.html --use-preload-plugins --preload-file ../../res -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1"
 PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 DebugCommand = ""
 
@@ -25,11 +25,3 @@ OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --
 [[ProjectFolder.Items]]
 Type = "IgnoreSource"
 Name = "Tweenie.bf"
-
-[[ProjectFolder.Items]]
-Type = "AutoFolder"
-Name = "Serialization"
-
-[[ProjectFolder.Items.Items]]
-Type = "IgnoreSource"
-Name = "DataFileOld.bf"

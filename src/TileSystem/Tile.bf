@@ -8,19 +8,22 @@ namespace Leaf;
 
 class Tile : Leaf.Entity
 {
+	public Vec2Int TileIndex;
+	public TileMap TileMap;
+
 	public Vector2 Position;
-	public Vector2 Size;
-	public Color Color = BLUE;
+	public Vector2 Size => .(TileMap.TileSize, TileMap.TileSize);
 
 	public PhysicComponent physicComponent;
 
-    public this(Vector2 position, Vector2 size, Color color)
+    public this(TileMap tileMap, Vec2Int tileIndex)
     {
-		Position = position;
-		Size = size;
-		Color = color;
+		TileMap = tileMap;
+		TileIndex = tileIndex;
 
-		physicComponent = new .(ref Position);
+		Position = TileMap.GetTilePositionFromIndex(TileIndex);
+
+		physicComponent = new .(this, ref Position);
 		physicComponent.OnDelete = new () => {
 		  physicComponent = null;
 		};
@@ -45,9 +48,16 @@ class Tile : Leaf.Entity
     {
     }
 
+	//To draw your tile, override this function in your child class
     public override void Draw()
     {
 		var rec = (physicComponent.CollisionShape as CollisionRectangle).Rectangle;
-		DrawRectangleRec(rec, Color);
+		DrawRectangleRec(rec, PINK);
     }
+
+	public void DrawCollision()
+	{
+		var rec = (physicComponent.CollisionShape as CollisionRectangle).Rectangle;
+		DrawRectangleLinesEx(rec, 2f, GREEN);
+	}
 }

@@ -8,7 +8,6 @@ struct AutoConfigAttribute : Attribute
 {
 	public this()
 	{
-		//Log.Message(scope $"AutoConfig, {this.GetType()}");
 	}
 
 	public void MyCustomFunction()
@@ -37,7 +36,7 @@ struct AutoConfigAttribute : Attribute
 					}
 
 					//SerializationHelper.PrintField(field);
-					//Log.Message(fieldAttribute.MyCustomFunction());
+					Log.Message(fieldAttribute.MyCustomFunction());
 				}
 			}
 		}

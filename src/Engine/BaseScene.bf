@@ -31,6 +31,7 @@ class BaseScene : Entity
 		delete mTimeline;
 	}
 
+	public virtual void OnFinishedSwitchingScene(){};
 	public virtual void OnBeforeExit(){};
 
 	public void Restart()
@@ -40,9 +41,6 @@ class BaseScene : Entity
 
 	public void InternalUpdate()
 	{
-		if(WindowShouldClose())
-			Console.WriteLine("YO");
-
 		mTimer.Update();
 		mTimeline.Update();
 	}

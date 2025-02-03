@@ -23,12 +23,12 @@ struct AutoSerializeAttribute : Attribute
 			{
 				if(field.FieldType == typeof(int))
 				{
-					var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
+					//var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
 					//field.Name
 				}
 
 				//SerializationHelper.PrintField(field);
-				//Log.Message(fieldAttribute.MyCustomFunction());
+				Log.Message(fieldAttribute.MyCustomFunction());
 			}
 		}
 	}
@@ -41,12 +41,12 @@ struct AutoSerializeAttribute : Attribute
 			{
 				if(field.FieldType == typeof(int))
 				{
-					var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
+					//var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
 					//field.Name
 				}
 
 				//SerializationHelper.PrintField(field);
-				//Log.Message(fieldAttribute.MyCustomFunction());
+				Log.Message(fieldAttribute.MyCustomFunction());
 			}
 		}
 	}

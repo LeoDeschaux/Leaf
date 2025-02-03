@@ -2,7 +2,6 @@ using System;
 using Leaf;
 using RaylibBeef;
 using Leaf.Serialization;
-using Leaf.Serialize;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
@@ -14,10 +13,10 @@ class SceneDataFile : Leaf.BaseScene
 
     public this()
     {
-		Player player = scope Player();
 
 		/*
 		{
+			Player player = scope Player();
 			DataFile dataFile = DataFile.LoadFileOrCreate("res/config.json");
 
 			dataFile["PlayerName"] = "John";

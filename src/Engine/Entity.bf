@@ -4,6 +4,7 @@ namespace Leaf;
 class Entity
 {
 	public int DrawOrder = 0; //TODO on get => sort order
+	public bool Visible = true;
 
 	public this()
 	{
@@ -21,8 +22,11 @@ class Entity
 	}
 
 	public virtual void Update() {};
+	public virtual void LateUpdate() {};
 	public virtual void Draw() {};
 	public virtual void DrawScreenSpace() {};
 
 	public delegate void() OnDelete;
+
+	public BaseScene Scene => Leaf.GameEngine.CurrentScene;
 }

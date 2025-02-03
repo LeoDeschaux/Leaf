@@ -9,7 +9,6 @@ namespace Leaf;
 
 class TileMap : Leaf.Entity
 {
-	//public List<Tile> Tiles;
 	Dictionary<Vec2Int, Tile> mTiles;
 
 	public System.Collections.Dictionary<Vec2Int, Tile>.ValueEnumerator Tiles => mTiles.Values;
@@ -19,6 +18,10 @@ class TileMap : Leaf.Entity
 
 	private BaseScene SceneRef;
 
+	public delegate void(Vec2Int tileIndex) OnTileAdded;
+	public delegate void(Vec2Int tileIndex) OnTileRemoved;
+
+	[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
     public this(BaseScene sceneRef)
     {
 		mTiles = new .();
@@ -28,6 +31,9 @@ class TileMap : Leaf.Entity
     public ~this()
     {
 		delete mTiles;
+
+		delete OnTileAdded;
+		delete OnTileRemoved;
     }
 
     public override void Update()
@@ -36,20 +42,20 @@ class TileMap : Leaf.Entity
 
     public override void Draw()
     {
+		/*
+		this.DrawOrder = 1;
+		for(var tile in mTiles.Values)
+			tile.DrawCollision();
+		*/
     }
 
-	public void AddTile(Vec2Int tileIndex, Color color)
+	public void AddTile(Vec2Int tileIndex, Tile tile)
 	{
 		if(mTiles.ContainsKey(tileIndex))
 			return;
 
-		var pos = GetTilePositionFromIndex(tileIndex);
-		mTiles.TryAdd(tileIndex, new Tile(pos, .(TileSize, TileSize), color));
-	}
-
-	public bool CanAddTileAtPos(Vec2Int tileIndex)
-	{
-		return !mTiles.ContainsKey(tileIndex);
+		mTiles.TryAdd(tileIndex, tile);
+		OnTileAdded?.Invoke(tileIndex);
 	}
 
 	public bool ExistAtIndex(Vec2Int tileIndex)
@@ -57,20 +63,35 @@ class TileMap : Leaf.Entity
 		return mTiles.ContainsKey(tileIndex);
 	}
 
-	public void RemoveTile(Vec2Int tileIndex)
+	public Tile GetTileAtIndex(Vec2Int tileIndex)
+	{
+		return mTiles.GetValue(tileIndex);
+	}
+
+	public void DeleteTile(Vec2Int tileIndex)
 	{
 		if(!mTiles.ContainsKey(tileIndex))
 			return;
 
-		var tile = mTiles.GetValue(tileIndex);
+		Tile tile = RemoveTile(tileIndex);
+		delete tile;
+	}
+
+	public Tile RemoveTile(Vec2Int tileIndex)
+	{
+		if(!mTiles.ContainsKey(tileIndex))
+			return null;
+
+		Tile tile = mTiles.GetValue(tileIndex).Value;
 		mTiles.Remove(tileIndex);
-		delete tile.Value;
+		OnTileRemoved?.Invoke(tileIndex);
+		return tile;
 	}
 
 	public void DeleteAllTiles()
 	{
 		for(var tile in mTiles.Keys)
-			RemoveTile(tile);
+			DeleteTile(tile);
 		mTiles.Clear();
 	}
 
@@ -83,6 +104,13 @@ class TileMap : Leaf.Entity
 	}
 
 	public Vector2 GetTileLeftPosFromIndex(Vec2Int tileIndex)
+	{
+		var tilepos = GetTilePositionFromIndex(tileIndex);
+		tilepos -= .(TileSize/2f,TileSize/2f);
+		return tilepos;
+	}
+
+	public Vector2 GetTileLeftPosFromIndexOld(Vec2Int tileIndex)
 	{
 		Vector2 cellPos = GetScreenToWorld2D(GetMousePosition(), SceneRef.Camera);
 		int offsetX = cellPos.x < 0 ? -1 : 0;

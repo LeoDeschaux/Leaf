@@ -12,8 +12,8 @@ using Leaf.Engine;
 namespace Leaf;
 
 class GameEngine
-{
-	private static BaseScene CurrentScene;
+{                                                  
+	public static BaseScene CurrentScene;
 	private static RenderTexture2D RenderTexture;
 
 	public static EntitySystem EntitySystem;
@@ -23,6 +23,9 @@ class GameEngine
 	private int32 windowHeight = 720;
 
 	private DataFile preferences;
+
+	private static bool ExitReady = false;
+	public static void Exit() => ExitReady = true;
 
 	private void LoadPreferences()
 	{
@@ -45,6 +48,8 @@ class GameEngine
 
 	public this()
 	{
+		Console.Clear();
+
 		SetConfigFlags((int32)ConfigFlags.FLAG_WINDOW_RESIZABLE);
 
 		SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT);
@@ -95,7 +100,7 @@ class GameEngine
 #else
 		SetTargetFPS(60);
 
-		while (!WindowShouldClose())
+		while (!WindowShouldClose() && !ExitReady)
 		{
 			Tick();
 		}
@@ -120,12 +125,38 @@ class GameEngine
 
 		CurrentScene = (BaseScene)obj;
 		CurrentScene.GameEngine = this;
+		CurrentScene.OnFinishedSwitchingScene();
 
 		Console.WriteLine("--- GAME RESTARTED ---");
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}
 
-	public void ChangeGame(BaseScene scene)
+	public BaseScene ChangeGame(Type sceneType)
+	{
+		delete CurrentScene;
+
+		EntitySystem.Dispose();
+		delete EntitySystem;
+		EntitySystem = new EntitySystem();
+
+		var obj = sceneType.CreateObject();
+		if(obj case .Err(let err))
+		{
+			Console.WriteLine(err);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+		}
+
+		CurrentScene = (BaseScene)obj;
+		CurrentScene.GameEngine = this;
+		CurrentScene.OnFinishedSwitchingScene();
+
+		Console.WriteLine($"--- LOADED {sceneType} ---");
+		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
+
+		return CurrentScene;
+	}	
+
+	public void ChangeGameOld(BaseScene scene)
 	{
 		Type t = scene.GetType();
 		delete CurrentScene;
@@ -143,6 +174,7 @@ class GameEngine
 
 		CurrentScene = (BaseScene)obj;
 		CurrentScene.GameEngine = this;
+		CurrentScene.OnFinishedSwitchingScene();
 
 		Console.WriteLine($"--- LOADED {t} ---");
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);

@@ -38,6 +38,13 @@ public class EntitySystem
 			var e = Entities[i];
 			e.Update();
 		}
+
+		for(int i = 0; i < Entities.Count; i++)
+		{
+			var e = Entities[i];
+			e.LateUpdate();
+		}
+
 	}
 
 	public void Draw()
@@ -45,7 +52,10 @@ public class EntitySystem
 		SortDrawOrder();
 
 		for(var entity in Entities)
-			entity.Draw();
+		{
+			if(entity.Visible)
+				entity.Draw();
+		}
 	}
 
 	public void DrawScreenSpace()
@@ -53,7 +63,10 @@ public class EntitySystem
 		SortDrawOrder();
 
 		for(var entity in Entities)
-			entity.DrawScreenSpace();
+		{
+			if(entity.Visible)
+				entity.DrawScreenSpace();
+		}
 	}
 
 	public void SortDrawOrder()

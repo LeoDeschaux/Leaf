@@ -110,3 +110,33 @@ class Timer
 		hasBeenDeleted = true;
 	}
 }
+
+class DelayedAction : Leaf.Entity
+{
+	delegate void() eventRef;
+
+	float remaining;
+
+	public this(float delay, delegate void() event)
+	{
+		eventRef = event;
+		remaining = delay;
+	}
+
+	public ~this()
+	{
+	}
+
+	public override void Update()
+	{
+		remaining -= Time.DeltaTime;
+
+		if(remaining <= 0)
+		{
+			var e = eventRef;
+			delete this;
+			e?.Invoke();
+			delete e;
+		}
+	}
+}

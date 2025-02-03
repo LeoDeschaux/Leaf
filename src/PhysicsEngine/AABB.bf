@@ -97,7 +97,20 @@ static class AABB
 
 	public static bool IsColliding(Circle c1, Rectangle r1)
 	{
-		ThrowUnimplemented();
+		var margin = 0.1f;
+
+		var difference = c1.Position - r1.Center;
+
+		Vector2 clamped = .(
+			Raymath.Clamp(difference.x, -r1.width/2, r1.width/2),
+			Raymath.Clamp(difference.y, -r1.height/2, r1.height/2)
+		);
+
+		Vector2 closest = r1.Center + clamped;
+
+		var distance = closest - c1.Position;
+
+		return Raymath.Vector2Length(distance) <= c1.Radius+margin;
 	}
 
 	public static bool IsColliding(Rectangle r1, Rectangle r2)

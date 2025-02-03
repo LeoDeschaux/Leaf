@@ -34,12 +34,20 @@ public class DataFile
 		}
 	}
 
+	public static bool Exist(String path)
+	{
+		return File.Exists(path);
+	}
+
 	public static DataFile LoadFileOrCreate(String path)
 	{
 		if(File.Exists(path))
 			return LoadFile(path);
 		else
+		{
+			Log.Message(scope $"File \"{path}\" not found, new file created");
 			return new DataFile();
+		}
 	}
 
 	public static DataFile LoadFile(String path)
@@ -110,9 +118,8 @@ public class DataFile
 	{
 		var fieldName = "PlayerHealth";
 		var fieldType = object.GetType().GetField(fieldName).Get().FieldType;
-		var fieldPointerType = fieldType as System.Reflection.PointerType;
-
-		var ptr = object.GetType().GetField(fieldName).Value.GetValueReference(&object).ValueRef.DataPtr;
+		//var fieldPointerType = fieldType as System.Reflection.PointerType;
+		//var ptr = object.GetType().GetField(fieldName).Value.GetValueReference(&object).ValueRef.DataPtr;
 
 		if(fieldType == typeof(float))
 		{

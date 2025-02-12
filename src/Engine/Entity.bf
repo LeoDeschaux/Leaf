@@ -23,6 +23,8 @@ class Entity
 
 	public virtual void Update() {};
 	public virtual void LateUpdate() {};
+	public virtual void PostPhysicUpdate() {};
+
 	public virtual void Draw() {};
 	public virtual void DrawScreenSpace() {};
 

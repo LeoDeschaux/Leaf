@@ -28,10 +28,26 @@ class CollisionCircle : CollisionShape
 
 class PhysicComponent : Leaf.Entity
 {
-	public CollisionShape CollisionShape;
+	private CollisionShape collisionShape;
+	public CollisionShape CollisionShape {
+		get{
+			/*
+			if(collisionShape is CollisionRectangle)
+				(collisionShape as CollisionRectangle).Rectangle.Center = .();
+			*/
+			if(collisionShape is CollisionCircle)
+				(collisionShape as CollisionCircle).Circle.Position = *ownerPos;
+			return collisionShape;
+		}
+		set{
+			collisionShape = value;
+		}
+	};
 
 	private Vector2* ownerPos;
 	public Leaf.Entity Owner;
+
+	public delegate void(PhysicComponent other) OnCollision;
 
     public this(Leaf.Entity owner, ref Vector2 ownerPosition)
     {
@@ -45,6 +61,7 @@ class PhysicComponent : Leaf.Entity
 
     public ~this()
     {
+		delete OnCollision;
 		PhysicsEngine.Components.Remove(this);
 		delete CollisionShape;
     }
@@ -185,6 +202,53 @@ class PhysicComponent : Leaf.Entity
 
 		return newPos;
     }
+
+	public bool Intersect(PhysicComponent other)
+	{
+		bool isColliding = false;
+		bool isOverlapping = false;
+
+		if(other == this)
+			return false;
+
+		if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionCircle)
+		{
+			var otherShape = other.CollisionShape as CollisionCircle;
+			var selfShape = this.CollisionShape as CollisionCircle;
+
+			isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Circle);
+			isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Circle);
+		}
+
+		if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)
+		{
+			var otherShape = other.CollisionShape as CollisionCircle;
+			var selfShape = this.CollisionShape as CollisionRectangle;
+
+			isColliding |= AABB.IsColliding(otherShape.Circle, selfShape.Rectangle);
+			isOverlapping |= AABB.IsOverlapping(otherShape.Circle, selfShape.Rectangle);
+		}
+
+		if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionCircle)
+		{
+			var otherShape = other.CollisionShape as CollisionRectangle;
+			var selfShape = this.CollisionShape as CollisionCircle;
+
+			isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Rectangle);
+			isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Rectangle);
+		}
+
+		if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionRectangle)
+		{
+			var otherShape = other.CollisionShape as CollisionRectangle;
+			var selfShape = this.CollisionShape as CollisionRectangle;
+
+			isColliding |= AABB.IsColliding(selfShape.Rectangle, otherShape.Rectangle);
+			isOverlapping |= AABB.IsOverlapping(selfShape.Rectangle, otherShape.Rectangle);
+		}
+
+		return isColliding || isOverlapping;
+	}
 
 	public List<PhysicComponent> GetCollidingComponents()
 	{

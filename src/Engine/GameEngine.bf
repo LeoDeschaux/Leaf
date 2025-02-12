@@ -189,6 +189,8 @@ class GameEngine
 		//UPDATE
 		CurrentScene.InternalUpdate();
 		EntitySystem.Update();
+		PhysicsEngine.Update();
+		EntitySystem.PostPhysicUpdate();
 
 		//DRAW
 		//BeginTextureMode(RenderTexture);

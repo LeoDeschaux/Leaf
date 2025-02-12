@@ -47,6 +47,15 @@ public class EntitySystem
 
 	}
 
+	public void PostPhysicUpdate()
+	{
+		for(int i = 0; i < Entities.Count; i++)
+		{
+			var e = Entities[i];
+			e.PostPhysicUpdate();
+		}
+	}
+
 	public void Draw()
 	{
 		SortDrawOrder();

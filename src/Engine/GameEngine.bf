@@ -65,7 +65,11 @@ class GameEngine
 
 		rlCImGuiBeef.rlCImGuiSetup();
 
+		//GetMonitorPosition(0);
+
+		SetWindowMonitor(1);
 		SetWindowFocused();
+
 
 		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);
 
@@ -216,5 +220,7 @@ class GameEngine
 		
 		rlCImGuiBeef.rlCImGuiEnd();
 		EndDrawing();
+
+		CallBackChecker.Update();
 	}
 }

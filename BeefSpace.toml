@@ -1,7 +1,7 @@
 FileVersion = 1
-Projects = {Leaf = {Path = "."}, raylib-beef = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*"}
-Unlocked = ["rlCImGuiBeef"]
-WorkspaceFolders = {Libs = ["corlib", "raylib-beef", "ImGui", "rlCImGuiBeef", "BJSON"]}
+Projects = {Leaf = {Path = "."}, raylib-beef = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*", raylib-aseprite-beef = "*"}
+Unlocked = ["rlCImGuiBeef", "raylib-aseprite-beef"]
+WorkspaceFolders = {Libs = ["corlib", "raylib-beef", "ImGui", "rlCImGuiBeef", "BJSON", "raylib-aseprite-beef"]}
 
 [Workspace]
 StartupProject = "Leaf"

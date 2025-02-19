@@ -29,9 +29,18 @@ class Tile : Leaf.Entity
 		};
 
 		var clR = new CollisionRectangle();
+		/*
 		clR.Rectangle = .(
 			Position.x-Size.x/2,
 			Position.y-Size.y/2,
+			Size.x,
+			Size.y
+		);
+		clR.Origin = .(-Size.x/2, -Size.y/2);
+		*/
+		clR.Rectangle = .(
+			-Size.x/2f,
+			-Size.y/2f,
 			Size.x,
 			Size.y
 		);

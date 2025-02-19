@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*"}
+Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*", raylib-aseprite-beef = "*"}
 
 [Project]
 Name = "Leaf"

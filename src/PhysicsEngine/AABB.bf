@@ -1,6 +1,9 @@
 using RaylibBeef;
 using static RaylibBeef.Raylib;
+using static RaylibBeef.Raymath;
+
 using System;
+
 namespace Leaf;
 
 static class AABB
@@ -241,5 +244,67 @@ static class AABB
 			penetration.x = 0;
 
 		return result-penetration;
+	}
+
+	public static bool RayIntersectsAABB(Vector2 rayOrigin, Vector2 rayEnd, Rectangle rectangle, out Vector2 hitPoint)
+	{
+		hitPoint = default;
+		float tHit = float.MaxValue;
+
+		Vector2 rayDir = rayEnd-rayOrigin;
+		float rayLength = Vector2Length(rayDir);
+		rayDir = rayDir.Normalized();
+
+	    // Avoid division by zero by replacing 0 with a very small number
+	    Vector2 invDir = .(
+			1 / (rayDir.x != 0 ? rayDir.x : float.Epsilon), 
+	     	1 / (rayDir.y != 0 ? rayDir.y : float.Epsilon));
+
+	    float t1 = (rectangle.Left - rayOrigin.x) * invDir.x;
+	    float t2 = (rectangle.Right - rayOrigin.x) * invDir.x;
+	    float t3 = (rectangle.Top - rayOrigin.y) * invDir.y;
+	    float t4 = (rectangle.Bottom - rayOrigin.y) * invDir.y;
+
+	    float tmin = Math.Max(Math.Min(t1, t2), Math.Min(t3, t4));
+	    float tmax = Math.Min(Math.Max(t1, t2), Math.Max(t3, t4));
+
+	    if (tmax < 0 || tmin > tmax)
+	        return false;
+
+	    tHit = tmin > 0 ? tmin : tmax;
+		if (tHit > rayLength)
+			return false;
+
+		hitPoint = .(rayOrigin.x + rayDir.x * tHit, rayOrigin.y + rayDir.y * tHit);
+
+	    return true;
+	}
+
+	public static bool RayIntersects(Vector2 rayOrigin, Vector2 rayEnd, Circle circle, out Vector2 hitPoint)
+	{
+		hitPoint = default;
+
+	    Vector2 rayDir = rayEnd - rayOrigin;
+	    float rayLength = Vector2Length(rayDir);
+	    rayDir = rayDir.Normalized();
+
+	    Vector2 toCircle = circle.Position - rayOrigin;
+	    float projection = Vector2DotProduct(toCircle, rayDir);
+	    float distanceSquared = Vector2DotProduct(toCircle, toCircle) - (projection * projection);
+	    float radiusSquared = circle.Radius * circle.Radius;
+
+	    // If the closest approach is outside the circle, there's no intersection
+	    if (distanceSquared > radiusSquared)
+	        return false;
+
+	    float thc = Math.Sqrt(radiusSquared - distanceSquared);
+	    float tHit = projection - thc;
+
+	    // If the intersection is behind the ray or beyond its length, no hit
+	    if (tHit < 0 || tHit > rayLength)
+	        return false;
+
+	    hitPoint = Vector2(rayOrigin.x + rayDir.x * tHit, rayOrigin.y + rayDir.y * tHit);
+	    return true;
 	}
 }

@@ -44,7 +44,6 @@ public class EntitySystem
 			var e = Entities[i];
 			e.LateUpdate();
 		}
-
 	}
 
 	public void PostPhysicUpdate()
@@ -53,6 +52,17 @@ public class EntitySystem
 		{
 			var e = Entities[i];
 			e.PostPhysicUpdate();
+		}
+	}
+
+	public void CleanDeletedEntities()
+	{
+		int i = Entities.Count-1;
+		for (; i >= 0; i--)
+		{
+			var entity = Entities[i];
+			if(entity.[Friend]DeleteNextFrame)
+				delete entity;
 		}
 	}
 

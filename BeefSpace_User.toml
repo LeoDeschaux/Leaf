@@ -1,10 +1,10 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneOrderedDrawCall.bf", "src\\Program.bf", "TODO.txt", "src\\Game.bf", "Disassembly", "Disassembly"]
+RecentFilesList = ["src\\Scenes\\ScenePhysics.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 2438
+X = 742
 Y = 0
 Width = 1178
 Height = 884
@@ -29,44 +29,37 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Workspace"
-TabWidth = 110.4168
+TabWidth = 111.7023
 TabIsPinned = false
 Type = "ProjectPanel"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "TODO.txt"
-TabWidth = 81.0418
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "TODO.txt"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 IsFillWidget = true
 Permanent = true
-RequestedWidth = 1667.0
+RequestedWidth = 1375.24
 RequestedHeight = 695.76
-SizePriority = 1667.0
+SizePriority = 1375.24
 DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 91.4585
+Active = true
+TabLabel = "ScenePhysics.bf"
+TabWidth = 128.7238
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 307
+FilePath = "src\\Scenes\\ScenePhysics.bf"
+CursorPos = 518
+VertPos = 114.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
-TabLabel = "SceneOrderedDrawCall.bf"
-TabWidth = 169.5837
+TabLabel = "Program.bf"
+TabWidth = 102.1279
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneOrderedDrawCall.bf"
-CursorPos = 497
-VertPos = 380.0
+FilePath = "src\\Program.bf"
+CursorPos = 299
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -77,36 +70,36 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Autocomplete"
-TabWidth = 128.1252
+TabWidth = 129.7874
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Call Stack"
-TabWidth = 102.0835
+TabWidth = 103.1916
 TabIsPinned = false
 Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 222.0
+RequestedHeight = 214.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Output"
-TabWidth = 89.58344
+TabWidth = 90.42564
 TabIsPinned = false
 Type = "OutputPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Immediate"
-TabWidth = 107.2918
+TabWidth = 108.5108
 TabIsPinned = false
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Memory"
-TabWidth = 95.83346
+TabWidth = 96.80864
 TabIsPinned = false
 Type = "MemoryPanel"
 AutoResize = "Auto_Mul8"
@@ -114,7 +107,7 @@ RequestedWidth = 300.0
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Watch"
-TabWidth = 85.41676
+TabWidth = 86.17031
 TabIsPinned = false
 Type = "WatchPanel"
 Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
@@ -122,21 +115,21 @@ Items = ["Enumerator", "Enumerator", "IsEnumeratorReady", ""]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Auto Watches"
-TabWidth = 127.0835
+TabWidth = 128.7236
 TabIsPinned = false
 Type = "AutoWatchPanel"
 Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
-TabWidth = 115.6252
+TabWidth = 117.0215
 TabIsPinned = false
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Console"
-TabWidth = 93.75012
+TabWidth = 94.68098
 TabIsPinned = false
 Type = "ConsolePanel"
 

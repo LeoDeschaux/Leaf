@@ -9,17 +9,47 @@ namespace Leaf;
 
 class CollisionShape{
 	public Color color = GREEN;
+	public virtual void Update(Vector2 ownerPos){};
 	public virtual void Draw(){};
 }
 
 class CollisionRectangle : CollisionShape
 {
-	public Rectangle Rectangle;
+	private Vector2 origin;
+
+	public Rectangle rec;
+	public Rectangle Rectangle {
+		get{
+			return Rectangle(
+				origin.x+rec.x,
+				origin.y+rec.y,
+				rec.width,
+				rec.height
+			);
+		}
+		set{
+			rec = value;
+		}
+	}
+
+	public override void Update(Vector2 ownerPos)
+	{
+		origin = ownerPos;
+	}
+	public override void Draw()
+	{
+		DrawRectangleLines((int32)Rectangle.x, (int32)Rectangle.y, (int32)Rectangle.width, (int32)Rectangle.height, RED);
+	}
 }
 
 class CollisionCircle : CollisionShape
 {
 	public Circle Circle;
+	public override void Update(Vector2 ownerPos)
+	{
+		Circle.Position = ownerPos;
+	}
+
 	public override void Draw()
 	{
 		DrawCircleLinesV(Circle.Position, Circle.Radius, color);
@@ -28,15 +58,12 @@ class CollisionCircle : CollisionShape
 
 class PhysicComponent : Leaf.Entity
 {
+	public static bool Display = true;
+
 	private CollisionShape collisionShape;
 	public CollisionShape CollisionShape {
 		get{
-			/*
-			if(collisionShape is CollisionRectangle)
-				(collisionShape as CollisionRectangle).Rectangle.Center = .();
-			*/
-			if(collisionShape is CollisionCircle)
-				(collisionShape as CollisionCircle).Circle.Position = *ownerPos;
+			collisionShape.Update(*ownerPos);
 			return collisionShape;
 		}
 		set{
@@ -48,6 +75,8 @@ class PhysicComponent : Leaf.Entity
 	public Leaf.Entity Owner;
 
 	public delegate void(PhysicComponent other) OnCollision;
+
+	public bool Solid = true;
 
     public this(Leaf.Entity owner, ref Vector2 ownerPosition)
     {
@@ -72,8 +101,6 @@ class PhysicComponent : Leaf.Entity
 
 	public bool IsTouching()
 	{
-		Vector2 newPos = *ownerPos;
-
 		bool isColliding = false;
 		bool isOverlapping = false;
 
@@ -87,10 +114,8 @@ class PhysicComponent : Leaf.Entity
 				var otherShape = other.CollisionShape as CollisionCircle;
 				var selfShape = this.CollisionShape as CollisionCircle;
 
-				var circle = Circle(newPos, selfShape.Circle.Radius);
-
-				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
-				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
+				isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Circle);
+				isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Circle);
 			}
 
 			/*
@@ -109,10 +134,8 @@ class PhysicComponent : Leaf.Entity
 				var otherShape = other.CollisionShape as CollisionRectangle;
 				var selfShape = this.CollisionShape as CollisionCircle;
 
-				var circle = Circle(newPos, selfShape.Circle.Radius);
-
-				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
-				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+				isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Rectangle);
+				isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Rectangle);
 			}
 
 			/*
@@ -140,6 +163,9 @@ class PhysicComponent : Leaf.Entity
 		for(var other in PhysicsEngine.Components)
 		{
 			if(other == this)
+				continue;
+
+			if(!other.Solid)
 				continue;
 
 			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionCircle)
@@ -254,7 +280,6 @@ class PhysicComponent : Leaf.Entity
 	{
 		List<PhysicComponent> collidingActors = new .();
 
-		Vector2 newPos = *ownerPos;
 
 		for(var other in PhysicsEngine.Components)
 		{
@@ -269,10 +294,9 @@ class PhysicComponent : Leaf.Entity
 				var otherShape = other.CollisionShape as CollisionCircle;
 				var selfShape = this.CollisionShape as CollisionCircle;
 
-				var circle = Circle(newPos, selfShape.Circle.Radius);
 
-				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
-				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
+				isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Circle);
+				isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Circle);
 			}
 
 			/*
@@ -291,10 +315,8 @@ class PhysicComponent : Leaf.Entity
 				var otherShape = other.CollisionShape as CollisionRectangle;
 				var selfShape = this.CollisionShape as CollisionCircle;
 
-				var circle = Circle(newPos, selfShape.Circle.Radius);
-
-				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
-				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+				isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Rectangle);
+				isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Rectangle);
 			}
 
 			/*
@@ -317,9 +339,7 @@ class PhysicComponent : Leaf.Entity
 
     public override void Draw()
     {
-		if(var circle = CollisionShape as CollisionCircle)
-			circle.Circle.Position = *ownerPos;
-
-		CollisionShape.Draw();
+		if(Display)
+			CollisionShape.Draw();
     }
 }

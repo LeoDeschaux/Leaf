@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 using RaylibBeef;
 using static RaylibBeef.Raylib;
+using static RaylibBeef.Rlgl;
+using static RaylibBeef.Raymath;
 
 using ImGui;
 using rlCImGuiBeef;
@@ -191,6 +193,7 @@ class GameEngine
 		EntitySystem.Update();
 		PhysicsEngine.Update();
 		EntitySystem.PostPhysicUpdate();
+		EntitySystem.CleanDeletedEntities();
 
 		//DRAW
 		//BeginTextureMode(RenderTexture);
@@ -203,6 +206,7 @@ class GameEngine
 
 		BeginMode2D(CurrentScene.Camera);
 		EntitySystem.Draw();
+		DebugDrawCalls.Render();
 		EndMode2D();
 
 		EntitySystem.DrawScreenSpace();

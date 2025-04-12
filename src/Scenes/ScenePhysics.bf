@@ -39,9 +39,23 @@ class ScenePhysics : Leaf.BaseScene
 		{
 			position = rayEnd;
 		}
+
+		Vector2 vec = default;
+		FooA(out vec);
+		Log.Message(vec);
     }
 
     public override void Draw()
     {
     }
+
+	private void FooA(out Vector2 vec)
+	{
+		FooB(out vec);
+	}
+
+	private void FooB(out Vector2 vec)
+	{
+		vec = .(123,456);
+	}
 }

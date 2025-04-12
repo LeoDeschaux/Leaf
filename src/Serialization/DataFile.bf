@@ -58,10 +58,11 @@ public class DataFile
 
 		var result = Json.Deserialize(fileContent);
 		if(result case .Err(let err))
-			Debug.WriteLine(scope $"Error:{err}");
+			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
 
 		var res = new DataFile();
 		res.root.Dispose();
+
 		res.root = result.Value.AsObject();
 
 		return res;
@@ -96,9 +97,10 @@ public class DataFile
 
 	public override void ToString(String strBuffer)
 	{
-		root.ToString(strBuffer);
+		Json.Serialize(root, strBuffer);
+		Json.Stringify(strBuffer);
+		//root.ToString(strBuffer);
 	}
-
 
 	///Convert memory to JSON
 	public BJSON.Models.JsonObject Serialize(Object object)

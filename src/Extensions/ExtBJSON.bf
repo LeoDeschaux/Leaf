@@ -2,7 +2,7 @@ using System;
 using Leaf;
 using System.Collections;
 namespace BJSON.Models;
-
+/*
 extension JsonValue
 {
 	public JsonValue this[String key]
@@ -69,6 +69,12 @@ extension JsonValue
 			//this.As<JsonArray>()[index] = value;
 		}
 	}
+
+	public override void ToString(String strBuffer)
+	{
+		Json.Serialize(this, strBuffer);
+		Json.Stringify(strBuffer);
+	}
 }
 
 extension JsonObject
@@ -96,6 +102,12 @@ extension JsonObject
 			else
 				this.Add(key, value);
 		}
+	}
+
+	public override void ToString(String strBuffer)
+	{
+		Json.Serialize(this, strBuffer);
+		Json.Stringify(strBuffer);
 	}
 }
 
@@ -128,4 +140,11 @@ extension JsonArray
 			//data.array[index] = value;
 		}
 	}
+
+	public override void ToString(String strBuffer)
+	{
+		Json.Serialize(this, strBuffer);
+		Json.Stringify(strBuffer);
+	}
 }
+*/

@@ -2,6 +2,7 @@ using RaylibBeef;
 using System.Collections;
 
 using RaylibBeef;
+using System;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
@@ -27,7 +28,7 @@ public static class Raycast
 	{
 		if(Display && displayDebugRaycast)
 		{
-			DebugDrawCalls.Draw(new () => {
+			DebugDrawCalls.DrawDefered(new () => {
 				DrawLine((int32)rayOrigin.x, (int32)rayOrigin.y, (int32)rayEnd.x, (int32)rayEnd.y, RED);
 			});
 		}
@@ -51,10 +52,13 @@ public static class Raycast
 			{
 				if(Display && displayDebugRaycast)
 				{
-					DebugDrawCalls.Draw(new () => {
+					DebugDrawCalls.DrawDefered(new () => {
 						DrawCircleV(hitPoint, 5, GREEN);
 					});
 				}
+
+				Runtime.Assert(hitPoint.x != float.NaN);
+				Runtime.Assert(hitPoint.y != float.NaN);
 
 				results.Add(.(phc, hitPoint));
 			}

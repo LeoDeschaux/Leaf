@@ -153,6 +153,31 @@ class PhysicComponent : Leaf.Entity
 		return isColliding || isOverlapping;
 	}
 
+	public Vector2 ResolveMistral(Vector2 currentPosition)
+	{
+		Vector2 newPos = currentPosition;
+
+		List<Rectangle> rectangles = new .();
+
+		for(var other in PhysicsEngine.Components)
+		{
+			if(other == this)
+				continue;
+			if(!other.Solid)
+				continue;
+
+			if(other.CollisionShape is CollisionRectangle)
+				rectangles.Add((other.CollisionShape as CollisionRectangle).Rectangle);
+		}
+
+		if(this.CollisionShape is CollisionCircle)
+			newPos = AABB.ResolveMistralTiles((this.CollisionShape as CollisionCircle).Circle, rectangles);
+
+		delete rectangles;
+
+		return newPos;
+	}
+
     public Vector2 Resolve(Vector2 currentPosition)
     {
 		Vector2 newPos = currentPosition;
@@ -182,17 +207,6 @@ class PhysicComponent : Leaf.Entity
 				newPos = AABB.Resolve(circle, otherShape.Circle);
 			}
 
-			/*
-			if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)
-			{
-				var otherShape = other.CollisionShape as CollisionCircle;
-				var selfShape = this.CollisionShape as CollisionRectangle;
-
-				//selfShape.Rectangle.Position = currentPosition;
-				newPos = AABB.Resolve(otherShape.Circle, selfShape.Rectangle);
-			}
-			*/
-
 			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionCircle)
 			{
 				var otherShape = other.CollisionShape as CollisionRectangle;
@@ -204,21 +218,9 @@ class PhysicComponent : Leaf.Entity
 				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
 				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
 
-				//if(AABB.IsOverlapping(selfShape.Circle, otherShape.Rectangle))
-				newPos = AABB.Resolve(circle, otherShape.Rectangle);
-				selfShape.Circle.Position = newPos; 
+				//newPos = AABB.Resolve(circle, otherShape.Rectangle);
+				newPos = AABB.ResolveMistral(circle, otherShape.Rectangle);
 			}
-
-			/*
-			if(other.CollisionShape is CollisionRectangle && this.CollisionShape is CollisionRectangle)
-			{
-				var otherShape = other.CollisionShape as CollisionRectangle;
-				var selfShape = this.CollisionShape as CollisionRectangle;
-
-				//selfShape.Rectangle.Position = currentPosition;
-				newPos = AABB.Resolve(selfShape.Rectangle, otherShape.Rectangle);
-			}
-			*/
 		}
 
 		if(isColliding || isOverlapping)

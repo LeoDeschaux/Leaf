@@ -7,11 +7,12 @@ static class DebugDrawCalls
 
 	public static bool Display = true;
 
-	public static void Draw(delegate void() drawcall)
+	public static void DrawDefered(delegate void() drawcall)
 	{
 		DebugDrawCalls.Add(drawcall);
 	}
 
+	//in world space
 	public static void Render()
 	{
 		for(int i = DebugDrawCalls.Count-1; i >= 0; i--)

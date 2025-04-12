@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\ScenePhysics.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneTextMesh.bf", "src\\Asset\\AssetLoader.bf", "src\\Program.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 742
@@ -43,23 +43,23 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
-TabLabel = "ScenePhysics.bf"
-TabWidth = 128.7238
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\ScenePhysics.bf"
-CursorPos = 518
-VertPos = 114.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Program.bf"
-TabWidth = 102.1279
+TabWidth = 92.76612
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Program.bf"
-CursorPos = 299
+CursorPos = 294
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "SceneTextMesh.bf"
+TabWidth = 131.0641
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Scenes\\SceneTextMesh.bf"
+CursorPos = 814
+VertPos = 2090.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -82,10 +82,11 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 214.0
+RequestedHeight = 228.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Output"
 TabWidth = 90.42564
 TabIsPinned = false
@@ -111,7 +112,30 @@ TabWidth = 86.17031
 TabIsPinned = false
 Type = "WatchPanel"
 Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
-Items = ["Enumerator", "Enumerator", "IsEnumeratorReady", ""]
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "Enumerator"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "Enumerator"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "IsEnumeratorReady"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "offset"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "Camera"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "Camera.zoom"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = "Camera"
+
+[[MainDockingFrame.DockedWidgets.Tabs.Items]]
+EvalStr = ""
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Auto Watches"
@@ -127,7 +151,6 @@ TabIsPinned = false
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Console"
 TabWidth = 94.68098
 TabIsPinned = false

@@ -3,6 +3,7 @@ using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
 using System;
+using System.Collections;
 
 namespace Leaf;
 
@@ -143,6 +144,93 @@ static class AABB
 		return result+(dir*penetration);
 	}
 
+	public static Vector2 ResolveGPT1(Circle c1, List<Rectangle> rectangles)
+	{
+	    Vector2 result = c1.Position;
+	    Vector2 totalCorrection = .(0,0);
+
+	    for (var r1 in rectangles)
+	    {
+	        Vector2 nearestPoint;
+	        nearestPoint.x = Math.Clamp(c1.Position.x, r1.x, r1.x + r1.width);
+	        nearestPoint.y = Math.Clamp(c1.Position.y, r1.y, r1.y + r1.height);
+
+	        Vector2 rayToNearest = nearestPoint - c1.Position;
+	        float distance = Vector2.Magnitude(rayToNearest);
+	        float overlap = c1.Radius - distance;
+
+	        if (overlap > 0)
+	            totalCorrection -= rayToNearest.Normalized() * overlap;
+	    }
+
+	    result += totalCorrection;
+
+	    return result;
+	}
+
+	public static Vector2 ResolveMistral(Circle c1, Rectangle r1)
+	{
+	    Vector2 result = c1.Position;
+
+	    Vector2 nearestPoint;
+	    nearestPoint.x = Math.Clamp(c1.Position.x, r1.x, r1.x + r1.width);
+	    nearestPoint.y = Math.Clamp(c1.Position.y, r1.y, r1.y + r1.height);
+
+	    Vector2 rayToNearest = nearestPoint - c1.Position;
+	    float overlap = c1.Radius - Vector2.Magnitude(rayToNearest);
+
+	    if (overlap > 0)
+	    {
+	        Vector2 normal = rayToNearest.Normalized();
+	        result = c1.Position - (normal * overlap);
+	    }
+
+	    return result;
+	}
+
+	public static Vector2 ResolveMistralTiles(Circle c1, List<Rectangle> tiles, int maxIterations = 10)
+	{
+	    Vector2 result = c1.Position;
+	    int iterations = 0;
+
+	    // Iterate until no collisions are detected or max iterations are reached
+	    while (iterations < maxIterations)
+	    {
+	        iterations++;
+	        bool collisionDetected = false;
+	        float minOverlap = float.MaxValue;
+	        Vector2 minOverlapVector = .(0,0);
+
+	        for(var r1 in tiles)
+	        {
+	            Vector2 nearestPoint;
+	            nearestPoint.x = Math.Clamp(c1.Position.x, r1.x, r1.x + r1.width);
+	            nearestPoint.y = Math.Clamp(c1.Position.y, r1.y, r1.y + r1.height);
+
+	            Vector2 rayToNearest = nearestPoint - c1.Position;
+	            float overlap = c1.Radius - Vector2.Magnitude(rayToNearest);
+
+	            if (overlap > 0 && overlap < minOverlap)
+	            {
+	                minOverlap = overlap;
+	                minOverlapVector = rayToNearest.Normalized() * overlap;
+	                collisionDetected = true;
+	            }
+	        }
+
+	        if (collisionDetected)
+	        {
+	            result = c1.Position - minOverlapVector;
+	        }
+	        else
+	        {
+	            break;
+	        }
+	    }
+
+	    return result;
+	}
+
 	public static Vector2 Resolve(Circle c1, Rectangle r1)
 	{
 		Vector2 result = c1.Position;
@@ -276,6 +364,9 @@ static class AABB
 			return false;
 
 		hitPoint = .(rayOrigin.x + rayDir.x * tHit, rayOrigin.y + rayDir.y * tHit);
+
+		Runtime.Assert(hitPoint.x != float.NaN);
+		Runtime.Assert(hitPoint.y != float.NaN);
 
 	    return true;
 	}

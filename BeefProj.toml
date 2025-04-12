@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*", raylib-aseprite-beef = "*"}
+Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*", raylib-aseprite-beef = "*", TinySoundFontBeef = "*"}
 
 [Project]
 Name = "Leaf"
@@ -25,3 +25,11 @@ OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --
 [[ProjectFolder.Items]]
 Type = "IgnoreSource"
 Name = "Tweenie.bf"
+
+[[ProjectFolder.Items]]
+Type = "AutoFolder"
+Name = "Audio"
+
+[[ProjectFolder.Items.Items]]
+Type = "IgnoreSource"
+Name = "MidiReader.bf"

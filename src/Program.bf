@@ -15,7 +15,7 @@ class Program
 	public static void Main()
 	{
 		var gameEngine = new GameEngine();
-		gameEngine.RunGame(new Leaf.Scenes.SceneTextMesh());
+		gameEngine.RunGame(new Leaf.Scenes.SceneInverseKinematic());
 		delete gameEngine;
 	}
 }

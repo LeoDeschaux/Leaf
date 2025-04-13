@@ -43,6 +43,39 @@ class BaseScene : Entity
 	{
 		mTimer.Update();
 		mTimeline.Update();
+
+		if(IsKeyDown(KeyboardKey.KEY_LEFT_CONTROL) && IsKeyPressed(KeyboardKey.KEY_R))
+		{
+			Restart();
+			return;
+		}
+
+
+		//je pense que zoom in devrait être sur la pos de la souris
+		//et zoom out devrait être sur le centre de l'écran
+
+		if (IsMouseButtonDown((int32)MouseButton.MOUSE_BUTTON_RIGHT) && !IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT))
+		{
+		    Vector2 delta = GetMouseDelta();
+		    delta = Vector2Scale(delta, -1.0f/Camera.zoom);
+		    Camera.target = Vector2Add(Camera.target, delta);
+		}
+
+		float wheel = GetMouseWheelMove();
+		if (wheel != 0)
+		{
+		    Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), Camera);
+		    Camera.offset = GetMousePosition();
+		    Camera.target = mouseWorldPos;
+
+			float zoomMult = 1.5f;
+			if(wheel > 0)
+				Camera.zoom *= zoomMult;
+			if(wheel < 0)
+				Camera.zoom /= zoomMult;
+
+			Camera.zoom = Math.Clamp(Camera.zoom, 0.1f,10f);
+		}
 	}
 
 	//SCREEN SPACE

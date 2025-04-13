@@ -29,6 +29,7 @@ public class SceneClassGenerator : Compiler.Generator
 
         namespace {Namespace};
 
+        [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
         class {name} : {typeof(BaseScene)}
         {{
             public this()

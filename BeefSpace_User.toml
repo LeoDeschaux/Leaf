@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneTextMesh.bf", "src\\Asset\\AssetLoader.bf", "src\\Program.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneInverseKinematic.bf", "src\\Scenes\\SceneTextMesh.bf", "Disassembly", "src\\Asset\\AssetLoader.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 742
@@ -43,23 +43,24 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 92.76612
+Active = true
+TabLabel = "SceneInverseKinematic.bf"
+TabWidth = 172.5536
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 294
+FilePath = "src\\Scenes\\SceneInverseKinematic.bf"
+CursorPos = 788
+VertPos = 272.0404
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "SceneTextMesh.bf"
-TabWidth = 131.0641
+TabWidth = 140.4259
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Scenes\\SceneTextMesh.bf"
-CursorPos = 814
-VertPos = 2090.0
+CursorPos = 190
+VertPos = 855.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -82,7 +83,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 228.0
+RequestedHeight = 151.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

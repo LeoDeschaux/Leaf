@@ -2,7 +2,7 @@ using System;
 using Leaf;
 using System.Collections;
 namespace BJSON.Models;
-/*
+
 extension JsonValue
 {
 	public JsonValue this[String key]
@@ -147,4 +147,3 @@ extension JsonArray
 		Json.Stringify(strBuffer);
 	}
 }
-*/

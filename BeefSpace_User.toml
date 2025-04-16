@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneInverseKinematic.bf", "src\\Scenes\\SceneTextMesh.bf", "Disassembly", "src\\Asset\\AssetLoader.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneCSVReader.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Collections\\List.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Enum.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Compiler.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\String.bf", "Disassembly", "src\\Asset\\AssetLoader.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 742
@@ -44,24 +44,44 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneInverseKinematic.bf"
-TabWidth = 172.5536
+TabLabel = "SceneCSVReader.bf"
+TabWidth = 137.4471
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneInverseKinematic.bf"
-CursorPos = 788
-VertPos = 272.0404
+FilePath = "src\\Scenes\\SceneCSVReader.bf"
+CursorPos = 2216
+VertPos = 1976.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneTextMesh.bf"
-TabWidth = 140.4259
+TabLabel = "Compiler.bf"
+TabWidth = 104.2556
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneTextMesh.bf"
-CursorPos = 190
-VertPos = 855.0
-ProjectName = "Leaf"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Compiler.bf"
+CursorPos = 6614
+VertPos = 3971.0
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Enum.bf"
+TabWidth = 86.17044
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Enum.bf"
+CursorPos = 16612
+VertPos = 13338.0
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "List.bf"
+TabWidth = 73.40445
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Collections\\List.bf"
+CursorPos = 3462
+VertPos = 3363.0
+ProjectName = "corlib"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 266.0
@@ -69,13 +89,13 @@ RequestedHeight = 194.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Autocomplete"
 TabWidth = 129.7874
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Call Stack"
 TabWidth = 103.1916
 TabIsPinned = false

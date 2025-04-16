@@ -52,6 +52,8 @@ public class DataFile
 
 	public static DataFile LoadFile(String path)
 	{
+		Debug.Assert(File.Exists(path));
+
 		String fileContent = scope .();
 		if(File.ReadAllText(path,fileContent,true) case .Err(let error))
 			Debug.WriteLine(scope $"MSG ERROR 1: {error}");

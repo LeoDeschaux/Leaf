@@ -77,6 +77,13 @@ class PhysicComponent : Leaf.Entity
 	public delegate void(PhysicComponent other) OnCollision;
 
 	public bool Solid = true;
+	public bool DisplayCollision = true;
+
+	public PhysicComponent Clone()
+	{
+		var clone = new PhysicComponent(Owner, ref *ownerPos);
+		return clone;
+	}
 
     public this(Leaf.Entity owner, ref Vector2 ownerPosition)
     {
@@ -341,7 +348,7 @@ class PhysicComponent : Leaf.Entity
 
     public override void Draw()
     {
-		if(Display)
+		if(PhysicComponent.Display || DisplayCollision)
 			CollisionShape.Draw();
     }
 }

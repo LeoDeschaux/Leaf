@@ -92,4 +92,15 @@ public class EntitySystem
 	{
 		Entities.Sort(scope (lhs, rhs) => lhs.DrawOrder <=> rhs.DrawOrder);
 	}
+
+	public static int CountOccurence(Type entityType)
+	{
+		int occurence = 0;
+		for(var e in Entities)
+		{
+			if(e.GetType() == entityType)
+				occurence++;
+		}
+		return occurence;
+	}
 }

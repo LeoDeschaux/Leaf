@@ -16,6 +16,8 @@ class BaseScene : Entity
 
 	public GameEngine GameEngine;
 
+	public bool EnableDebugCameraControl = true;
+
 	public this()
 	{
 		mTimer = new Timer();
@@ -39,6 +41,21 @@ class BaseScene : Entity
 		GameEngine.RestartGame();
 	}
 
+	private bool m_displayDebug;
+	public bool DisplayDebug {
+		get{
+			return m_displayDebug;
+			
+		}
+		set {
+			m_displayDebug = value;
+
+			PhysicComponent.Display = m_displayDebug;
+			Raycast.Display = m_displayDebug;
+			DebugDrawCalls.Display = m_displayDebug;
+		}
+	}
+
 	public void InternalUpdate()
 	{
 		mTimer.Update();
@@ -50,10 +67,16 @@ class BaseScene : Entity
 			return;
 		}
 
+		if(IsKeyPressed(KeyboardKey.KEY_F1))
+		{
+			DisplayDebug = !DisplayDebug;
+		}
+
+		if(!EnableDebugCameraControl)
+			return;
 
 		//je pense que zoom in devrait être sur la pos de la souris
 		//et zoom out devrait être sur le centre de l'écran
-
 		if (IsMouseButtonDown((int32)MouseButton.MOUSE_BUTTON_RIGHT) && !IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT))
 		{
 		    Vector2 delta = GetMouseDelta();

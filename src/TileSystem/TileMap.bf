@@ -144,4 +144,15 @@ class TileMap : Leaf.Entity
 		cellPos.y = (((int)cellPos.y / TileSize)+offsetY);
 		return .((int)cellPos.x, (int)cellPos.y);
 	}
+
+	public int CountOccurence(Type tileType)
+	{
+		int occurence = 0;
+		for(var tile in mTiles)
+		{
+			if(tile.GetType() == tileType)
+				occurence++;
+		}
+		return occurence;
+	}
 }

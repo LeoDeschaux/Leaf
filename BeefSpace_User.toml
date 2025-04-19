@@ -1,7 +1,7 @@
 FileVersion = 1
-LastConfig = "Release"
+LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneImplicitCast.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Asset\\AssetLoader.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneInput.bf", "src\\Input.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Asset\\AssetLoader.bf", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 742
@@ -44,16 +44,27 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneImplicitCast.bf"
-TabWidth = 152.1281
+TabLabel = "SceneInput.bf"
+TabWidth = 117.0216
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneImplicitCast.bf"
-CursorPos = 190
+FilePath = "src\\Scenes\\SceneInput.bf"
+CursorPos = 1065
+VertPos = 190.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Input.bf"
+TabWidth = 84.04278
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Input.bf"
+CursorPos = 901
+VertPos = 570.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
-RequestedWidth = 266.0
+RequestedWidth = 383.0
 RequestedHeight = 194.0
 Type = "TabbedView"
 
@@ -72,7 +83,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 378.0
+RequestedHeight = 183.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

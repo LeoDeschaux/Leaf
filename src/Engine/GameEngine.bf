@@ -194,10 +194,13 @@ class GameEngine
 		PhysicsEngine.Update();
 		EntitySystem.PostPhysicUpdate();
 		EntitySystem.CleanDeletedEntities();
+		CurrentScene.PostEntities();
 
 		//DRAW
 		//BeginTextureMode(RenderTexture);
 		//EndTextureMode();
+
+		ViewportConsole.NewFrame();
 
 		BeginDrawing();
 		rlCImGuiBeef.rlCImGuiBegin();

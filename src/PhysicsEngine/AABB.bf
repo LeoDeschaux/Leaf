@@ -9,9 +9,9 @@ namespace Leaf;
 
 static class AABB
 {
-	public static bool IsOverlapping(Circle c1, Circle c2)
+	public static bool IsOverlapping(Circle c1, Circle c2, float margin = 0)
 	{
-		return Vector2.Distance(c1.Position, c2.Position) < c1.Radius+c2.Radius;
+		return Vector2.Distance(c1.Position, c2.Position)-margin < c1.Radius+c2.Radius;
 	}
 
 	public static Vector2 ClosestPoint(Circle c1, Rectangle r1)

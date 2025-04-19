@@ -103,4 +103,15 @@ public class EntitySystem
 		}
 		return occurence;
 	}
+
+	public static List<T> GetAll<T>() where T : Leaf.Entity
+	{
+		List<T> res = new .();
+		for(var e in Entities)
+		{
+			if(e is T)
+				res.Add(e as T);
+		}
+		return res;
+	}
 }

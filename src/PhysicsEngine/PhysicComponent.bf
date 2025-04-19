@@ -77,7 +77,7 @@ class PhysicComponent : Leaf.Entity
 	public delegate void(PhysicComponent other) OnCollision;
 
 	public bool Solid = true;
-	public bool DisplayCollision = true;
+	public bool DisplayCollision = false;
 
 	public PhysicComponent Clone()
 	{
@@ -211,6 +211,9 @@ class PhysicComponent : Leaf.Entity
 				isColliding |= AABB.IsColliding(circle, otherShape.Circle);
 				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Circle);
 
+				if(!isColliding && ! isOverlapping)
+					continue;
+
 				newPos = AABB.Resolve(circle, otherShape.Circle);
 			}
 
@@ -224,6 +227,9 @@ class PhysicComponent : Leaf.Entity
 
 				isColliding |= AABB.IsColliding(circle, otherShape.Rectangle);
 				isOverlapping |= AABB.IsOverlapping(circle, otherShape.Rectangle);
+
+				if(!isColliding && ! isOverlapping)
+					continue;
 
 				//newPos = AABB.Resolve(circle, otherShape.Rectangle);
 				newPos = AABB.ResolveMistral(circle, otherShape.Rectangle);
@@ -252,7 +258,7 @@ class PhysicComponent : Leaf.Entity
 			var selfShape = this.CollisionShape as CollisionCircle;
 
 			isColliding |= AABB.IsColliding(selfShape.Circle, otherShape.Circle);
-			isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Circle);
+			isOverlapping |= AABB.IsOverlapping(selfShape.Circle, otherShape.Circle, margin: 10);
 		}
 
 		if(other.CollisionShape is CollisionCircle && this.CollisionShape is CollisionRectangle)

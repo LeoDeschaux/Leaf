@@ -35,6 +35,7 @@ class BaseScene : Entity
 
 	public virtual void OnFinishedSwitchingScene(){};
 	public virtual void OnBeforeExit(){};
+	public virtual void PostEntities(){};
 
 	public void Restart()
 	{

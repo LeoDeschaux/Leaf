@@ -15,7 +15,7 @@ class Program
 	public static void Main()
 	{
 		var gameEngine = new GameEngine();
-		gameEngine.RunGame(new Leaf.Scenes.SceneImplicitCast());
+		gameEngine.RunGame(new Leaf.Scenes.SceneInput());
 		delete gameEngine;
 	}
 }

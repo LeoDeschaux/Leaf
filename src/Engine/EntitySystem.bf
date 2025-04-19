@@ -36,13 +36,15 @@ public class EntitySystem
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			e.Update();
+			//if(!e.DeleteNextFrame)
+				e.Update();
 		}
 
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			e.LateUpdate();
+			//if(!e.DeleteNextFrame)
+				e.LateUpdate();
 		}
 	}
 
@@ -51,7 +53,8 @@ public class EntitySystem
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			e.PostPhysicUpdate();
+			//if(!e.DeleteNextFrame)
+				e.PostPhysicUpdate();
 		}
 	}
 
@@ -113,5 +116,13 @@ public class EntitySystem
 				res.Add(e as T);
 		}
 		return res;
+	}
+
+	public static T GetFirst<T>() where T : Leaf.Entity
+	{
+		for(var e in Entities)
+			if(e is T)
+				return e as T;
+		return null;
 	}
 }

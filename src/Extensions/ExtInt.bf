@@ -19,5 +19,17 @@ namespace System
 		}
 		*/
 	}
+
+	extension Int
+	{
+	}
+
+	extension Boolean
+	{
+		public static implicit operator int(Self self)
+		{
+			return self == true ? 1 : 0;
+		}
+	}
 }
 

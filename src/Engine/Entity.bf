@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 namespace Leaf;
 
 class Entity
@@ -6,7 +7,7 @@ class Entity
 	public int DrawOrder = 0; //TODO on get => sort order
 	public bool Visible = true;
 
-	private bool DeleteNextFrame = false;
+	public bool DeleteNextFrame {get; private set;} = false;
 
 	public this()
 	{
@@ -43,4 +44,7 @@ class Entity
 	public delegate void() OnDelete;
 
 	public BaseScene Scene => Leaf.GameEngine.CurrentScene;
+
+	public static List<T> GetAll<T>() where T : Leaf.Entity => Leaf.Engine.EntitySystem.GetAll<T>();
+	public static T GetFirst<T>() where T : Leaf.Entity => Leaf.Engine.EntitySystem.GetFirst<T>();
 }

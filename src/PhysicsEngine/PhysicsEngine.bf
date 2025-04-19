@@ -28,6 +28,11 @@ class PhysicsEngine
 
 	            if (c.Intersect(other))
 	            {
+					/*
+					if(c.Owner.DeleteNextFrame || other.Owner.DeleteNextFrame)
+						continue;
+					*/
+
 	                c.OnCollision?.Invoke(other);
 	                other.OnCollision?.Invoke(c);
 	            }

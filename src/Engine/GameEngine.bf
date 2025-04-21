@@ -197,8 +197,10 @@ class GameEngine
 		CurrentScene.PostEntities();
 
 		//DRAW
-		//BeginTextureMode(RenderTexture);
-		//EndTextureMode();
+		/*
+		BeginTextureMode(RenderTexture);
+		EndTextureMode();
+		*/
 
 		ViewportConsole.NewFrame();
 
@@ -210,6 +212,7 @@ class GameEngine
 		BeginMode2D(CurrentScene.Camera);
 		EntitySystem.Draw();
 		DebugDrawCalls.Render();
+		CurrentScene.DrawPostEntities();
 		EndMode2D();
 
 		EntitySystem.DrawScreenSpace();
@@ -226,8 +229,11 @@ class GameEngine
 			WHITE
 		);
 		*/
-		
+
 		rlCImGuiBeef.rlCImGuiEnd();
+
+		EntitySystem.DrawAboveImGui();
+
 		EndDrawing();
 
 		CallBackChecker.Update();

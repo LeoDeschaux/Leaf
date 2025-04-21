@@ -91,6 +91,17 @@ public class EntitySystem
 		}
 	}
 
+	public void DrawAboveImGui()
+	{
+		SortDrawOrder();
+
+		for(var entity in Entities)
+		{
+			if(entity.Visible)
+				entity.DrawAboveImGui();
+		}
+	}
+
 	public void SortDrawOrder()
 	{
 		Entities.Sort(scope (lhs, rhs) => lhs.DrawOrder <=> rhs.DrawOrder);

@@ -39,7 +39,9 @@ class Entity
 	public virtual void PostPhysicUpdate() {};
 
 	public virtual void Draw() {};
+	public virtual void DrawPostEntities() {};
 	public virtual void DrawScreenSpace() {};
+	public virtual void DrawAboveImGui() {};
 
 	public delegate void() OnDelete;
 

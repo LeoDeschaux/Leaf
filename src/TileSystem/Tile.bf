@@ -14,7 +14,6 @@ class Tile : Leaf.Entity
 	public Vector2 Position;
 	public Vector2 Size => .(TileMap.TileSize, TileMap.TileSize);
 
-
     public this(TileMap tileMap, Vec2Int tileIndex)
     {
 		TileMap = tileMap;

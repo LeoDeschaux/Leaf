@@ -27,4 +27,12 @@ class ViewportConsole
 		DrawText(text, (int32)(xMargin+m_offset.x), (int32)((lineIndex*ySpacing)+m_offset.y), (int32)fontSize, color);
 		lineIndex++;
 	}
+
+	/*
+	public static void Log(StringView text, Color color)
+	{
+		DrawText(text.Ptr, (int32)(xMargin+m_offset.x), (int32)((lineIndex*ySpacing)+m_offset.y), (int32)fontSize, color);
+		lineIndex++;
+	}
+	*/
 }

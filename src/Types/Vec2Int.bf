@@ -20,6 +20,16 @@ public struct Vec2Int : System.IHashable
 		return System.HashCode.Mix(x,y);
 	}
 
+	public static Vec2Int operator*(Vec2Int left, Vec2Int right)
+	{
+		return .(left.x*right.x, left.y*right.y);
+	}
+
+	public static Vec2Int operator*(Vec2Int left, float right)
+	{
+		return .((int)(left.x*right), (int)(left.y*right));
+	}
+
 	public static Vec2Int operator+(Vec2Int left, Vec2Int right)
 	{
 		return .(left.x+right.x, left.y+right.y);

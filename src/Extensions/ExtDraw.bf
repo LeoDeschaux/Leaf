@@ -92,4 +92,9 @@ public extension Raylib
 
 	    rlSetTexture(0);
 	}
+
+	public static void DrawText(char8* text, Vector2 pos, int32 fontSize, Color color)
+	{
+		DrawText(text, (int32)pos.x, (int32)pos.y, fontSize,color);
+	}
 }

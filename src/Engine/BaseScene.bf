@@ -16,6 +16,7 @@ class BaseScene : Entity
 
 	public GameEngine GameEngine;
 
+	public bool DisplaySceneDebugInfo = true;
 	public bool EnableDebugCameraControl = true;
 
 	public this()
@@ -37,7 +38,7 @@ class BaseScene : Entity
 	public virtual void OnBeforeExit(){};
 	public virtual void PostEntities(){};
 
-	public void Restart()
+	protected virtual void Restart()
 	{
 		GameEngine.RestartGame();
 	}
@@ -106,6 +107,9 @@ class BaseScene : Entity
 	public void InternalDraw() 
 	{
 		ClearBackground(BackgroundColor);
+
+		if(!DisplaySceneDebugInfo)
+			return;
 
 		//INFO
 		/*

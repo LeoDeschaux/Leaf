@@ -14,7 +14,7 @@ class CSVReader
 	public this(String filePath)
 	{
 		if(!File.Exists(filePath))
-			Log.Message("ERROR - file not found");
+			Log.Message(scope $"ERROR - file {filePath} not found");
 
 		if(File.ReadAllText(filePath,rawContent,true) case .Err(let error))
 			Debug.WriteLine(scope $"MSG ERROR 1: {error}");

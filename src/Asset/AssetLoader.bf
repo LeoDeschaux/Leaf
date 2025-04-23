@@ -37,12 +37,14 @@ class CachedAsset
 		return (T*)Asset;
 	}
 
-	private void Unload()
+	public void Unload()
 	{
 		if(ASSET_TYPE == typeof(Texture))
 			UnloadTexture((Texture)*(Texture*)Asset);
 		if(ASSET_TYPE == typeof(Aseprite))
 			UnloadAseprite((Aseprite)*(Aseprite*)Asset);
+
+		//Log.Message(scope $"UNLOADED {Path}");
 	}
 
 	public void Load(String path)
@@ -76,6 +78,7 @@ class CachedAsset
 		if(LoadedSuccessfully)
 		{
 			ModificationTime = GetFileModTime(path);
+			//Log.Message(scope $"LOADED {Path}");
 		}
 	}
 }
@@ -86,9 +89,22 @@ public static class AssetLoader
 
 	public static void Unload()
 	{
-		for(var cachedAsset in cachedAssets)
-			delete cachedAsset.value;
+		for(var value in cachedAssets.Values)
+			delete value;
+		for(var key in cachedAssets.Keys)
+			delete key;
 		delete cachedAssets;
+	}
+
+	public static void Unload<T>(String path)
+	{
+		if(cachedAssets.ContainsKey(path))
+		{
+			var item = cachedAssets.GetAndRemove(path);
+			item.Value.value.Unload();
+			delete item.Value.key;
+			delete item.Value.value;
+		}
 	}
 
 	public static T* Load<T>(String path)
@@ -105,9 +121,10 @@ public static class AssetLoader
 			return default;
 		}
 
-		CachedAsset cachedAsset = new CachedAsset.this<T>(path);
-		cachedAsset.Load(path);
-		cachedAssets.Add(path, cachedAsset);
+		var key = new String(path);
+		CachedAsset cachedAsset = new CachedAsset.this<T>(key);
+		cachedAsset.Load(key);
+		cachedAssets.Add(key, cachedAsset);
 
 		return (T*)cachedAsset.Asset;
 	}

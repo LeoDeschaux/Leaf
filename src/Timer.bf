@@ -127,11 +127,17 @@ class DelayedAction : Leaf.Entity
 	{
 	}
 
+	public void Cancel()
+	{
+		delete eventRef;
+		eventRef = null;
+	}
+
 	public override void Update()
 	{
 		remaining -= Time.DeltaTime;
 
-		if(remaining <= 0)
+		if(remaining <= 0 && eventRef != null)
 		{
 			var e = eventRef;
 			delete this;

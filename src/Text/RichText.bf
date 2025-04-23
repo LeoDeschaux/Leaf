@@ -114,6 +114,20 @@ public class RichText : Leaf.Entity
 
 	public Rectangle GetBounds(int index)
 	{
+		var index;
+		if(index >= TextSprites.Count)
+		{
+			index = TextSprites.Count-1;
+			var p = GetPosition(index);
+			var size = this.TextSprites[index].GetSize();
+			return .(
+				p.x + size.x,
+				p.y,
+				0,
+				size.y
+			);
+		}
+
 		var pos = GetPosition(index);
 		var size = this.TextSprites[index].GetSize();
 		return .(

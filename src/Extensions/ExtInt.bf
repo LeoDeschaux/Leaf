@@ -18,6 +18,11 @@ namespace System
 			return *(int32*)&val;
 		}
 		*/
+
+		public static implicit operator int(in Self self)
+		{
+			return 0;
+		}
 	}
 
 	extension Int

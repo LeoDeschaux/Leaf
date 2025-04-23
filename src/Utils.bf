@@ -5,6 +5,7 @@ public static class Utils
 {
 	public static void OpenFile(String path)
 	{
+#if BF_PLATFORM_WINDOWS
 		//var dir = System.IO.Path.GetDirectoryPath(Environment.GetExecutableFilePath(.. scope .()), .. scope String());
 		var dir = System.IO.Directory.GetCurrentDirectory(.. scope .());
 		char16* file = scope $"{dir}/{path}".ToScopedNativeWChar!();
@@ -12,10 +13,12 @@ public static class Utils
 		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 		var res = System.Windows.ShellExecuteW(hwnd, null, file, null, null, System.Windows.SW_SHOW); 
 		Log.Message(res);
+#endif
 	}
 
 	public static void OpenFileWithApp(String filePath, String appPath)
 	{
+#if BF_PLATFORM_WINDOWS
 		//var dir = System.IO.Path.GetDirectoryPath(Environment.GetExecutableFilePath(.. scope .()), .. scope String());
 		var dir = System.IO.Directory.GetCurrentDirectory(.. scope .());
 		char16* fp = scope $"{dir}/{filePath}".ToScopedNativeWChar!();
@@ -25,5 +28,14 @@ public static class Utils
 
 		var res = System.Windows.ShellExecuteW(hwnd, null, ap, fp, null, System.Windows.SW_SHOW); 
 		Log.Message(res);
+#endif
+	}
+
+	public static mixin GetNameFromPath(String path)
+	{
+		String name = "";
+		for(var s in path.Split('/'))
+			name = scope:: .(s);
+		name
 	}
 }

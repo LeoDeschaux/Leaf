@@ -98,15 +98,15 @@ class TileMap : Leaf.Entity
 	public Vector2 GetTilePositionFromIndex(Vec2Int tileIndex)
 	{
 		Vector2 res = .(0,0);
-		res.x = (tileIndex.x * TileSize) + (TileSize/2);
-		res.y = (tileIndex.y * TileSize) + (TileSize/2);
+		res.x = (tileIndex.x * TileSize) + (TileSize/2f);
+		res.y = (tileIndex.y * TileSize) + (TileSize/2f);
 		return res;
 	}
 
 	public Vector2 GetTileLeftPosFromIndex(Vec2Int tileIndex)
 	{
 		var tilepos = GetTilePositionFromIndex(tileIndex);
-		tilepos -= .(TileSize/2f,TileSize/2f);
+		tilepos -= Vector2(TileSize/2f,TileSize/2f);
 		return tilepos;
 	}
 

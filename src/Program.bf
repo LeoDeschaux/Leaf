@@ -12,10 +12,20 @@ namespace Leaf;
 
 class Program
 {
+	[Comptime(ConstEval=true)]
+	static var GetBuildVersion()
+	{
+		//Console.Write(456);
+		//Log.Message(789);
+	    return 123;
+	}
+
 	public static void Main()
 	{
 		var gameEngine = new GameEngine();
-		gameEngine.RunGame(new Leaf.Scenes.SceneInput());
+		Log.Message(GetBuildVersion());
+		gameEngine.RunGame(new Leaf.Scenes.SceneTrajectory());
 		delete gameEngine;
 	}
 }
+

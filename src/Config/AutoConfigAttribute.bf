@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using ImGui;
-namespace Leaf.Config;
+using RaylibBeef;
+namespace Leaf;
 
 [AttributeUsage(.Class | .Struct | .Field, .ReflectAttribute, ReflectUser=.Methods)]
 struct AutoConfigAttribute : Attribute
@@ -29,14 +30,27 @@ struct AutoConfigAttribute : Attribute
 						ImGui.SliderInt(scope $"{field.Name}", (int32*)pointer, 0, 500);
 					}
 
+					if(field.FieldType == typeof(float))
+					{
+						var pointer = (float*)field.GetValueReference(entity).Get().DataPtr;
+						ImGui.SliderFloat(scope $"{field.Name}", (float*)pointer, 0, 500);
+					}
+
 					if(field.FieldType == typeof(bool))
 					{
 						var pointer = (bool*)field.GetValueReference(entity).Get().DataPtr;
 						ImGui.Checkbox(scope $"{field.Name}", (bool*)pointer);
 					}
 
+					if(field.FieldType == typeof(Vector2))
+					{
+						var pointer = (Vector2*)field.GetValueReference(entity).Get().DataPtr;
+						ImGui.SliderFloat2(scope $"{field.Name}", ref *pointer, 0, 500);
+						//ImGui.Checkbox(scope $"{field.Name}", (bool*)pointer);
+					}
+
 					//SerializationHelper.PrintField(field);
-					Log.Message(fieldAttribute.MyCustomFunction());
+					//Log.Message(fieldAttribute.MyCustomFunction());
 				}
 			}
 		}

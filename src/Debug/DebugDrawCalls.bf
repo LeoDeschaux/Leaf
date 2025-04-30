@@ -3,27 +3,53 @@ namespace Leaf;
 
 static class DebugDrawCalls
 {
-	private static List<delegate void()> DebugDrawCalls = new .() ~ delete _;
+	class DebugDrawCall {
+		public delegate void() dc;
+		public float duration;
+
+		public this(delegate void() dc, float duration = 0f)
+		{
+			this.dc = dc;
+			this.duration = duration;
+		}
+
+		public ~this()
+		{
+			delete dc;
+		}
+	}
+
+	private static List<DebugDrawCall> DebugDrawCalls = new .() ~ delete _;
 
 	public static bool Display = true;
 
-	public static void DrawDefered(delegate void() drawcall)
+	public static void Clear()
 	{
-		DebugDrawCalls.Add(drawcall);
+		for(var item in DebugDrawCalls)
+			delete item;
 	}
 
-	//in world space
+	public static void DrawDefered(delegate void() drawcall, float duration = 0f)
+	{
+		DebugDrawCalls.Add(new .(drawcall, duration));
+	}
+
 	public static void Render()
 	{
 		for(int i = DebugDrawCalls.Count-1; i >= 0; i--)
 		{
-			var drawcall = DebugDrawCalls[i];
+			var item = DebugDrawCalls[i];
 
 			if(Display)
-				drawcall?.Invoke();
+				item.dc?.Invoke();
 
-			DebugDrawCalls.RemoveAt(i);
-			delete drawcall;
+			item.duration -= Time.DeltaTime;
+
+			if(item.duration <= 0)
+			{
+				DebugDrawCalls.RemoveAt(i);
+				delete item;
+			}
 		}
 	}
 }

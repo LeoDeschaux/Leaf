@@ -35,6 +35,9 @@ struct AutoSerializeAttribute : Attribute
 
 	public static void Deserialize(Entity entity)
 	{
+		if(entity.GetType().FieldCount == 0)
+			return;
+
 		for (var field in entity.GetType().GetFields())
 		{
 			if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())

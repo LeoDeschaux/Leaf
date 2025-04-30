@@ -1,7 +1,7 @@
 using System;
 namespace Leaf;
 
-public static class Utils
+public class Utils
 {
 	public static void OpenFile(String path)
 	{
@@ -20,14 +20,21 @@ public static class Utils
 	{
 #if BF_PLATFORM_WINDOWS
 		//var dir = System.IO.Path.GetDirectoryPath(Environment.GetExecutableFilePath(.. scope .()), .. scope String());
+		var appPath;
+		var filePath;
+
 		var dir = System.IO.Directory.GetCurrentDirectory(.. scope .());
-		char16* fp = scope $"{dir}/{filePath}".ToScopedNativeWChar!();
-		char16* ap = scope $"{appPath}".ToScopedNativeWChar!();
+		filePath = scope $"{dir}/{filePath}";
+		appPath = System.IO.Path.GetFullPath(appPath, .. scope .());
+
+		char16* fp = filePath.ToScopedNativeWChar!();
+		char16* ap = appPath.ToScopedNativeWChar!();
 
 		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 
 		var res = System.Windows.ShellExecuteW(hwnd, null, ap, fp, null, System.Windows.SW_SHOW); 
-		Log.Message(res);
+
+		Log.Message(scope $"trying to open {filePath} with {appPath}");
 #endif
 	}
 

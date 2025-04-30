@@ -72,7 +72,6 @@ class GameEngine
 		SetWindowMonitor(1);
 		SetWindowFocused();
 
-
 		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);
 
 		EntitySystem = new EntitySystem();
@@ -82,6 +81,8 @@ class GameEngine
 	public ~this()
 	{
 		SavePreferences();
+
+		DebugDrawCalls.Clear();
 
 		CurrentScene.OnBeforeExit();
 
@@ -188,6 +189,8 @@ class GameEngine
 
 	private static void Tick()
 	{
+		AssetLoader.CheckModification();
+
 		//UPDATE
 		CurrentScene.InternalUpdate();
 		EntitySystem.Update();
@@ -217,7 +220,7 @@ class GameEngine
 
 		EntitySystem.DrawScreenSpace();
 
-		Leaf.Config.AutoConfigAttribute.Update(Leaf.Engine.EntitySystem.Entities);
+		Leaf.AutoConfigAttribute.Update(Leaf.Engine.EntitySystem.Entities);
 
 		/*
 		DrawTexturePro(

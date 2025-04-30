@@ -4,6 +4,8 @@ namespace RaylibBeef
 {
 	extension Vector2
 	{
+		public static Vector2 UP = .(0,-1);
+
 		public static Vector2 operator*(Vector2 left, Vector2 right)
 		{
 			return .(left.x*right.x, left.y*right.y);

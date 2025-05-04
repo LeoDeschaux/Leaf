@@ -13,15 +13,25 @@ namespace Leaf;
 
 class CallBackChecker
 {
-	public static delegate void() OnMonitorChange ~ delete _;
+	public static Event<delegate void()> OnMonitorChange = default ~ _.Dispose();
+	public static Event<delegate void()> OnWindowResize = default ~ _.Dispose();
 
-	private static int32 currentMonitor;
+	private static int32 m_currentMonitor;
+	private static Vector2 m_windowSize;
 
 	public static void Update()
 	{
-		if(currentMonitor != GetCurrentMonitor())
-			OnMonitorChange?.Invoke();
+		if(m_currentMonitor != GetCurrentMonitor())
+		{
+			OnMonitorChange.Invoke();
+			m_currentMonitor = GetCurrentMonitor();
+		}
 
-		currentMonitor = GetCurrentMonitor();
+		Vector2 wSize = .(GetScreenWidth(), GetScreenHeight());
+		if(m_windowSize != wSize)
+		{
+			m_windowSize = wSize;
+			OnWindowResize.Invoke();
+		}
 	}
 }

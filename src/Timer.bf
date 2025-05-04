@@ -114,13 +114,14 @@ class Timer
 class DelayedAction : Leaf.Entity
 {
 	delegate void() eventRef;
-
 	float remaining;
+	bool m_realTime;
 
-	public this(float delay, delegate void() event)
+	public this(float delay, delegate void() event, bool realTime = false)
 	{
 		eventRef = event;
 		remaining = delay;
+		m_realTime = realTime;
 	}
 
 	public ~this()
@@ -135,7 +136,7 @@ class DelayedAction : Leaf.Entity
 
 	public override void Update()
 	{
-		remaining -= Time.DeltaTime;
+		remaining -= m_realTime ? GetFrameTime() : Time.DeltaTime;
 
 		if(remaining <= 0 && eventRef != null)
 		{

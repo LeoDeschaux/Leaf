@@ -26,8 +26,8 @@ class GameEngine
 
 	private DataFile preferences;
 
-	private static bool ExitReady = false;
-	public static void Exit() => ExitReady = true;
+	private static bool m_exitReady = false;
+	public static void Exit() => m_exitReady = true;
 
 	private void LoadPreferences()
 	{
@@ -107,7 +107,7 @@ class GameEngine
 #else
 		SetTargetFPS(60);
 
-		while (!WindowShouldClose() && !ExitReady)
+		while (!WindowShouldClose() && !m_exitReady)
 		{
 			Tick();
 		}

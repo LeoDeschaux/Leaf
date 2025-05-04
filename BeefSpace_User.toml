@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Asset\\AssetLoader.bf", "Disassembly", "src\\Trajectory.bf", "src\\Scenes\\SceneTrajectory.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneTween.bf", "src\\Program.bf", "src\\Scenes\\SceneEvents.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Event.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 742
@@ -43,40 +43,31 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneTrajectory.bf"
-TabWidth = 133.1918
+TabLabel = "SceneEvents.bf"
+TabWidth = 114.0428
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneTrajectory.bf"
-CursorPos = 998
-VertPos = 760.0
+FilePath = "src\\Scenes\\SceneEvents.bf"
+CursorPos = 480
 ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Trajectory.bf"
-TabWidth = 109.5748
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Trajectory.bf"
-CursorPos = 1813
-VertPos = 798.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Disassembly"
-TabWidth = 107.4471
-TabIsPinned = false
-Type = "DisassemblyPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "AssetLoader.bf"
-TabWidth = 122.3408
+TabLabel = "SceneTween.bf"
+TabWidth = 123.4046
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Asset\\AssetLoader.bf"
-CursorPos = 1578
-VertPos = 1311.0
+FilePath = "src\\Scenes\\SceneTween.bf"
+CursorPos = 451
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Program.bf"
+TabWidth = 102.1279
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Program.bf"
+CursorPos = 453
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -85,13 +76,13 @@ RequestedHeight = 194.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Autocomplete"
 TabWidth = 129.7874
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Call Stack"
 TabWidth = 103.1916
 TabIsPinned = false

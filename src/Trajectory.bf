@@ -55,6 +55,10 @@ class Trajectory
 
 	public static LaunchData CalculateLaunchData(Vector2 startPos, Vector2 target, float height, float duration)
 	{
+		var duration;
+		if(duration == 0)
+			duration = float.MinValue;
+
 	    float displacementY = -(target.y - startPos.y);
 	    Vector2 displacementX = Vector2(target.x - startPos.x, 0);
 

@@ -134,7 +134,9 @@ public static class AssetLoader
 		for(var path in cachedAssets.Keys)
 		{
 			var cached = cachedAssets.GetValue(path).Value;
-			if(cached.ModificationTime != GetFileModTime(path))
+			var hasBeenModified = GetFileModTime(path) != cached.ModificationTime;
+			var secondsSinceLastModification = GetFileModTime(path) - cached.ModificationTime;
+			if(hasBeenModified)
 			{
 				cached.Load(path);
 				cached.ModificationTime = GetFileModTime(path);

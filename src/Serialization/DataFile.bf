@@ -45,7 +45,8 @@ public class DataFile
 			return LoadFile(path);
 		else
 		{
-			Log.Message(scope $"File \"{path}\" not found, new file created");
+			var fullPath = System.IO.Path.GetFullPath(path, .. scope .());
+			Log.Message(scope $"File \"{fullPath}\" not found, new file created");
 			return new DataFile();
 		}
 	}

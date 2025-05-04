@@ -13,6 +13,26 @@ public class Utils
 		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 		var res = System.Windows.ShellExecuteW(hwnd, null, file, null, null, System.Windows.SW_SHOW); 
 		Log.Message(res);
+
+		Log.Message(scope $"{dir}/{path}");
+#endif
+	}
+
+	public static void OpenDirectory(String path)
+	{
+#if BF_PLATFORM_WINDOWS
+
+		var dir = System.IO.Directory.GetCurrentDirectory(.. scope .());
+
+		var path;
+		path = System.IO.Path.GetFullPath(path, .. scope .());
+
+		char16* fp = path.ToScopedNativeWChar!();
+
+		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
+		var res = System.Windows.ShellExecuteW(hwnd, null, fp, null, null, System.Windows.SW_SHOW); 
+
+		Log.Message(scope $"trying to open {path}");
 #endif
 	}
 
@@ -43,6 +63,10 @@ public class Utils
 		String name = "";
 		for(var s in path.Split('/'))
 			name = scope:: .(s);
+		/*
+		for(var s in path.Split('\\'))
+			name = scope:: .(s);
+		*/
 		name
 	}
 }

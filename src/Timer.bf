@@ -126,11 +126,13 @@ class DelayedAction : Leaf.Entity
 
 	public ~this()
 	{
+		Cancel();
 	}
 
 	public void Cancel()
 	{
-		delete eventRef;
+		if(eventRef != null)
+			delete eventRef;
 		eventRef = null;
 	}
 
@@ -140,10 +142,8 @@ class DelayedAction : Leaf.Entity
 
 		if(remaining <= 0 && eventRef != null)
 		{
-			var e = eventRef;
+			eventRef.Invoke();
 			delete this;
-			e?.Invoke();
-			delete e;
 		}
 	}
 }

@@ -14,7 +14,9 @@ using Leaf.Engine;
 namespace Leaf;
 
 class GameEngine
-{                                                  
+{
+ 	public static GameEngine Self;
+
 	public static BaseScene CurrentScene;
 	private static RenderTexture2D RenderTexture;
 
@@ -50,12 +52,16 @@ class GameEngine
 
 	public this()
 	{
+		Self = this;
+
 		Console.Clear();
 
 		SetConfigFlags((int32)ConfigFlags.FLAG_WINDOW_RESIZABLE);
 
-		SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT);
+		//SetConfigFlags(ConfigFlags.FLAG_VSYNC_HINT);
 		//set_target_fps(get_monitor_refresh_rate(get_current_monitor()));
+
+		//SetTargetFPS(60);
 
 		LoadPreferences();
 
@@ -103,10 +109,8 @@ class GameEngine
 		CurrentScene.GameEngine = this;
 
 #if BF_PLATFORM_WASM
-		Leaf.Engine.WebEngine.EmscriptenMainLoop(=> Tick);
+		Leaf.Engine.WebEngine.EmscriptenMainLoop(() => Self.Tick());
 #else
-		SetTargetFPS(60);
-
 		while (!WindowShouldClose() && !m_exitReady)
 		{
 			Tick();
@@ -114,14 +118,20 @@ class GameEngine
 #endif
 	}
 
-	public void RestartGame()
+	delegate void(BaseScene) RestartGameCallBack = null;
+	bool hasRestartBeenAsked = false;
+	public void RestartGame(delegate void(BaseScene) callback = null)
+	{
+		RestartGameCallBack = callback;
+		hasRestartBeenAsked = true;
+	}
+
+	private void ImplRestartGame()
 	{
 		Type t = CurrentScene.GetType();
 		delete CurrentScene;
 
 		EntitySystem.Dispose();
-		delete EntitySystem;
-		EntitySystem = new EntitySystem();
 
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
@@ -135,7 +145,15 @@ class GameEngine
 		CurrentScene.OnFinishedSwitchingScene();
 
 		Console.WriteLine("--- GAME RESTARTED ---");
-		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
+
+		RestartGameCallBack?.Invoke(CurrentScene);
+		if(RestartGameCallBack != null)
+		{
+			delete RestartGameCallBack;
+			RestartGameCallBack = null;
+		}
+
+		hasRestartBeenAsked = false;
 	}
 
 	public BaseScene ChangeGame(Type sceneType)
@@ -143,8 +161,6 @@ class GameEngine
 		delete CurrentScene;
 
 		EntitySystem.Dispose();
-		delete EntitySystem;
-		EntitySystem = new EntitySystem();
 
 		var obj = sceneType.CreateObject();
 		if(obj case .Err(let err))
@@ -169,8 +185,6 @@ class GameEngine
 		delete CurrentScene;
 
 		EntitySystem.Dispose();
-		delete EntitySystem;
-		EntitySystem = new EntitySystem();
 
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
@@ -187,7 +201,7 @@ class GameEngine
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}	
 
-	private static void Tick()
+	private void Tick()
 	{
 		AssetLoader.CheckModification();
 
@@ -236,9 +250,15 @@ class GameEngine
 		rlCImGuiBeef.rlCImGuiEnd();
 
 		EntitySystem.DrawAboveImGui();
+		CurrentScene.DebugDraw();
 
 		EndDrawing();
 
 		CallBackChecker.Update();
+
+		Time.[Friend]UpdateDeltaTime();
+
+		if(hasRestartBeenAsked)
+			ImplRestartGame();
 	}
 }

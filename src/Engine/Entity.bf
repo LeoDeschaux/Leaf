@@ -12,16 +12,16 @@ class Entity
 	public this()
 	{
 		Leaf.Engine.EntitySystem.Entities.Add(this);
-		Leaf.Serialization.AutoSerializeAttribute.Deserialize(this);
+		//Leaf.Serialization.AutoSerializeAttribute.Deserialize(this);
 	}
 
 	public ~this()
 	{
 		OnDelete?.Invoke();
-		delete OnDelete;
+		OnDelete.Dispose();
 
 		Leaf.Engine.EntitySystem.Entities.Remove(this);
-		Leaf.Serialization.AutoSerializeAttribute.Serialize(this);
+		//Leaf.Serialization.AutoSerializeAttribute.Serialize(this);
 	}
 
 	public void DeleteNow()
@@ -43,7 +43,7 @@ class Entity
 	public virtual void DrawScreenSpace() {};
 	public virtual void DrawAboveImGui() {};
 
-	public delegate void() OnDelete;
+	public Event<delegate void()> OnDelete = default;
 
 	public BaseScene Scene => Leaf.GameEngine.CurrentScene;
 

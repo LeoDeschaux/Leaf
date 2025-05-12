@@ -28,6 +28,14 @@ public class EntitySystem
 
 	public void Dispose()
 	{
+		int i = Entities.Count-1;
+		for (; i >= 0; i--)
+		{
+			i = Entities.Count-1;
+			var entity = Entities[i];
+			delete entity;
+		}
+
 		mHasBeenDisposed = true;
 	}
 
@@ -36,15 +44,13 @@ public class EntitySystem
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			//if(!e.DeleteNextFrame)
-				e.Update();
+			e.Update();
 		}
 
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			//if(!e.DeleteNextFrame)
-				e.LateUpdate();
+			e.LateUpdate();
 		}
 	}
 
@@ -53,8 +59,7 @@ public class EntitySystem
 		for(int i = 0; i < Entities.Count; i++)
 		{
 			var e = Entities[i];
-			//if(!e.DeleteNextFrame)
-				e.PostPhysicUpdate();
+			e.PostPhysicUpdate();
 		}
 	}
 

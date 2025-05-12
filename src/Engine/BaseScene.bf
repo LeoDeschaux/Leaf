@@ -38,10 +38,11 @@ class BaseScene : Entity
 	public virtual void OnBeforeExit(){};
 	public virtual void PostEntities(){};
 
-	protected virtual void Restart()
+	protected virtual void Restart(delegate void(BaseScene) callback = null)
 	{
-		GameEngine.RestartGame();
+		GameEngine.RestartGame(callback);
 	}
+	protected virtual void Restart() => GameEngine.RestartGame(null);
 
 	private bool m_displayDebug;
 	public bool DisplayDebug {
@@ -72,7 +73,11 @@ class BaseScene : Entity
 		if(IsKeyPressed(KeyboardKey.KEY_F1))
 		{
 			DisplayDebug = !DisplayDebug;
+			DisplaySceneDebugInfo = DisplayDebug;
 		}
+
+		if(IsKeyPressed(KeyboardKey.KEY_F11))
+			ToggleFullscreen();
 
 		if(!EnableDebugCameraControl)
 			return;
@@ -107,7 +112,10 @@ class BaseScene : Entity
 	public void InternalDraw() 
 	{
 		ClearBackground(BackgroundColor);
+	}
 
+	public void DebugDraw()
+	{
 		if(!DisplaySceneDebugInfo)
 			return;
 

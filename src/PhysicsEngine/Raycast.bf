@@ -18,6 +18,11 @@ struct RaycastResult
 		physicComponent = phc;
 		hitPoint = hitpoint;
 	}
+
+	public override void ToString(String strBuffer)
+	{
+		strBuffer.Append(scope $"{physicComponent.Owner}, {physicComponent}");
+	}
 }
 
 public static class Raycast
@@ -67,6 +72,57 @@ public static class Raycast
 		//results.Sort()
 		float Distance(Vector2 hitpoint){
 			return Vector2LengthSqr(hitpoint-rayOrigin);
+		}
+		results.Sort(scope (lhs, rhs) => Distance(lhs.hitPoint) <=> Distance(rhs.hitPoint));
+
+		return results.Count > 0;
+	}
+
+	public static bool CircleIntersect(Vector2 circleOrigin, float radius, List<RaycastResult> results, bool ignoreNonSolid = false, PhysicComponent self = null, bool displayDebugRaycast = true)
+	{
+		var circle = Circle(circleOrigin, radius);
+
+		if(Display && displayDebugRaycast)
+		{
+			DebugDrawCalls.DrawDefered(new () => {
+				DrawCircleLinesV(circleOrigin, radius, RED);
+			}, 0.5f);
+		}
+
+		for(var phc in PhysicsEngine.Components)
+		{
+			if(self != null && phc == self)
+				continue;
+			if(ignoreNonSolid && !phc.Solid)
+				continue;
+
+			Vector2 hitPoint = default;
+			bool isIntersecting = false;
+
+			if(var recCol = phc.CollisionShape as CollisionRectangle)
+				isIntersecting = AABB.IsOverlapping(circle, recCol.Rectangle);
+			else if(var recCol = phc.CollisionShape as CollisionCircle)
+				isIntersecting = AABB.IsOverlapping(circle, recCol.Circle);
+
+			if(isIntersecting)
+			{
+				if(Display && displayDebugRaycast)
+				{
+					DebugDrawCalls.DrawDefered(new () => {
+						DrawCircleV(hitPoint, 5, GREEN);
+					});
+				}
+
+				Runtime.Assert(hitPoint.x != float.NaN);
+				Runtime.Assert(hitPoint.y != float.NaN);
+
+				results.Add(.(phc, hitPoint));
+			}
+		}
+
+		//results.Sort()
+		float Distance(Vector2 hitpoint){
+			return Vector2LengthSqr(hitpoint-circleOrigin);
 		}
 		results.Sort(scope (lhs, rhs) => Distance(lhs.hitPoint) <=> Distance(rhs.hitPoint));
 

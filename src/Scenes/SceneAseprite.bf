@@ -10,6 +10,7 @@ using System.IO;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneAseprite : Leaf.BaseScene
 {
 	Aseprite* george;
@@ -32,6 +33,10 @@ class SceneAseprite : Leaf.BaseScene
 		walking = LoadAsepriteTag(*george, "Walk-Down");
 
 		//TraceAseprite(george);
+
+		var anim = new AnimatedSprite("res/aseprite/george.aseprite");
+		//anim.Play("Walk-Down");
+		anim.PlayDefault();
     }
 
     public ~this()
@@ -47,7 +52,7 @@ class SceneAseprite : Leaf.BaseScene
     public override void Draw()
     {
 		UpdateAsepriteTag(&walking);
-		DrawAsepriteTagEx(walking, position, 0, scale, WHITE);
+		//DrawAsepriteTagEx(walking, position, 0, scale, WHITE);
     }
 
 	float angle = 0;

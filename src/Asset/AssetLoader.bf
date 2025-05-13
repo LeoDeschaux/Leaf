@@ -85,7 +85,7 @@ class CachedAsset
 
 public static class AssetLoader
 {
-	private static Dictionary<String, CachedAsset> cachedAssets = new .();
+	private static Dictionary<String, CachedAsset> cachedAssets = new .() ~ delete _;
 
 	public static void Unload()
 	{
@@ -93,7 +93,7 @@ public static class AssetLoader
 			delete value;
 		for(var key in cachedAssets.Keys)
 			delete key;
-		delete cachedAssets;
+		cachedAssets.Clear();
 	}
 
 	public static void Unload<T>(String path)

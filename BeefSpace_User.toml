@@ -1,12 +1,12 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneTween.bf", "src\\Program.bf", "src\\Scenes\\SceneEvents.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Event.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\AnimatedSprite.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Event.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 742
-Y = 0
-Width = 1178
+X = 426
+Y = 93
+Width = 644
 Height = 884
 ShowKind = "ShowMaximized"
 
@@ -43,32 +43,25 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneEvents.bf"
-TabWidth = 114.0428
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneEvents.bf"
-CursorPos = 480
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneTween.bf"
-TabWidth = 123.4046
+TabLabel = "AnimatedSprite.bf"
+TabWidth = 131.0641
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneTween.bf"
-CursorPos = 451
+FilePath = "src\\AnimatedSprite.bf"
+CursorPos = 779
+VertPos = 779.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 102.1279
+TabLabel = "RaylibAsepriteBeef.bf"
+TabWidth = 149.1492
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 453
-ProjectName = "Leaf"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf"
+CursorPos = 3002
+VertPos = 3838.0
+ProjectName = "raylib-aseprite-beef"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 383.0
@@ -76,13 +69,13 @@ RequestedHeight = 194.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Autocomplete"
 TabWidth = 129.7874
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Call Stack"
 TabWidth = 103.1916
 TabIsPinned = false

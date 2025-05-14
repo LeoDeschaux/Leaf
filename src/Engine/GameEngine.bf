@@ -99,6 +99,8 @@ class GameEngine
 
 		rlCImGuiBeef.rlCImGuiShutdown();
 
+		AssetLoader.Unload();
+
 		CloseAudioDevice();
 		CloseWindow();
 	}
@@ -116,6 +118,8 @@ class GameEngine
 			Tick();
 		}
 #endif
+
+
 	}
 
 	delegate void(BaseScene) RestartGameCallBack = null;

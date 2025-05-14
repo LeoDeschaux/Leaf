@@ -11,7 +11,7 @@ namespace Leaf;
 class AnimatedSprite : Leaf.Entity
 {
 	Aseprite* ase;
-	AsepriteTag tag;
+	AsepriteTag tag = default;
 
 	public Vector2 Pos;
 	public Vector2 Size = .(100,100);
@@ -20,13 +20,23 @@ class AnimatedSprite : Leaf.Entity
 	public bool FlipX = false;
 	public bool FlipY = false;
 
+	String p;
     public this(String path)
     {
+		p = new String(path);
 		ase = AssetLoader.Load<Aseprite>(path);
+		AssetLoader.BindReloadListener(path, new => OnAssetReload);
     }
+
+	private void OnAssetReload()
+	{
+		tag = LoadAsepriteTagFromIndex(*ase, 0);
+	}
 
     public ~this()
     {
+		AssetLoader.Unbind(p, scope => OnAssetReload);
+		delete p;
     }
 
 	public void PlayDefault()
@@ -41,6 +51,8 @@ class AnimatedSprite : Leaf.Entity
 
 	public bool IsCurrentlyPlaying(String animName)
 	{
+		if(tag == default)
+			return false;
 		return animName.Equals(scope String(tag.name));
 	}
 
@@ -66,6 +78,9 @@ class AnimatedSprite : Leaf.Entity
 		Rectangle destRec = .(Pos.x,Pos.y,Size.x, Size.y);
 		Vector2 origin = .((float)Size.x/2f, (float)Size.y/2f);
 
-		DrawAsepriteTagProFlipped(tag, destRec, origin, Rotation, FlipX, FlipY, WHITE);
+		if(tag == default)
+			DrawAsepriteProFlipped(*ase, 0, destRec, origin, Rotation, FlipX, FlipY, WHITE);
+		else
+			DrawAsepriteTagProFlipped(tag, destRec, origin, Rotation, FlipX, FlipY, WHITE);
     }
 }

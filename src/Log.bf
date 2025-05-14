@@ -90,6 +90,6 @@ public static class Log
 			str.Append("null");
 		else
 			obj.ToString(str);
-		Message(str);
+		Message(str, textColor, backgroundColor);
 	}
 }

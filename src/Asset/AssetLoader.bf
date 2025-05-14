@@ -3,6 +3,7 @@ using System.IO;
 using System;
 
 using RaylibBeef;
+using System;
 using static RaylibAsepriteBeef.RaylibAseprite;
 using static RaylibBeef.Raylib;
 
@@ -16,6 +17,8 @@ class CachedAsset
 
 	private Type ASSET_TYPE;
 
+	public Event<delegate void()> OnAssetReload = default;
+
 	public this<T>(String path)
 	{
 		ASSET_TYPE = typeof(T);
@@ -28,6 +31,7 @@ class CachedAsset
 	public ~this()
 	{
 		delete Asset;
+		OnAssetReload.Dispose();
 	}
 
 	public T* GetAsset<T>()
@@ -69,6 +73,8 @@ class CachedAsset
 		{
 			Aseprite* data = new Aseprite();
 			*data = LoadAseprite(path);
+			if(GetAsepriteTagCount(*data) == 0)
+				GenDefaultTag(*data);
 			Asset = (void*)data;
 			LoadedSuccessfully = true;
 		}
@@ -78,6 +84,7 @@ class CachedAsset
 		if(LoadedSuccessfully)
 		{
 			ModificationTime = GetFileModTime(path);
+			OnAssetReload.Invoke();
 			//Log.Message(scope $"LOADED {Path}");
 		}
 	}
@@ -107,6 +114,45 @@ public static class AssetLoader
 		}
 	}
 
+	public static void BindReloadListener(String path, delegate void() OnAssetLoad = null)
+	{
+		if(OnAssetLoad == null)
+			return;
+		if(!cachedAssets.ContainsKey(path))
+		{
+			delete OnAssetLoad;
+			return;
+		}
+		
+		var eventListener = &cachedAssets.GetValue(path).Get().OnAssetReload;
+		eventListener.Add(OnAssetLoad);
+		Log.Message(eventListener.Count, .Yellow);
+	}
+
+	private static bool Contains(Event<delegate void()>.Enumerator e, delegate void() d)
+	{
+		for(var event in e)
+			if(event.Equals(d))
+				return true;
+		return false;
+	}
+
+	public static void Unbind(String path, delegate void() OnAssetLoad = null)
+	{
+		if(!cachedAssets.ContainsKey(path))
+			return;
+		if(OnAssetLoad == null)
+			return;
+		var eventListener = &cachedAssets.GetValue(path).Get().OnAssetReload;
+		if(eventListener == default)
+			return;
+		if(eventListener.IsEmpty)
+			return;
+		if(!eventListener.HasListeners)
+			return;
+		eventListener.Remove(OnAssetLoad, true);
+	}
+
 	public static T* Load<T>(String path)
 	{
 		if(cachedAssets.ContainsKey(path))
@@ -125,7 +171,7 @@ public static class AssetLoader
 		CachedAsset cachedAsset = new CachedAsset.this<T>(key);
 		cachedAsset.Load(key);
 		cachedAssets.Add(key, cachedAsset);
-
+		
 		return (T*)cachedAsset.Asset;
 	}
 
@@ -137,10 +183,7 @@ public static class AssetLoader
 			var hasBeenModified = GetFileModTime(path) != cached.ModificationTime;
 			var secondsSinceLastModification = GetFileModTime(path) - cached.ModificationTime;
 			if(hasBeenModified)
-			{
 				cached.Load(path);
-				cached.ModificationTime = GetFileModTime(path);
-			}
 		}
 	}
 }

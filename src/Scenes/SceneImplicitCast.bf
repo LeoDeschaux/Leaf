@@ -23,7 +23,6 @@ class SceneImplicitCast : Leaf.BaseScene
 
     public override void Draw()
     {
-		Vector2 pos = .(0,0);
 		//DrawText("hello", pos.x, pos.y, 32, RED);
 
 		if(IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))

@@ -32,7 +32,7 @@ class SceneAseprite : Leaf.BaseScene
 		//george = LoadAseprite("res/aseprite/george.aseprite");
 		walking = LoadAsepriteTag(*george, "Walk-Down");
 
-		//TraceAseprite(george);
+		TraceAseprite(*george);
 
 		var anim = new AnimatedSprite("res/aseprite/george.aseprite");
 		//anim.Play("Walk-Down");

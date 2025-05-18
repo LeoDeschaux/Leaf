@@ -126,7 +126,6 @@ public static class AssetLoader
 		
 		var eventListener = &cachedAssets.GetValue(path).Get().OnAssetReload;
 		eventListener.Add(OnAssetLoad);
-		Log.Message(eventListener.Count, .Yellow);
 	}
 
 	private static bool Contains(Event<delegate void()>.Enumerator e, delegate void() d)

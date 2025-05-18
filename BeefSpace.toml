@@ -1,7 +1,7 @@
 FileVersion = 1
-Projects = {Leaf = {Path = "."}, raylib-beef = "*", ImGui = "*", rlCImGuiBeef = "*", BJSON = "*", raylib-aseprite-beef = "*", TinySoundFontBeef = {Path = "../../../Software/Beef/BeefLibs/TinySoundFontBeef"}}
+Projects = {Leaf = {Path = "."}, raylib-beef = "*", ImGui = "*", rlCImGuiBeef = "*", raylib-aseprite-beef = "*", TinySoundFontBeef = {Path = "../../../Software/Beef/BeefLibs/TinySoundFontBeef"}, BJSON = {Path = "../../../Software/Beef/BeefLibs/BJSON/BJSON"}}
 Unlocked = ["rlCImGuiBeef", "raylib-aseprite-beef", "corlib"]
-WorkspaceFolders = {Libs = ["corlib", "raylib-beef", "ImGui", "rlCImGuiBeef", "BJSON", "raylib-aseprite-beef", "TinySoundFontBeef"]}
+WorkspaceFolders = {Libs = ["corlib", "raylib-beef", "ImGui", "rlCImGuiBeef", "raylib-aseprite-beef", "TinySoundFontBeef", "BJSON"]}
 
 [Workspace]
 StartupProject = "Leaf"

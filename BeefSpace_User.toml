@@ -1,12 +1,12 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\AnimatedSprite.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Event.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\SceneNetworking.bf", "src\\Engine\\GameEngine.bf", "src\\Scenes\\SceneDefault.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Bitfield.bf", "d:\\Software\\Beef\\BeefLibs\\BJSON\\BJSON\\src\\Models\\JsonValue.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 426
-Y = 93
-Width = 644
+X = 742
+Y = 0
+Width = 1178
 Height = 884
 ShowKind = "ShowMaximized"
 
@@ -43,28 +43,65 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
-TabLabel = "AnimatedSprite.bf"
-TabWidth = 131.0641
+TabLabel = "Program.bf"
+TabWidth = 92.76612
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\AnimatedSprite.bf"
-CursorPos = 779
-VertPos = 779.0
+FilePath = "src\\Program.bf"
+CursorPos = 306
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "RaylibAsepriteBeef.bf"
-TabWidth = 149.1492
+TabLabel = "JsonValue.bf"
+TabWidth = 100.213
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf"
-CursorPos = 3002
-VertPos = 3838.0
-ProjectName = "raylib-aseprite-beef"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\BJSON\\BJSON\\src\\Models\\JsonValue.bf"
+CursorPos = 8259
+ProjectName = "BJSON"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Bitfield.bf"
+TabWidth = 84.25546
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Bitfield.bf"
+CursorPos = 5288
+VertPos = 3572.0
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "SceneNetworking.bf"
+TabWidth = 153.1919
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\SceneNetworking.bf"
+CursorPos = 285
+VertPos = 95.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "SceneDefault.bf"
+TabWidth = 127.6599
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Scenes\\SceneDefault.bf"
+CursorPos = 316
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "GameEngine.bf"
+TabWidth = 124.4684
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Engine\\GameEngine.bf"
+CursorPos = 3225
+VertPos = 2432.0
+ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
-RequestedWidth = 383.0
+RequestedWidth = 363.0
 RequestedHeight = 194.0
 Type = "TabbedView"
 
@@ -83,7 +120,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 183.0
+RequestedHeight = 206.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
@@ -112,7 +149,7 @@ TabLabel = "Watch"
 TabWidth = 86.17031
 TabIsPinned = false
 Type = "WatchPanel"
-Columns = [{Width = 200.0}, {Width = 485.0}, {Width = 200.0}]
+Columns = [{Width = 160.0}, {Width = 388.0}, {Width = 160.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs.Items]]
 EvalStr = "lines"
@@ -125,7 +162,7 @@ TabLabel = "Auto Watches"
 TabWidth = 128.7236
 TabIsPinned = false
 Type = "AutoWatchPanel"
-Columns = [{Width = 200.0}, {Width = 200.0}, {Width = 200.0}]
+Columns = [{Width = 160.0}, {Width = 160.0}, {Width = 160.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
@@ -138,6 +175,11 @@ TabLabel = "Console"
 TabWidth = 94.68098
 TabIsPinned = false
 Type = "ConsolePanel"
+
+[[Breakpoints]]
+File = "src\\SceneNetworking.bf"
+Line = 30
+Column = 2
 
 [[BookmarkFolders]]
 Title = ""

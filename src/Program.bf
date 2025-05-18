@@ -24,7 +24,7 @@ class Program
 	{
 		var gameEngine = new GameEngine();
 		Log.Message(GetBuildVersion());
-		gameEngine.RunGame(new Leaf.Scenes.SceneAseprite());
+		gameEngine.RunGame(new Leaf.Scenes.SceneNetworking());
 		delete gameEngine;
 	}
 }

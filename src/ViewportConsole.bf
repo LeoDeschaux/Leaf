@@ -22,7 +22,7 @@ class ViewportConsole
 		m_offset = offset;
 	}
 
-	public static void Log(char8* text, Color color)
+	public static void Log(char8* text, Color color = BLACK)
 	{
 		DrawText(text, (int32)(xMargin+m_offset.x), (int32)((lineIndex*ySpacing)+m_offset.y), (int32)fontSize, color);
 		lineIndex++;

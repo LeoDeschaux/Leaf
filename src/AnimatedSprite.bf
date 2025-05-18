@@ -26,11 +26,15 @@ class AnimatedSprite : Leaf.Entity
 		p = new String(path);
 		ase = AssetLoader.Load<Aseprite>(path);
 		AssetLoader.BindReloadListener(path, new => OnAssetReload);
+
+		TraceAseprite(*ase);
     }
 
 	private void OnAssetReload()
 	{
 		tag = LoadAsepriteTagFromIndex(*ase, 0);
+		ase.ase.mode = .ASE_MODE_GRAYSCALE;
+		ase.ase.transparent_palette_entry_index = 1;
 	}
 
     public ~this()
@@ -77,6 +81,10 @@ class AnimatedSprite : Leaf.Entity
     {
 		Rectangle destRec = .(Pos.x,Pos.y,Size.x, Size.y);
 		Vector2 origin = .((float)Size.x/2f, (float)Size.y/2f);
+
+		ase.ase.mode = .ASE_MODE_GRAYSCALE;
+		ase.ase.transparent_palette_entry_index = -1;
+		//Log.Message(ase.ase.palette.entry_count);
 
 		if(tag == default)
 			DrawAsepriteProFlipped(*ase, 0, destRec, origin, Rotation, FlipX, FlipY, WHITE);

@@ -92,7 +92,7 @@ public class DataFile
 
 		String strBuffer = scope .();
 		Json.Serialize(root, strBuffer);
-		Json.Stringify(strBuffer);
+		//Json.Stringify(strBuffer);
 
 		if(File.WriteAllText(path, strBuffer) case .Err(let error))
 			Console.WriteLine(error);
@@ -101,7 +101,7 @@ public class DataFile
 	public override void ToString(String strBuffer)
 	{
 		Json.Serialize(root, strBuffer);
-		Json.Stringify(strBuffer);
+		//Json.Stringify(strBuffer);
 		//root.ToString(strBuffer);
 	}
 

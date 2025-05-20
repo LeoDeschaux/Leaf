@@ -27,7 +27,6 @@ class SceneNetworking : Leaf.BaseScene
 
     public this()
     {
-
     }
 
     public ~this()
@@ -42,7 +41,10 @@ class SceneNetworking : Leaf.BaseScene
 	{
 		if(hasBeenInit)
 		{
-			DrawText(mode.ToString(.. scope .()), 0, 0, 48, WHITE);
+			String txtMode = mode.ToString(.. scope .());
+			int32 fontSize = 24;
+			var txtSize = MeasureText(txtMode, fontSize);
+			DrawText(txtMode, 0, GetScreenHeight()-fontSize, fontSize, WHITE);
 		}
 		else
 		{
@@ -65,8 +67,8 @@ class SceneNetworking : Leaf.BaseScene
 
 class Client : Leaf.Entity
 {
-	Socket client;
-	SockAddr_in sock = default;
+	Socket socket;
+	SockAddr_in sock;
 
 	String serverIp = "127.0.0.1";
 	int32 port = 9096;
@@ -74,66 +76,45 @@ class Client : Leaf.Entity
 	public this()
 	{
 		Socket.Init();
+		socket = new Socket();
 
-		client = new Socket();
-		serverIp = "127.0.0.1";
-		port = 9096;
+		var res = socket.OpenUDP(0);
+		if (res case .Err(let err))
+			Console.WriteLine("Failed to open {}", err);
+		else if (res case .Ok)
+			Log.Message("OK");
+
+		Log.Message("");
+
+		sock = default;
+		sock.sin_family = AF_INET;
+		sock.sin_addr = .(127,0,0,1);
+		sock.sin_port = (.)port;
 	}
 
 	public ~this()
-	{
-		delete client;
+	{ 
+		delete socket;
 	}
 
-	private void SendMessage(String messageToSend)
+	private void SendToServer(String messageToSend)
 	{
-		if(client.Connect(serverIp, port, out sock) case .Err)
-		{
-			Console.WriteLine("Failed to connect to server");
-			client.Close();
-			return;
-		}
-
-		var sendRes = client.Send(messageToSend, messageToSend.Length);
+		var sendRes = socket.SendTo(messageToSend, messageToSend.Length, sock);
 		if (sendRes case .Err(let err))
 		{
-			Console.WriteLine("Failed to send data");
-			client.Close();
+			Console.WriteLine("Failed to send data: {}", err);
+			//socket.Close();
 			return;
 		}
-
-		var sentSize = sendRes.Get();
-	    void* buffer = Internal.Malloc(4096);
-
-		var recvRes = client.Recv(buffer, 4096);
-
-		if(recvRes case .Err)
-		{
-			Console.WriteLine("Failed to receive data from server");
-			Internal.Free(buffer);
-			client.Close();
-			return;
-		}
-
-		var readSize = recvRes.Get();
-		if(readSize <= 0)
-		{
-			Internal.Free(buffer);
-			client.Close();
-			return;
-		}
-
-	    String received = scope String((char8*)buffer, readSize);
-
-		Internal.Free(buffer);
-	    client.Close();
 	}
 
 	public override void Update()
 	{
+		SendToServer("HELLO");
+		//ReceiveFromServer();
 	}
 
-	String msg = new String() ~ delete _;
+	String msg = new String("Hello") ~ delete _;
 	public override void Draw()
 	{
 		ImGui.SetKeyboardFocusHere();
@@ -141,7 +122,7 @@ class Client : Leaf.Entity
 
 		if(IsKeyPressed(.KEY_ENTER) || ImGui.Button("Send to Server"))
 		{
-			SendMessage(msg);
+			SendToServer(msg);
 			msg.Clear();
 		}
 	}
@@ -154,6 +135,7 @@ class Server : Leaf.Entity
 
 	DataFile df;
 
+	List<Socket.SockAddr_in> clients = new .() ~ delete _;
 	List<String> debugMsg = new List<String>() ~ delete _;
 
 	public this()
@@ -163,9 +145,8 @@ class Server : Leaf.Entity
 
 		Socket.Init();
 		listener = new Socket();
-		port = 9096;
 
-		if (listener.Listen(port) case .Ok)
+		if (listener.OpenUDP(port) case .Ok)
 			Console.WriteLine("Started server at port {0}", port);
 		else
 			Console.WriteLine("Cannot start server at port {0}", port);
@@ -180,111 +161,70 @@ class Server : Leaf.Entity
 		delete df;
 	}
 
+	String msg = new String("Hello") ~ delete _;
 	public override void DrawScreenSpace()
 	{
 		for(var m in debugMsg)
 		{
 			ViewportConsole.Log(m, YELLOW);
 		}
+
+		ImGui.SetKeyboardFocusHere();
+		ImGui.InputText("message", msg);
+
+		if(IsKeyPressed(.KEY_ENTER) || ImGui.Button("Send to Server"))
+		{
+			msg.Clear();
+		}
 	}
 
 	public override void Update()
 	{
-		ReceiveFromClient();
+		ReceiveFromClients();
 	}
 
-	private void ReceiveFromClient()
+	private void ReceiveFromClients()
 	{
-		Socket client = scope Socket();
-
-		if (client.AcceptFrom(listener) case .Err(let err))
-		{
-			return;
-		}
-
-		void* buffer = Internal.Malloc(4096);
-
-		var res = client.Recv(buffer, 4096);
-
-		if (res case .Err(let er))
-		{
-			Log.Message(er);
-			Console.WriteLine("Failed to receive data from socket");
-			Internal.Free(buffer);
-			return;
-		}
-
-		var readSize = res.Get();
-		if(readSize <= 0)
-		{
-			Log.Message("ERROR");
-			Internal.Free(buffer);
-			return;
-		}
-
-		//client.Send(buffer, readSize);
-		String message = scope String((char8*)buffer, readSize);
-
-		debugMsg.Add(new String(message));
-		Console.WriteLine(message);
-
-		Internal.Free(buffer);
-	}
-
-	private void SendMessage(String messageToSend)
-	{
-		Socket.Init();
-
-		var client = new Socket();
-		SockAddr_in sock = default;
-
-		String serverIp = "127.0.0.1";
-		port = 9096;
-
-		if (listener.Listen(port) case .Ok)
-			Console.WriteLine("Started server at port {0}", port);
-		else
-			Console.WriteLine("Cannot start server at port {0}", port);
-
-		if(client.Connect(serverIp, port, out sock) case .Err)
-		{
-			Console.WriteLine("Failed to connect to server");
-			client.Close();
-			return;
-		}
-
-		var sendRes = client.Send(messageToSend, messageToSend.Length);
-		if (sendRes case .Err(let err))
-		{
-			Console.WriteLine("Failed to send data");
-			client.Close();
-			return;
-		}
-
-		var sentSize = sendRes.Get();
 	    void* buffer = Internal.Malloc(4096);
+	    SockAddr_in clientAddr = default;
 
-		var recvRes = client.Recv(buffer, 4096);
+	    var res = listener.RecvFrom(buffer, 4096, out clientAddr);
+	    if (res case .Err(let err))
+	    {
+	        //Console.WriteLine("RecvFrom error: {}", err);
+	        Internal.Free(buffer);
+	        return;
+	    }
 
-		if(recvRes case .Err)
-		{
-			Console.WriteLine("Failed to receive data from server");
-			Internal.Free(buffer);
-			client.Close();
-			return;
-		}
+		Log.Message("RECEIVE ?");
 
-		var readSize = recvRes.Get();
-		if(readSize <= 0)
-		{
-			Internal.Free(buffer);
-			client.Close();
-			return;
-		}
+	    var readSize = res.Get();
+	    if (readSize <= 0)
+	    {
+	        Internal.Free(buffer);
+	        return;
+	    }
 
-	    String received = scope String((char8*)buffer, readSize);
+	    bool known = false;
+	    for (let addr in clients)
+	    {
+	        if (addr.sin_addr == clientAddr.sin_addr && addr.sin_port == clientAddr.sin_port)
+	        {
+	            known = true;
+	            break;
+	        }
+	    }
 
-		Internal.Free(buffer);
-	    client.Close();
+	    if (!known)
+	    {
+	        clients.Add(clientAddr);
+	        Console.WriteLine("New client joined from IP {}:{}", clientAddr.sin_addr.ToString(.. scope .()), clientAddr.sin_port);
+	    }
+
+	    String message = scope String((char8*)buffer, readSize);
+	    debugMsg.Add(new String(message));
+	    Console.WriteLine("From client: {}", message);
+
+	    Internal.Free(buffer);
 	}
 }

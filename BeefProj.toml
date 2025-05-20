@@ -46,3 +46,11 @@ Name = "Audio"
 [[ProjectFolder.Items.Items]]
 Type = "IgnoreSource"
 Name = "MidiReader.bf"
+
+[[ProjectFolder.Items]]
+Type = "AutoFolder"
+Name = "Scenes"
+
+[[ProjectFolder.Items.Items]]
+Type = "IgnoreSource"
+Name = "SceneNetworking - Copy.bf"

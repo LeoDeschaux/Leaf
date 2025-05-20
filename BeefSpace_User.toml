@@ -1,12 +1,12 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\SceneNetworking.bf", "src\\Engine\\GameEngine.bf", "src\\Scenes\\SceneDefault.bf", "src\\Program.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Bitfield.bf", "d:\\Software\\Beef\\BeefLibs\\BJSON\\BJSON\\src\\Models\\JsonValue.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneNetworking.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 742
+X = 1276
 Y = 0
-Width = 1178
+Width = 644
 Height = 884
 ShowKind = "ShowMaximized"
 
@@ -43,61 +43,14 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 92.76612
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 306
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "JsonValue.bf"
-TabWidth = 100.213
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "d:\\Software\\Beef\\BeefLibs\\BJSON\\BJSON\\src\\Models\\JsonValue.bf"
-CursorPos = 8259
-ProjectName = "BJSON"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Bitfield.bf"
-TabWidth = 84.25546
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Bitfield.bf"
-CursorPos = 5288
-VertPos = 3572.0
-ProjectName = "corlib"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "SceneNetworking.bf"
-TabWidth = 153.1919
+TabWidth = 143.8301
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\SceneNetworking.bf"
-CursorPos = 285
-VertPos = 95.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneDefault.bf"
-TabWidth = 127.6599
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneDefault.bf"
-CursorPos = 316
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "GameEngine.bf"
-TabWidth = 124.4684
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Engine\\GameEngine.bf"
-CursorPos = 3225
-VertPos = 2432.0
+FilePath = "src\\Scenes\\SceneNetworking.bf"
+CursorPos = 1941
+VertPos = 1824.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -120,7 +73,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 206.0
+RequestedHeight = 207.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
@@ -152,7 +105,7 @@ Type = "WatchPanel"
 Columns = [{Width = 160.0}, {Width = 388.0}, {Width = 160.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs.Items]]
-EvalStr = "lines"
+EvalStr = "sock"
 
 [[MainDockingFrame.DockedWidgets.Tabs.Items]]
 EvalStr = ""
@@ -169,12 +122,6 @@ TabLabel = "Find Results"
 TabWidth = 117.0215
 TabIsPinned = false
 Type = "FindResultsPanel"
-
-[[MainDockingFrame.DockedWidgets.Tabs]]
-TabLabel = "Console"
-TabWidth = 94.68098
-TabIsPinned = false
-Type = "ConsolePanel"
 
 [[Breakpoints]]
 File = "src\\SceneNetworking.bf"

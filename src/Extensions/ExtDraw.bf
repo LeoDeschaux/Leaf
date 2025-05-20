@@ -49,9 +49,10 @@ public extension Raylib
 		DrawTriangleStrip(&points[0], (int32)points.Count, RED);
 	}
 
+	/*
 	public static void DrawTexturedPoly()
 	{
-		Texture texture = LoadTexture("res/images/background.png");
+		Texture texture = LoadTexture("res/images/Background.png");
 		List<Vector2> points = scope List<Vector2>() {
 			.(10, 10),
 			.(10, 100),
@@ -64,6 +65,7 @@ public extension Raylib
 		};
 		DrawTexturePoly(texture, .(0,0), points, textCoords, 3, RED);
 	}
+	*/
 
 	public static void DrawTexturePoly(Texture2D texture, Vector2 center, List<Vector2> points, List<Vector2> texcoords, int pointCount, Color tint)
 	{

@@ -24,7 +24,7 @@ class CachedAsset
 		ASSET_TYPE = typeof(T);
 
 		Path = path;
-		Asset = default;
+		Asset = null;
 		ModificationTime = -1;
 	}
 
@@ -85,7 +85,7 @@ class CachedAsset
 		{
 			ModificationTime = GetFileModTime(path);
 			OnAssetReload.Invoke();
-			//Log.Message(scope $"LOADED {Path}");
+			Log.Message(scope $"LOADED {Path}");
 		}
 	}
 }

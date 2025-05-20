@@ -70,6 +70,11 @@ class BaseScene : Entity
 			return;
 		}
 
+		if(IsKeyPressed(.KEY_GRAVE))
+		{
+			Time.TimeScale = Time.TimeScale == 0 ? 1f : 0;
+		}
+
 		if(IsKeyPressed(KeyboardKey.KEY_F1))
 		{
 			DisplayDebug = !DisplayDebug;

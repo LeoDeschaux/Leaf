@@ -27,6 +27,7 @@ static class DebugDrawCalls
 	{
 		for(var item in DebugDrawCalls)
 			delete item;
+		DebugDrawCalls.Clear();
 	}
 
 	public static void DrawDefered(delegate void() drawcall, float duration = 0f)

@@ -33,8 +33,8 @@ class AnimatedSprite : Leaf.Entity
 	private void OnAssetReload()
 	{
 		tag = LoadAsepriteTagFromIndex(*ase, 0);
-		ase.ase.mode = .ASE_MODE_GRAYSCALE;
-		ase.ase.transparent_palette_entry_index = 1;
+		//ase.ase.mode = .ASE_MODE_GRAYSCALE;
+		//ase.ase.transparent_palette_entry_index = 1;
 	}
 
     public ~this()
@@ -50,6 +50,8 @@ class AnimatedSprite : Leaf.Entity
 
 	public void Play(String animName)
 	{
+		if(!ContainsTag(*ase, animName))
+			return;
 		tag = LoadAsepriteTag(*ase, animName);
 	}
 
@@ -57,7 +59,20 @@ class AnimatedSprite : Leaf.Entity
 	{
 		if(tag == default)
 			return false;
+		if(tag.name == default)
+			return false;
+
 		return animName.Equals(scope String(tag.name));
+	}
+
+	private static bool ContainsTag(Aseprite ase, String tagName)
+	{
+		var tags = GetTagsName(ase);
+		bool res = tags.Contains(tagName);
+		for(var s in tags)
+			delete s;
+		delete tags;
+		return res;
 	}
 
 	private static List<String> GetTagsName(Aseprite ase)
@@ -67,7 +82,8 @@ class AnimatedSprite : Leaf.Entity
 		for(int i = 0; i < count; i++)
 		{
 			var t = LoadAsepriteTagFromIndex(ase, (int32)i);
-			res.Add(new String(t.name));
+			if(t.name != default)
+				res.Add(new String(t.name));
 		}
 		return res;
 	}

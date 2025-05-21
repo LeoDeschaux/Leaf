@@ -17,7 +17,7 @@ class GameEngine
 {
  	public static GameEngine Self;
 
-	public static BaseScene CurrentScene;
+	public static BaseScene CurrentScene = null;
 	private static RenderTexture2D RenderTexture;
 
 	public static EntitySystem EntitySystem;
@@ -105,10 +105,17 @@ class GameEngine
 		CloseWindow();
 	}
 
-	public void RunGame(BaseScene scene)
+	public void SetupGame(BaseScene scene)
 	{
 		CurrentScene = scene;
 		CurrentScene.GameEngine = this;
+
+	}
+
+	public void RunGame(BaseScene scene = null)
+	{
+		if(scene != null)
+			SetupGame(scene);
 
 #if BF_PLATFORM_WASM
 		Leaf.Engine.WebEngine.EmscriptenMainLoop(() => Self.Tick());
@@ -118,8 +125,6 @@ class GameEngine
 			Tick();
 		}
 #endif
-
-
 	}
 
 	delegate void(BaseScene) RestartGameCallBack = null;
@@ -162,7 +167,8 @@ class GameEngine
 
 	public BaseScene ChangeGame(Type sceneType)
 	{
-		delete CurrentScene;
+		if(CurrentScene != null)
+			delete CurrentScene;
 
 		EntitySystem.Dispose();
 

@@ -43,8 +43,12 @@ public class Utils
 		var appPath;
 		var filePath;
 
+		/*
 		var dir = System.IO.Directory.GetCurrentDirectory(.. scope .());
 		filePath = scope $"{dir}/{filePath}";
+		*/
+
+		filePath = System.IO.Path.GetFullPath(filePath, .. scope .());
 		appPath = System.IO.Path.GetFullPath(appPath, .. scope .());
 
 		char16* fp = filePath.ToScopedNativeWChar!();

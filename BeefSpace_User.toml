@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
-LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneNetworking.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+LastPlatform = "wasm32"
+RecentFilesList = ["src\\Scenes\\SceneAseprite.bf", "src\\Scenes\\SceneNetworking.bf", "src\\Program.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 1276
@@ -43,14 +43,33 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "SceneNetworking.bf"
 TabWidth = 143.8301
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Scenes\\SceneNetworking.bf"
-CursorPos = 1941
+CursorPos = 1891
 VertPos = 1824.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Program.bf"
+TabWidth = 92.76612
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Program.bf"
+CursorPos = 457
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "SceneAseprite.bf"
+TabWidth = 132.9791
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Scenes\\SceneAseprite.bf"
+CursorPos = 961
+VertPos = 380.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -73,7 +92,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 207.0
+RequestedHeight = 327.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

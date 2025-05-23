@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", raylib-aseprite-beef = "*", TinySoundFontBeef = "*", BJSON = "*"}
+Dependencies = {corlib = "*", raylib-beef = "*", corlib = "*", ImGui = "*", rlCImGuiBeef = "*", raylib-aseprite-beef = "*", BJSON = "*", TinySoundFontBeef = "*"}
 
 [Project]
 Name = "Leaf"
@@ -12,8 +12,8 @@ PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(
 
 [Configs.Debug.wasm32]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
-OtherLinkFlags = "$(LinkFlags) -o index.html --use-preload-plugins --preload-file ../../res -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1"
-PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
+TargetName = "leaf"
+OtherLinkFlags = "$(LinkFlags) -o index.html --use-preload-plugins -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1 -sFORCE_FILESYSTEM"
 DebugCommand = ""
 
 [Configs.Debug.Win32]

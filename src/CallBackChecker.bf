@@ -21,11 +21,13 @@ class CallBackChecker
 
 	public static void Update()
 	{
+#if BF_PLATFORM_WINDOWS
 		if(m_currentMonitor != GetCurrentMonitor())
 		{
 			OnMonitorChange.Invoke();
 			m_currentMonitor = GetCurrentMonitor();
 		}
+#endif
 
 		Vector2 wSize = .(GetScreenWidth(), GetScreenHeight());
 		if(m_windowSize != wSize)

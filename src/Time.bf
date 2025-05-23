@@ -18,6 +18,5 @@ class Time
 	public static void ClearDeltaTime()
 	{
 		m_deltaTime = 0f;
-		Log.Message("----- CLEARED -----");
 	}
 }

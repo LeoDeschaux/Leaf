@@ -154,17 +154,22 @@ public static class AssetLoader
 
 	public static T* Load<T>(String path)
 	{
+		Runtime.Assert(path != null);
+		Runtime.Assert(!path.IsEmpty);
+
 		if(cachedAssets.ContainsKey(path))
 		{
 			var ca = cachedAssets.GetValue(path).Get().GetAsset<T>();
 			return (T*)ca;
 		}
 
+//#if BF_PLATFORM_WINDOWS	
 		if(!File.Exists(path))
 		{
 			Log.Message(scope $"Error LoadTexture - Texture \"{path}\" not found");
 			return default;
 		}
+//#endif
 
 		var key = new String(path);
 		CachedAsset cachedAsset = new CachedAsset.this<T>(key);
@@ -176,13 +181,15 @@ public static class AssetLoader
 
 	public static void CheckModification()
 	{
+#if BF_PLATFORM_WINDOWS	
 		for(var path in cachedAssets.Keys)
 		{
 			var cached = cachedAssets.GetValue(path).Value;
 			var hasBeenModified = GetFileModTime(path) != cached.ModificationTime;
-			var secondsSinceLastModification = GetFileModTime(path) - cached.ModificationTime;
+			//var secondsSinceLastModification = GetFileModTime(path) - cached.ModificationTime;
 			if(hasBeenModified)
 				cached.Load(path);
 		}
+#endif
 	}
 }

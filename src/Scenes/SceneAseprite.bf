@@ -35,8 +35,8 @@ class SceneAseprite : Leaf.BaseScene
 		TraceAseprite(*george);
 
 		var anim = new AnimatedSprite("res/aseprite/george.aseprite");
-		//anim.Play("Walk-Down");
-		anim.PlayDefault();
+		anim.Play("Walk-Down");
+		//anim.PlayDefault();
     }
 
     public ~this()

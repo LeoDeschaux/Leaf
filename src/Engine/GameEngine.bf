@@ -75,7 +75,7 @@ class GameEngine
 
 		//GetMonitorPosition(0);
 
-		SetWindowMonitor(1);
+		//SetWindowMonitor(1);
 		SetWindowFocused();
 
 		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);

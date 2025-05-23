@@ -28,15 +28,16 @@ public class EntitySystem
 
 	public void Dispose()
 	{
-		int i = Entities.Count-1;
-		for (; i >= 0; i--)
-		{
-			i = Entities.Count-1;
-			var entity = Entities[i];
-			delete entity;
-		}
+	    if (Entities.Count == 0)
+	        return;
 
-		mHasBeenDisposed = true;
+	    while (Entities.Count > 0)
+	    {
+	        var entity = Entities[Entities.Count-1];
+	        delete entity;
+	    }
+
+	    mHasBeenDisposed = true;
 	}
 
 	public void Update()

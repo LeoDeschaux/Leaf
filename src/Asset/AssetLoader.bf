@@ -107,7 +107,9 @@ public static class AssetLoader
 	{
 		if(cachedAssets.ContainsKey(path))
 		{
+			//is string not removed ???
 			var item = cachedAssets.GetAndRemove(path);
+			//cachedAssets.Remove(path);
 			item.Value.value.Unload();
 			delete item.Value.key;
 			delete item.Value.value;

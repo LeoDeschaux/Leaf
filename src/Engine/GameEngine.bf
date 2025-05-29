@@ -31,11 +31,14 @@ class GameEngine
 	private static bool m_exitReady = false;
 	public static void Exit() => m_exitReady = true;
 
+	public static bool IsPaused = false;
+
 	private void LoadPreferences()
 	{
 		preferences = DataFile.LoadFileOrCreate("res/pref.json");
 		windowWidth = 1280;//(int32)preferences["WindowWidth"].data.number;
 		windowHeight = 720;//(int32)preferences["WindowHeight"].data.number;
+
 	}
 
 	private void SavePreferences()
@@ -44,6 +47,8 @@ class GameEngine
 		preferences["WindowHeight"] = GetScreenHeight();
 
 		preferences["IsMaximized"] = IsWindowMaximized();
+
+		preferences["CurrentMonitor"] = GetCurrentMonitor();
 
 		preferences.SaveFileOverwrite("res/pref.json");
 
@@ -74,8 +79,7 @@ class GameEngine
 		rlCImGuiBeef.rlCImGuiSetup();
 
 		//GetMonitorPosition(0);
-
-		//SetWindowMonitor(1);
+		SetWindowMonitor((int32)preferences["CurrentMonitor"]);
 		SetWindowFocused();
 
 		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);

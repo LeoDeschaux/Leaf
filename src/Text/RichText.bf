@@ -27,7 +27,7 @@ public class RichText : Leaf.Entity
 		Position = position;
 
 		TextSprites = new .();
-		for(var char in txt.RawChars)
+		for(var char in txt.DecodedChars)
 		{
 			TextSprites.Add(new TextSprite(new String(char.ToString(.. scope .())), color, font));
 		}
@@ -47,7 +47,12 @@ public class RichText : Leaf.Entity
 
 	public override void Draw()
 	{
-		//DrawRectangleRec(GetBounds(), .(0,255,0,100));
+		if(Scene.DisplayDebug)
+		{
+			DrawRectangleRec(GetBounds(), .(0,255,0,100));
+			DrawText(TextSprites.Count.ToString(.. scope .()), (int32)Position.x, (int32)Position.y, 24, WHITE);
+		}
+
 		for(int i = 0; i < TextSprites.Count; i++)
 		{
 			var ts = TextSprites[i];

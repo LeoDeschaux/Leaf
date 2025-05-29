@@ -31,6 +31,8 @@ class Tween
 
 	const float PI = 3.14159265358979323846f;
 
+	//https://easings.net
+
 	// Linear Easing functions
 	public static float EaseLinearNone(float t, float b, float c, float d) { return (c*t/d + b); }                            // Ease: Linear
 	public static float EaseLinearIn(float t, float b, float c, float d) { return (c*t/d + b); }                              // Ease: Linear In

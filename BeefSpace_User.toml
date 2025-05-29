@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
-LastPlatform = "wasm32"
-RecentFilesList = ["src\\Scenes\\SceneAseprite.bf", "src\\Scenes\\SceneNetworking.bf", "src\\Program.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+LastPlatform = "Win64"
+RecentFilesList = ["src\\Text\\TextSprite.bf", "src\\Scenes\\SceneTextMesh.bf", "src\\Text\\RichText.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 1276
@@ -43,33 +43,34 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneNetworking.bf"
-TabWidth = 143.8301
+TabLabel = "SceneTextMesh.bf"
+TabWidth = 140.4259
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneNetworking.bf"
-CursorPos = 1891
-VertPos = 1824.0
+FilePath = "src\\Scenes\\SceneTextMesh.bf"
+CursorPos = 955
+VertPos = 266.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 92.76612
+TabLabel = "RichText.bf"
+TabWidth = 101.0641
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 457
+FilePath = "src\\Text\\RichText.bf"
+CursorPos = 675
+VertPos = 190.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneAseprite.bf"
-TabWidth = 132.9791
+TabLabel = "TextSprite.bf"
+TabWidth = 108.5109
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneAseprite.bf"
-CursorPos = 961
-VertPos = 380.0
+FilePath = "src\\Text\\TextSprite.bf"
+CursorPos = 620
+VertPos = 95.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -92,7 +93,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 327.0
+RequestedHeight = 187.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

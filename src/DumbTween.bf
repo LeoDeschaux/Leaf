@@ -10,7 +10,8 @@ class DTween {
 	float* mProperty;
 	delegate float(float, float, float, float) mEasingFunction;
 
-	public delegate void() OnTweenEnd; 
+	public delegate void() OnTweenEnd;
+	public delegate void() OnDelete; 
 
 	double mStartTime;
 	double mStartDelay;
@@ -35,6 +36,9 @@ class DTween {
 	{
 		delete mEasingFunction;
 		delete OnTweenEnd;
+
+		OnDelete?.Invoke();
+		delete OnDelete;
 	}
 
 	private void TweenEnded()
@@ -63,7 +67,7 @@ class DTween {
 	}
 }
 
-class DumbTween
+class DumbTween : Leaf.Entity
 {
 	List<DTween> tweens;
 
@@ -80,19 +84,19 @@ class DumbTween
 		delete tweens;
 	}
 
-	public void Update()
+	public override void Update()
 	{
 		for(var tween in tweens)
 			tween.Update();
 	}
 
-	public void Play(ref float property, float end, float duration, delegate float(float, float, float, float) easingFunction)
+	public void Play(ref float property, float end, float duration, delegate float(float, float, float, float) easingFunction, delegate void() endCallBack = null)
 	{
 		float start = property;
-		Play(ref property, start, end, duration, easingFunction);
-	}	
+		Play(ref property, start, end, duration, easingFunction, endCallBack);
+	}
 
-	public void Play(ref float property, float start, float end, float duration, delegate float(float, float, float, float) easingFunction)
+	public void Play(ref float property, float start, float end, float duration, delegate float(float, float, float, float) easingFunction, delegate void() endCallBack = null)
 	{
 		DTween tween = new DTween(
 			ref property,
@@ -103,6 +107,13 @@ class DumbTween
 		);
 
 		tweens.Add(tween);
-		tween.OnTweenEnd = new () => tweens.Remove(tween);
+		tween.OnTweenEnd = new () => {
+			tweens.Remove(tween);
+		};
+
+		tween.OnDelete = new () => {
+			endCallBack?.Invoke();
+			delete endCallBack;
+		};
 	}
 }

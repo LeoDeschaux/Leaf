@@ -34,7 +34,9 @@ public class TextSprite
 	public void Draw(Vector2 origin)
 	{
 		DrawTextPro(Font, Text, origin, .(0,0), 0, (int32)FontSize, Spacing, Color);
-		//DrawRectangleLines((int32)origin.x, (int32)origin.y,(int32)GetSize().x, (int32)GetSize().y, RED);
+
+		if(GameEngine.CurrentScene.DisplayDebug)
+			DrawRectangleLines((int32)origin.x, (int32)origin.y,(int32)GetSize().x, (int32)GetSize().y, RED);
 	}
 
 	public Vector2 GetSize()

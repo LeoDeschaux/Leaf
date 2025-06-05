@@ -1,5 +1,6 @@
 using RaylibBeef;
 using System.Collections;
+using System;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Rlgl;
 using static RaylibBeef.Color;
@@ -98,5 +99,44 @@ public extension Raylib
 	public static void DrawText(char8* text, Vector2 pos, int32 fontSize, Color color)
 	{
 		DrawText(text, (int32)pos.x, (int32)pos.y, fontSize,color);
+	}
+
+	public static void DrawGuide()
+	{
+		Rectangle bounds = .(.(0,0), .(GetScreenWidth(), GetScreenHeight()));
+
+		//DIAG
+		DrawLineV(bounds.A, bounds.C, RED);
+		DrawLineV(bounds.D, bounds.B, RED);
+
+		//MIDLES
+		DrawLineV(.(bounds.x, bounds.height/2), .(bounds.width,bounds.height/2), RED);
+		DrawLineV(.(bounds.width/2, bounds.y), .(bounds.width/2,bounds.height), RED);
+
+		//DrawThirds
+		DrawLineV(.(bounds.x, bounds.height/3), .(bounds.width,bounds.height/3), YELLOW);
+		DrawLineV(.(bounds.x, (bounds.height/3)*2), .(bounds.width,(bounds.height/3)*2), YELLOW);
+
+		DrawLineV(.(bounds.width/3, bounds.y), .(bounds.width/3,bounds.height), YELLOW);
+		DrawLineV(.((bounds.width/3)*2, bounds.y), .((bounds.width/3)*2,bounds.height), YELLOW);
+	}
+
+	public static Vector2 GetScreenSize()
+	{
+		return .(GetScreenWidth(), GetScreenHeight());
+	}
+	
+	public static void DrawRuller()
+	{
+		var mPos = GetMousePosition();
+		Rectangle bounds = .(.(0,0), .(GetScreenWidth(), GetScreenHeight()));
+
+		DrawLineV(.(mPos.x, bounds.x), .(mPos.x,bounds.height), ORANGE);
+		DrawLineV(.(bounds.x, mPos.y), .(bounds.width,mPos.y), ORANGE);
+
+		//DrawText(scope $"{mPos.x/bounds.width},{mPos.y/bounds.height}",mPos, 24, ORANGE);
+
+		DrawText(scope $"{Math.Floor((mPos.x/bounds.width)*100)}%", .(mPos.x, bounds.x), 24, ORANGE);
+		DrawText(scope $"{Math.Floor((mPos.y/bounds.height)*100)}%", .(bounds.y, mPos.y), 24, ORANGE);
 	}
 }

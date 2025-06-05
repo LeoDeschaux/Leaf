@@ -42,6 +42,7 @@ class BaseScene : Entity
 	{
 		GameEngine.RestartGame(callback);
 	}
+
 	protected virtual void Restart() => GameEngine.RestartGame(null);
 
 	private bool m_displayDebug;

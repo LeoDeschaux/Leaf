@@ -7,6 +7,7 @@ using static RaylibBeef.Raymath;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneTextMesh : Leaf.BaseScene
 {
 	RichText tm;
@@ -50,11 +51,29 @@ class SceneTextMesh : Leaf.BaseScene
 		}
 
 		tm.TextSprites[0].Color = RED;
+
+		for(var ts in tm.TextSprites)
+		{
+			//ts.FontSize = 48;
+			ts.Spacing = 0;
+			ts.Margin.x = 10;
+		}
+
+		tm.Origin = tm.GetBounds().Size/2;
     }
 
     public ~this()
     {
     }
+
+	protected override void Restart()
+	{
+		var Cam = this.Camera;
+
+		base.Restart(new (newScene) => {
+			newScene.Camera = Cam;
+		});
+	}
 
 	int letterIndex = 0;
 
@@ -69,7 +88,15 @@ class SceneTextMesh : Leaf.BaseScene
 
     public override void Draw()
     {
-		DrawTextEx(font, alphabet, .(160, 600), 48, 5, WHITE);
+		//DrawTextEx(font, alphabet, .(160, 600), 48, 5, WHITE);
+		DrawCircleV(.(0,0), 12, GRAY);
+		DrawLineV(.(0,-50000),.(0,50000), GRAY);
+		DrawLineV(.(-50000,0),.(50000,0), GRAY);
     }
+
+	public override void DrawScreenSpace()
+	{
+		//DrawGuide();
+	}
 }
 

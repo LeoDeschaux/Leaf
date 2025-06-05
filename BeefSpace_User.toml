@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Text\\TextSprite.bf", "src\\Scenes\\SceneTextMesh.bf", "src\\Text\\RichText.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Text\\RichText.bf", "src\\Scenes\\SceneTextMesh.bf", "src\\Text\\TextSprite.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 1276
@@ -44,33 +44,32 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "SceneTextMesh.bf"
-TabWidth = 140.4259
+TabWidth = 131.0641
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Scenes\\SceneTextMesh.bf"
-CursorPos = 955
-VertPos = 266.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "RichText.bf"
-TabWidth = 101.0641
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Text\\RichText.bf"
-CursorPos = 675
-VertPos = 190.0
+CursorPos = 1403
+VertPos = 201.88
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
+TabLabel = "RichText.bf"
+TabWidth = 91.70229
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Text\\RichText.bf"
+CursorPos = 1839
+VertPos = 1520.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "TextSprite.bf"
-TabWidth = 108.5109
+TabWidth = 99.14912
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Text\\TextSprite.bf"
-CursorPos = 620
-VertPos = 95.0
+CursorPos = 221
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]

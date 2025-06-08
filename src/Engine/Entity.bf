@@ -17,7 +17,7 @@ class Entity
 
 	public ~this()
 	{
-		OnDelete?.Invoke();
+		OnDelete.Invoke();
 		OnDelete.Dispose();
 
 		Leaf.Engine.EntitySystem.Entities.Remove(this);

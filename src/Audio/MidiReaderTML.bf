@@ -39,12 +39,12 @@ struct MidiEvent
 
 struct MidiNote
 {
-	public uint8 nKey = 0;
-	public uint8 nVelocity = 0;
-	public uint32 nStartTime = 0;
-	public uint32 nDuration = 0;
+	public int nKey = 0;
+	public int nVelocity = 0;
+	public int nStartTime = 0;
+	public int nDuration = 0;
 
-	public this(uint8 pKey, uint8 pVelocity, uint32 pStartTime, uint32 pDuration)
+	public this(int pKey, int pVelocity, int pStartTime, int pDuration)
 	{
 		nKey = pKey;
 		nVelocity = pVelocity;
@@ -149,7 +149,7 @@ class MidiFile
 
 			if(midiMessage.type == TMLMessageType.TML_NOTE_ON && (int)midiMessage.velocity > 0)
 			{
-				listNotesBeingProcessed.Add(.((uint8)midiMessage.key, (uint8)midiMessage.velocity, midiMessage.time, 0));
+				listNotesBeingProcessed.Add(.((uint8)midiMessage.key, (uint8)midiMessage.velocity, (int)midiMessage.time, 0));
 			}
 
 			if (
@@ -161,7 +161,7 @@ class MidiFile
 
 				for(int i = listNotesBeingProcessed.Count-1; i >= 0; i--)
 				{
-					if(listNotesBeingProcessed[i].nKey == (uint)midiMessage.key)
+					if(listNotesBeingProcessed[i].nKey == (.)midiMessage.key)
 					{
 						index = i;
 					}
@@ -170,10 +170,10 @@ class MidiFile
 				if (index != -1)
 				{
 					var note = listNotesBeingProcessed[index];
-					note.nDuration = nWallTime - note.nStartTime;
+					note.nDuration = (.)nWallTime - note.nStartTime;
 					track.Notes.Add(note);
-					track.nMinNote = Math.Min(track.nMinNote, note.nKey);
-					track.nMaxNote = Math.Max(track.nMaxNote, note.nKey);
+					track.nMinNote = (.)Math.Min(track.nMinNote, note.nKey);
+					track.nMaxNote = (.)Math.Max(track.nMaxNote, note.nKey);
 					listNotesBeingProcessed.RemoveAt(index);
 				}
 				else

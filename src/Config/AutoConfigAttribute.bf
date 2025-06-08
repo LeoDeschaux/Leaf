@@ -1,3 +1,4 @@
+#pragma warning disable 168
 using System;
 using System.Collections;
 using ImGui;

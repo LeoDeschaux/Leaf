@@ -16,6 +16,9 @@ public class RichText : Leaf.Entity
 
 	public Vector2 RelativePos => Position-Origin;
 
+	Font m_font;
+	Color m_color;
+
 	public this()
 	{
 		TextSprites = new .();
@@ -28,12 +31,11 @@ public class RichText : Leaf.Entity
 			font = GetFontDefault();
 
 		Position = position;
+		m_font = font;
+		m_color = color;
 
 		TextSprites = new .();
-		for(var char in txt.DecodedChars)
-		{
-			TextSprites.Add(new TextSprite(new String(char.ToString(.. scope .())), color, font));
-		}
+		this.Set(txt);
 	}
 
 	public ~this()
@@ -46,6 +48,32 @@ public class RichText : Leaf.Entity
 	public void Add(TextSprite textSprite)
 	{
 		TextSprites.Add(textSprite);
+	}
+
+	public void PlainText(String outBuffer)
+	{
+		for(var ts in TextSprites)
+		{
+			outBuffer.Append(ts.Text);
+		}
+	}
+
+	public void Set(String txt)
+	{
+		Clear();
+
+		for(var char in txt.DecodedChars)
+		{
+			var ts = new TextSprite(new String(char.ToString(.. scope .())), m_color, m_font);
+			TextSprites.Add(ts);
+		}
+	}	
+
+	private void Clear()
+	{
+		for(var ts in TextSprites)
+			delete ts;
+		TextSprites.Clear();
 	}
 
 	public override void Draw()

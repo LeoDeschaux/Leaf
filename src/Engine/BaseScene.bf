@@ -38,6 +38,15 @@ class BaseScene : Entity
 	public virtual void OnBeforeExit(){};
 	public virtual void PostEntities(){};
 
+	/*Example
+		protected override void Restart()
+		{
+			var Cam = this.Camera;
+			base.Restart(new (newScene) => {
+				newScene.Camera = Cam;
+			});
+		}
+	*/
 	protected virtual void Restart(delegate void(BaseScene) callback = null)
 	{
 		GameEngine.RestartGame(callback);

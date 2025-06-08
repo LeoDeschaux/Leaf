@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Text\\RichText.bf", "src\\Scenes\\SceneTextMesh.bf", "src\\Text\\TextSprite.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneTextMesh.bf", "src\\Text\\RichText.bf", "src\\Text\\TextSprite.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 1276
@@ -43,17 +43,17 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "SceneTextMesh.bf"
 TabWidth = 131.0641
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Scenes\\SceneTextMesh.bf"
-CursorPos = 1403
-VertPos = 201.88
+CursorPos = 878
+VertPos = 1235.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "RichText.bf"
 TabWidth = 91.70229
 TabIsPinned = false

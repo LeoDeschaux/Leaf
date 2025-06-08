@@ -113,7 +113,6 @@ class GameEngine
 	{
 		CurrentScene = scene;
 		CurrentScene.GameEngine = this;
-
 	}
 
 	public void RunGame(BaseScene scene = null)
@@ -135,6 +134,8 @@ class GameEngine
 	bool hasRestartBeenAsked = false;
 	public void RestartGame(delegate void(BaseScene) callback = null)
 	{
+		Runtime.Assert(RestartGameCallBack == null, "RestartGame has already been called this frame");
+
 		RestartGameCallBack = callback;
 		hasRestartBeenAsked = true;
 	}

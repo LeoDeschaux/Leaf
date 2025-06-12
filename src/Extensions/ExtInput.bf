@@ -8,4 +8,5 @@ namespace RaylibBeef;
 
 public extension Raylib
 {
+	public new static bool IsMouseButtonUp(MouseButton button) => !IsMouseButtonDown((int32)button);
 }

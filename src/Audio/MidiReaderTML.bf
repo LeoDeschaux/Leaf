@@ -39,17 +39,21 @@ struct MidiEvent
 
 struct MidiNote
 {
+	public int nTrack = 0;
+
 	public int nKey = 0;
 	public int nVelocity = 0;
 	public int nStartTime = 0;
 	public int nDuration = 0;
 
-	public this(int pKey, int pVelocity, int pStartTime, int pDuration)
+	public this(int pKey, int pVelocity, int pStartTime, int pDuration, int pTrack)
 	{
 		nKey = pKey;
 		nVelocity = pVelocity;
 		nStartTime = pStartTime;
 		nDuration = pDuration;
+
+		nTrack = pTrack;
 	}
 }
 
@@ -153,7 +157,7 @@ class MidiFile
 
 			if(tml.type == TMLMessageType.TML_NOTE_ON && (int)tml.velocity > 0)
 			{
-				listNotesBeingProcessed.Add(.((uint8)tml.key, (uint8)tml.velocity, (int)tml.time, 0));
+				listNotesBeingProcessed.Add(.((uint8)tml.key, (uint8)tml.velocity, (int)tml.time, 0, (int)tml.channel));
 			}
 
 			if (

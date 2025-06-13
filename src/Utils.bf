@@ -1,4 +1,7 @@
 using System;
+using RaylibBeef;
+using static RaylibBeef.Raylib;
+
 namespace Leaf;
 
 public class Utils
@@ -72,5 +75,39 @@ public class Utils
 			name = scope:: .(s);
 		*/
 		name
+	}
+
+	public static Color GetColorFromIndex(int index)
+	{
+		Color[?] colors = .(
+			YELLOW,
+			GOLD,
+			ORANGE,
+			PINK,
+			RED,
+			MAROON,
+			GREEN,
+			LIME,
+			DARKGREEN,
+			SKYBLUE,
+			BLUE,
+			DARKBLUE,
+			PURPLE,
+			VIOLET,
+			DARKPURPLE,
+			BEIGE,
+			BROWN,
+			DARKBROWN,
+			MAGENTA,
+
+			WHITE,
+			LIGHTGRAY,
+			GRAY,
+			DARKGRAY,
+			RAYWHITE,
+			BLACK,
+		);
+
+		return colors[index];
 	}
 }

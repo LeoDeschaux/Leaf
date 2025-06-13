@@ -124,22 +124,26 @@ class MidiFile
 		for(var e in Tracks)
 			delete e;
 		delete Tracks;
+
+		tml_free(tml);
 	}
+
+	public tml_message* tml;
 
 	public bool ParseFile(String sFileName)
 	{
-		var midiMessage = tml_load_filename(sFileName);
+		tml = tml_load_filename(sFileName);
 
 		Tracks.Add(new .());
 
 		uint32 nWallTime = 0;
 		List<MidiNote> listNotesBeingProcessed = scope .();
 
-		while (midiMessage != null) {
+		while (tml != null) {
 
 			var track = Tracks[0];
 
-			nWallTime = midiMessage.time;
+			nWallTime = tml.time;
 
 			/*
 			Console.WriteLine(scope $@"""
@@ -147,21 +151,21 @@ class MidiFile
 			""");
 			*/
 
-			if(midiMessage.type == TMLMessageType.TML_NOTE_ON && (int)midiMessage.velocity > 0)
+			if(tml.type == TMLMessageType.TML_NOTE_ON && (int)tml.velocity > 0)
 			{
-				listNotesBeingProcessed.Add(.((uint8)midiMessage.key, (uint8)midiMessage.velocity, (int)midiMessage.time, 0));
+				listNotesBeingProcessed.Add(.((uint8)tml.key, (uint8)tml.velocity, (int)tml.time, 0));
 			}
 
 			if (
-				midiMessage.type == TMLMessageType.TML_NOTE_OFF ||
-				(midiMessage.type == TMLMessageType.TML_NOTE_ON && (int)midiMessage.velocity == 0
+				tml.type == TMLMessageType.TML_NOTE_OFF ||
+				(tml.type == TMLMessageType.TML_NOTE_ON && (int)tml.velocity == 0
 			))
 			{
 				var index = -1;//listNotesBeingProcessed.FindIndex(scope (n) => n.nKey == (uint)midiMessage.key);
 
 				for(int i = listNotesBeingProcessed.Count-1; i >= 0; i--)
 				{
-					if(listNotesBeingProcessed[i].nKey == (.)midiMessage.key)
+					if(listNotesBeingProcessed[i].nKey == (.)tml.key)
 					{
 						index = i;
 					}
@@ -182,7 +186,7 @@ class MidiFile
 				}
 			}
 
-		    midiMessage = midiMessage.next;
+		    tml = tml.next;
 		}
 
 		for(var note in Tracks[0].Notes)

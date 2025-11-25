@@ -9,7 +9,7 @@ namespace Leaf;
 
 public class IK
 {
-	public static Vector2 AnchoredPosProportionnal(Vector2 anchorPos, Vector2 desiredPos, int totalSegment, Vector2 initialAnchorPos, float segmentMaxLength = 200f)
+	public static Vector2 AnchoredPosProportionnal(Vector2 anchorPos, Vector2 desiredPos, int totalSegment, Vector2 initialAnchorPos, float segmentMaxLength = 200f, bool drawDebug = true)
 	{
 		float totalDistance = Vector2Distance(initialAnchorPos, desiredPos);
 
@@ -20,16 +20,17 @@ public class IK
 		float segmentLength = Math.Clamp(distance,0,Math.Min(segmentMaxLength, proportionnalSegmentLength));
 		Vector2 endPos = anchorPos + (dir * segmentLength);
 
-		DrawCircleV(anchorPos, 24, BLUE);
-		DrawCircleV(endPos, 24, RED);
+		DrawCircleV(anchorPos, 6, BLUE);
+		DrawCircleV(endPos, 6, RED);
 
 		DrawLineV(anchorPos, endPos, RED);
 
-		DrawCircleLinesV(anchorPos, segmentMaxLength, BLUE);
+		if(drawDebug)
+			DrawCircleLinesV(anchorPos, segmentMaxLength, BLUE);
 
 		Rectangle rec = .(
 			anchorPos,
-			.(segmentLength, 50)
+			.(segmentLength, 24)
 		);
 		float angle = Math.Atan2(dir.y, dir.x) * (180/Math.PI_f);
 		DrawRectanglePro(rec, .(0,rec.height/2f), angle, BEIGE);

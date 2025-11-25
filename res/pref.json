@@ -1,6 +1,6 @@
 {
-	"IsMaximized":true,
-	"WindowWidth":1920,
-	"WindowHeight":1001,
-	"CurrentMonitor":1
+	"IsMaximized":false,
+	"WindowWidth":1280,
+	"WindowHeight":720,
+	"CurrentMonitor":0
 }

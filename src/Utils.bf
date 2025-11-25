@@ -108,6 +108,6 @@ public class Utils
 			BLACK,
 		);
 
-		return colors[index];
+		return colors[index%colors.Count];
 	}
 }

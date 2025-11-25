@@ -24,6 +24,11 @@ namespace RaylibBeef
 		public Vector2 C => .(x+width,y+height);
 		public Vector2 D => .(x,y+height);
 
+		public Vector2 right => Center + .(width/2,0);
+		public Vector2 left => Center - .(width/2, 0);
+		public Vector2 top => Center - .(0, height/2);
+		public Vector2 bot => Center + .(0, height/2);
+
 		public Vector2 Position => .(x,y);
 		public Vector2 Size => .(width, height);
 	}

@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneTextMesh.bf", "src\\Text\\RichText.bf", "src\\Text\\TextSprite.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\Scene3DGlobalIllumination.bf", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 1276
@@ -44,33 +44,20 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneTextMesh.bf"
-TabWidth = 131.0641
+TabLabel = "Scene3DGlobalIllumination.bf"
+TabWidth = 205.3197
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneTextMesh.bf"
-CursorPos = 878
-VertPos = 1235.0
+FilePath = "src\\Scenes\\Scene3DGlobalIllumination.bf"
+CursorPos = 312
+VertPos = 228.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "RichText.bf"
-TabWidth = 91.70229
+TabLabel = "Disassembly"
+TabWidth = 107.4471
 TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Text\\RichText.bf"
-CursorPos = 1839
-VertPos = 1520.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "TextSprite.bf"
-TabWidth = 99.14912
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src\\Text\\TextSprite.bf"
-CursorPos = 221
-ProjectName = "Leaf"
+Type = "DisassemblyPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 363.0
@@ -109,14 +96,6 @@ TabIsPinned = false
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
-TabLabel = "Memory"
-TabWidth = 96.80864
-TabIsPinned = false
-Type = "MemoryPanel"
-AutoResize = "Auto_Mul8"
-RequestedWidth = 300.0
-
-[[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Watch"
 TabWidth = 86.17031
 TabIsPinned = false
@@ -141,6 +120,12 @@ TabLabel = "Find Results"
 TabWidth = 117.0215
 TabIsPinned = false
 Type = "FindResultsPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Errors"
+TabWidth = 81.91499
+TabIsPinned = false
+Type = "ErrorsPanel"
 
 [[Breakpoints]]
 File = "src\\SceneNetworking.bf"

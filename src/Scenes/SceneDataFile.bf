@@ -13,8 +13,6 @@ class SceneDataFile : Leaf.BaseScene
 
     public this()
     {
-
-		/*
 		{
 			Player player = scope Player();
 			DataFile dataFile = DataFile.LoadFileOrCreate("res/config.json");
@@ -31,8 +29,8 @@ class SceneDataFile : Leaf.BaseScene
 
 			delete dataFile;
 		}
-		*/
-		
+
+		/*
 		///IDEA
 		//put everything inside struct and automate load/save
 		{
@@ -48,6 +46,7 @@ class SceneDataFile : Leaf.BaseScene
 
 			Log.Message(playerData.PlayerHealth);
 		}
+		*/
 
 		///IDEA 2
 		/* 

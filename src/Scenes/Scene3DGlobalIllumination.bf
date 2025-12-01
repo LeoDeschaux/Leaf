@@ -39,7 +39,7 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 		model = LoadModel("res/models/sponza-atrium-3/source/glTF/glTF/Sponza.gltf");
 		
 		position = .(0.0f, 0.0f, 0.0f);
-		scale = 0.5f;
+		scale = 1f;
 
 		/*
 		texture = LoadTexture("res/models/crytek_sponza/bridge_diffuse.png");
@@ -51,14 +51,14 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 		    Log.Message(scope $"Material {i}");
 		    for (int m = 0; m < 12; m++)
 		    {
-				model.materials[i].maps[m].color = Utils.GetColorFromIndex(i);
+				//model.materials[i].maps[m].color = Utils.GetColorFromIndex(i);
 
 		        if (model.materials[i].maps[m].texture.id != 0)
 		            Log.Message(scope $"   Map {m} loaded: {model.materials[i].maps[m].texture.id}");
 		    }
 		}
 
-		SetTargetFPS(60);
+		SetGamepadVibration(0, 1,1, 10);
     }
 
     public ~this()
@@ -97,11 +97,14 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 			DisableCursor();
 		}
 
+		deltaRot *= cameraSensitivity;
+
 		if(IsMouseButtonReleased(.MOUSE_BUTTON_RIGHT))
 			EnableCursor();
 
-		cameraSpeed += GetMouseWheelMove()*1f;
-		cameraSpeed = Math.Clamp(cameraSpeed, 0, 500);
+		cameraSpeed += cameraSpeed * (GetMouseWheelMove()*0.5f);
+		//cameraSpeed += GetMouseWheelMove()*10f;
+		cameraSpeed = Math.Clamp(cameraSpeed, 0.1f, 500);
 
 		Vector3 camMove = dir * cameraSpeed * Time.DeltaTime;
 
@@ -132,7 +135,6 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 			DrawGrid(10, 1.0f);
 	    EndMode3D();
 
-		DrawText("HELLO", 0,0,48,RED);
 
 		ImGui.SliderFloat3(nameof(camera.position), ref camera.position, -10, 10);
 

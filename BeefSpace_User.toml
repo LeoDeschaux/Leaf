@@ -1,11 +1,11 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\Scene3DGlobalIllumination.bf", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneDataFile.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 1276
-Y = 0
+X = 439
+Y = 148
 Width = 644
 Height = 884
 ShowKind = "ShowMaximized"
@@ -44,20 +44,13 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "Scene3DGlobalIllumination.bf"
-TabWidth = 205.3197
+TabLabel = "SceneDataFile.bf"
+TabWidth = 131.9153
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\Scene3DGlobalIllumination.bf"
-CursorPos = 312
-VertPos = 228.0
+FilePath = "src\\Scenes\\SceneDataFile.bf"
+CursorPos = 386
 ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Disassembly"
-TabWidth = 107.4471
-TabIsPinned = false
-Type = "DisassemblyPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 363.0
@@ -79,7 +72,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 187.0
+RequestedHeight = 229.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

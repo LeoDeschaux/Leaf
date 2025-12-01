@@ -12,10 +12,11 @@ namespace Leaf;
 
 public class DataFile
 {
-	BJSON.Models.JsonObject root = .();
+	BJSON.Models.JsonObject root;
 
 	public this()
 	{
+		root = BJSON.Models.JsonObject();
 	}
 
 	public ~this()
@@ -59,6 +60,11 @@ public class DataFile
 		if(File.ReadAllText(path,fileContent,true) case .Err(let error))
 			Debug.WriteLine(scope $"MSG ERROR 1: {error}");
 
+		if(fileContent.IsEmpty)
+			fileContent.Append("{}");
+
+		//fileContent.Replace("\\", "\\\\");
+
 		var result = Json.Deserialize(fileContent);
 		if(result case .Err(let err))
 			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
@@ -101,7 +107,7 @@ public class DataFile
 	public override void ToString(String strBuffer)
 	{
 		Json.Serialize(root, strBuffer);
-		//Json.Stringify(strBuffer);
+		Json.Stringify(strBuffer);
 		//root.ToString(strBuffer);
 	}
 

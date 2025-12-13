@@ -1,11 +1,11 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneDataFile.bf", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Program.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 439
-Y = 148
+X = 425
+Y = 11
 Width = 644
 Height = 884
 ShowKind = "ShowMaximized"
@@ -29,7 +29,7 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Workspace"
-TabWidth = 111.7023
+TabWidth = 110.9091
 TabIsPinned = false
 Type = "ProjectPanel"
 
@@ -44,12 +44,12 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "SceneDataFile.bf"
-TabWidth = 131.9153
+TabLabel = "Program.bf"
+TabWidth = 91.81818
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneDataFile.bf"
-CursorPos = 386
+FilePath = "src\\Program.bf"
+CursorPos = 166
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -59,41 +59,41 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Autocomplete"
-TabWidth = 129.7874
+TabWidth = 128.1818
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Call Stack"
-TabWidth = 103.1916
+TabWidth = 102.7273
 TabIsPinned = false
 Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 229.0
+RequestedHeight = 397.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Output"
-TabWidth = 90.42564
+TabWidth = 90.90909
 TabIsPinned = false
 Type = "OutputPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Immediate"
-TabWidth = 108.5108
+TabWidth = 109.0909
 TabIsPinned = false
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Watch"
-TabWidth = 86.17031
+TabWidth = 85.45454
 TabIsPinned = false
 Type = "WatchPanel"
-Columns = [{Width = 160.0}, {Width = 388.0}, {Width = 160.0}]
+Columns = [{Width = 187.0}, {Width = 454.0}, {Width = 187.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs.Items]]
 EvalStr = "sock"
@@ -103,20 +103,20 @@ EvalStr = ""
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Auto Watches"
-TabWidth = 128.7236
+TabWidth = 128.1818
 TabIsPinned = false
 Type = "AutoWatchPanel"
-Columns = [{Width = 160.0}, {Width = 160.0}, {Width = 160.0}]
+Columns = [{Width = 187.0}, {Width = 187.0}, {Width = 187.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
-TabWidth = 117.0215
+TabWidth = 116.3636
 TabIsPinned = false
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Errors"
-TabWidth = 81.91499
+TabWidth = 82.72727
 TabIsPinned = false
 Type = "ErrorsPanel"
 

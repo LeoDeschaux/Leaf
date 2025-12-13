@@ -7,15 +7,21 @@ extension Json
 {
 	public static bool Stringify(String outText)
 	{
-		return false;
-		//let stringifier = scope BJSON.JsonWriter();
+		let stringifier = scope Stringifier();
 		//return stringifier.Stringify(outText);
+		return true;
 	}
 }
 
 namespace BJSON.Models;
 extension JsonValue
 {
+	public override void ToString(String strBuffer)
+	{
+		Json.Serialize(this, strBuffer);
+		Json.Stringify(strBuffer);
+	}
+
 	public JsonValue this[String key]
 	{
 		get

@@ -8,8 +8,8 @@ extension Json
 	public static bool Stringify(String outText)
 	{
 		let stringifier = scope Stringifier();
-		//return stringifier.Stringify(outText);
-		return true;
+		return stringifier.Stringify(outText);
+		//return true;
 	}
 }
 

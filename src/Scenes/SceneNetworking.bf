@@ -43,7 +43,7 @@ class SceneNetworking : Leaf.BaseScene
 		{
 			String txtMode = mode.ToString(.. scope .());
 			int32 fontSize = 24;
-			var txtSize = MeasureText(txtMode, fontSize);
+			//var txtSize = MeasureText(txtMode, fontSize);
 			DrawText(txtMode, 0, GetScreenHeight()-fontSize, fontSize, WHITE);
 		}
 		else

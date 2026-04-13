@@ -1,3 +1,4 @@
+#pragma warning disable 168
 using System;
 using RaylibBeef;
 using static RaylibBeef.Raylib;
@@ -65,7 +66,7 @@ public class Utils
 #endif
 	}
 
-	public static mixin GetNameFromPath(String path)
+	public static mixin GetNameFromPath(StringView path)
 	{
 		String name = "";
 		for(var s in path.Split('/'))

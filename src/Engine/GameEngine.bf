@@ -36,8 +36,10 @@ class GameEngine
 	private void LoadPreferences()
 	{
 		preferences = DataFile.LoadFileOrCreate("res/pref.json");
-		windowWidth = 1280;//(int32)preferences["WindowWidth"].data.number;
-		windowHeight = 720;//(int32)preferences["WindowHeight"].data.number;
+		//windowWidth = 1280;//(int32)preferences["WindowWidth"].data.number;
+		//windowHeight = 720;//(int32)preferences["WindowHeight"].data.number;
+		windowWidth = (int32)preferences["WindowWidth"];
+		windowHeight = (int32)preferences["WindowHeight"];
 
 	}
 
@@ -73,14 +75,14 @@ class GameEngine
 		InitWindow(windowWidth, windowHeight, scope $"Title");
 		InitAudioDevice();
 
-		if(preferences["IsMaximized"])
-			MaximizeWindow();
-
 		rlCImGuiBeef.rlCImGuiSetup();
 
 		//GetMonitorPosition(0);
 		SetWindowMonitor((int32)preferences["CurrentMonitor"]);
 		SetWindowFocused();
+
+		if(preferences["IsMaximized"])
+			MaximizeWindow();
 
 		RenderTexture = LoadRenderTexture(windowWidth, windowHeight);
 
@@ -216,6 +218,8 @@ class GameEngine
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}	
 
+	public static Event<delegate void()> UpdateGUI = default ~ _.Dispose();
+
 	private void Tick()
 	{
 		AssetLoader.CheckModification();
@@ -268,6 +272,12 @@ class GameEngine
 		CurrentScene.DebugDraw();
 
 		EndDrawing();
+
+		if(UpdateGUI.Count > 0)
+		{
+			UpdateGUI.Invoke();
+			UpdateGUI.Dispose();
+		}
 
 		CallBackChecker.Update();
 

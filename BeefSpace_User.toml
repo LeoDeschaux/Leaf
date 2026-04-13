@@ -1,11 +1,11 @@
 FileVersion = 1
 LastConfig = "Debug"
-LastPlatform = "Win64"
+LastPlatform = "wasm32"
 RecentFilesList = ["src\\Program.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = 425
-Y = 11
+X = -1602
+Y = -1
 Width = 644
 Height = 884
 ShowKind = "ShowMaximized"
@@ -49,7 +49,7 @@ TabWidth = 91.81818
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Program.bf"
-CursorPos = 166
+CursorPos = 306
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -72,7 +72,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 397.0
+RequestedHeight = 227.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
@@ -119,6 +119,12 @@ TabLabel = "Errors"
 TabWidth = 82.72727
 TabIsPinned = false
 Type = "ErrorsPanel"
+
+[[MainDockingFrame.DockedWidgets.Tabs]]
+TabLabel = "Profile"
+TabWidth = 84.54546
+TabIsPinned = false
+Type = "ProfilePanel"
 
 [[Breakpoints]]
 File = "src\\SceneNetworking.bf"

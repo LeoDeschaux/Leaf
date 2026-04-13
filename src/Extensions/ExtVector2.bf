@@ -26,6 +26,7 @@ namespace RaylibBeef
 			return .(left.x-right.x, left.y-right.y);
 		}
 
+		[Commutable]
 		public static Vector2 operator*(Vector2 left, float right)
 		{
 			return .(left.x*right, left.y*right);

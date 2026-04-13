@@ -112,7 +112,7 @@ public class RichText : Leaf.Entity
 			if(ts.Shake || this.Shake)
 				offset.y = Math.Sin((float)((GetTime()*waveSpeed) + (lineIndex*waveOffset))) * waveMaxHeight;
 
-			if(ts.Text[0] == '\n')
+			if(ts.Text[0] == '\n' || ts.Text[0] == '\r')
 			{
 				origin.y += ts.GetSize().y;
 				origin.x = relativePos.x;

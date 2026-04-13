@@ -72,7 +72,7 @@ public class DataFile
 		var res = new DataFile();
 		res.root.Dispose();
 
-		res.root = result.Value.AsObject();
+		res.root = result.Get().AsObject();
 
 		return res;
 	}

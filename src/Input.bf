@@ -12,6 +12,8 @@ class InputSystem : Leaf.Entity
 	Dictionary<StringView, List<delegate bool()>> m_boolActions;
 	Dictionary<StringView, List<delegate float()>> m_floatActions;
 
+	public float AxisDeadZone = 0.1f;
+
 	List<String> intKeys;
 
     public this()
@@ -117,6 +119,13 @@ class InputSystem : Leaf.Entity
 		float res = 0f;
 		for(var bind in m_floatActions.GetValue(key).Get())
 			res += bind.Invoke();
+
+		//Apply deadzone correction
+		if (Math.Abs(res) < AxisDeadZone)
+		    res = 0f;
+		else
+		    res = (res - Math.Sign(res) * AxisDeadZone) / (1f - AxisDeadZone);
+
 		return res;
 	}
 }

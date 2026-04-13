@@ -6,6 +6,7 @@ using static Jolt.Jolt;
 
 namespace Leaf;
 
+#if BP_PLATFORM_WINDOWS
 class PhysicEngine3D
 {
 	struct Layers
@@ -149,7 +150,7 @@ class PhysicEngine3D
 				JPH_MotionType.Dynamic,
 				Layers.MOVING);
 
-			sphereId = JPH_BodyInterface_CreateAndAddBody(BodyInterface, sphereSettings, JPH_Activation.Activate);
+			sphereId = (.)JPH_BodyInterface_CreateAndAddBody(BodyInterface, sphereSettings, JPH_Activation.Activate);
 			JPH_BodyCreationSettings_Destroy(sphereSettings);
 		}
 
@@ -184,7 +185,7 @@ class PhysicEngine3D
 	            JPH_MotionType.Dynamic,
 	            Layers.MOVING);
 
-	        boxId = JPH_BodyInterface_CreateAndAddBody(BodyInterface, boxSettings, JPH_Activation.Activate);
+	        boxId = (.)JPH_BodyInterface_CreateAndAddBody(BodyInterface, boxSettings, JPH_Activation.Activate);
 	        JPH_BodyCreationSettings_Destroy(boxSettings);
 	    }
 
@@ -244,3 +245,4 @@ class PhysicEngine3D
 		}
 	}
 }
+#endif

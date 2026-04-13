@@ -13,6 +13,8 @@ using static Jolt.Jolt;
 
 namespace Leaf.Scenes;
 
+#if BP_PLATFORM_WINDOWS
+
 [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class Scene3DJolt : Leaf.BaseScene
 {
@@ -109,7 +111,6 @@ class Scene3DJolt : Leaf.BaseScene
 
 	public override void Draw()
 	{
-		var cPos = camera.position;
 		UpdateCamera(&camera, 2);
 		//camera.position = cPos;
 
@@ -133,3 +134,4 @@ class Scene3DJolt : Leaf.BaseScene
 		//DrawRectangle(0,0,100,100, YELLOW);
 	}
 }
+#endif

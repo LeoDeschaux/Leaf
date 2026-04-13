@@ -29,6 +29,16 @@ public static class Log
 		Console.Write("");
 	}
 
+	public static void Error(StringView message)
+	{
+		Log.Message(message, .Red, .Yellow);
+	}
+
+	public static void Message(StringView message)
+	{
+		Log.Message(message, DefaultTextColor, DefaultBackgroundColor);
+	}
+
 	public static void Message(String message,
 		ConsoleColor textColor = DefaultTextColor,
 		ConsoleColor backgroundColor = DefaultBackgroundColor)

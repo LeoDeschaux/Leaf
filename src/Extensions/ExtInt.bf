@@ -1,5 +1,7 @@
 using System;
 
+
+
 namespace System
 {
 	extension Int8
@@ -20,15 +22,24 @@ namespace System
 		*/
 	}
 
-	extension Int
+	public extension Int
 	{
-	}
-
-	extension Boolean
-	{
-		public static implicit operator int(Self self)
+		public static explicit operator Self(bool self)
 		{
 			return self == true ? 1 : 0;
+		}
+	}
+
+	public extension Boolean
+	{
+		public static explicit operator int(Self self)
+		{
+			return self == true ? 1 : 0;
+		}
+
+		public int ToInt()
+		{
+			return this == true ? 1 : 0;
 		}
 	}
 }

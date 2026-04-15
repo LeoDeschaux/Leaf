@@ -11,7 +11,7 @@ namespace Leaf;
 class AnimatedSprite : Leaf.Entity
 {
 	Aseprite* ase;
-	AsepriteTag tag = default;
+	public AsepriteTag tag = default;
 
 	public Vector2 Pos;
 	public Vector2 Size = .(100,100);

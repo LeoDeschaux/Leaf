@@ -1,6 +1,11 @@
 using System;
 using System.Collections;
-namespace Leaf.Serialization;
+
+using ImGui;
+
+using Leaf.Serialization;
+
+namespace Leaf;
 
 [AttributeUsage(.Class | .Struct | .Field, .ReflectAttribute, ReflectUser=.Methods)]
 struct AutoSerializeAttribute : Attribute
@@ -23,11 +28,11 @@ struct AutoSerializeAttribute : Attribute
 			{
 				if(field.FieldType == typeof(int))
 				{
-					//var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
+					var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
 					//field.Name
 				}
 
-				//SerializationHelper.PrintField(field);
+				SerializationHelper.PrintField(field);
 				Log.Message(fieldAttribute.MyCustomFunction());
 			}
 		}
@@ -44,7 +49,8 @@ struct AutoSerializeAttribute : Attribute
 			{
 				if(field.FieldType == typeof(int))
 				{
-					//var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
+					var pointer = (int*)field.GetValueReference(entity).Get().DataPtr;
+					//ImGui.InputInt(scope $"{field.Name}", (.)pointer);
 					//field.Name
 				}
 

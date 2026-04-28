@@ -9,6 +9,12 @@ using static RaylibBeef.Raymath;
 
 using ImGui;
 using rlCImGuiBeef;
+using static rlCImGuiBeef.rlCImGuiBeef;
+/*
+using rlImGuiBeef;
+using static rlImGuiBeef.rlImGuiBeef;
+*/
+
 using Leaf.Engine;
 
 namespace Leaf;
@@ -76,6 +82,11 @@ class GameEngine
 		InitAudioDevice();
 
 		rlCImGuiBeef.rlCImGuiSetup();
+		//rlImGuiBeef.rlImGuiSetup(true);
+
+		ImGui.IO* ioptr = ImGui.GetIO_Nil();
+		ioptr.ConfigFlags |= ImGui.ConfigFlags.DockingEnable;
+		ioptr.ConfigFlags |= ImGui.ConfigFlags.ViewportsEnable;
 
 		//GetMonitorPosition(0);
 		SetWindowMonitor((int32)preferences["CurrentMonitor"]);
@@ -104,6 +115,7 @@ class GameEngine
 		//delete CurrentScene;
 
 		rlCImGuiBeef.rlCImGuiShutdown();
+		//rlImGuiBeef.rlImGuiShutdown();
 
 		AssetLoader.Unload();
 
@@ -242,6 +254,7 @@ class GameEngine
 
 		BeginDrawing();
 		rlCImGuiBeef.rlCImGuiBegin();
+		//rlImGuiBeef.rlImGuiBegin();
 
 		CurrentScene.InternalDraw();
 
@@ -267,6 +280,7 @@ class GameEngine
 		*/
 
 		rlCImGuiBeef.rlCImGuiEnd();
+		//rlImGuiBeef.rlImGuiEnd();
 
 		EntitySystem.DrawAboveImGui();
 		CurrentScene.DebugDraw();

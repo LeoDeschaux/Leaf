@@ -12,7 +12,7 @@ class Entity
 	public this()
 	{
 		Leaf.Engine.EntitySystem.Entities.Add(this);
-		//Leaf.Serialization.AutoSerializeAttribute.Deserialize(this);
+		Leaf.AutoSerializeAttribute.Deserialize(this);
 	}
 
 	public ~this()
@@ -21,7 +21,7 @@ class Entity
 		OnDelete.Dispose();
 
 		Leaf.Engine.EntitySystem.Entities.Remove(this);
-		//Leaf.Serialization.AutoSerializeAttribute.Serialize(this);
+		Leaf.AutoSerializeAttribute.Serialize(this);
 	}
 
 	public void DeleteNow()

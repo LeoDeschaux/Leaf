@@ -7,6 +7,11 @@ using static RaylibBeef.Raylib;
 
 using ImGui;
 using rlCImGuiBeef;
+using static rlCImGuiBeef.rlCImGuiBeef;
+/*
+using rlImGuiBeef;
+using static rlImGuiBeef.rlImGuiBeef;
+*/
 
 namespace Leaf.Engine;
 

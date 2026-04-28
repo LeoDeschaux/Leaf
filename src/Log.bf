@@ -34,12 +34,21 @@ public static class Log
 		Log.Message(message, .Red, .Yellow);
 	}
 
+	/*
 	public static void Message(StringView message)
 	{
 		Log.Message(message, DefaultTextColor, DefaultBackgroundColor);
 	}
+	*/
 
-	public static void Message(String message,
+	public static void Message(StringView fmt, params Object[] args)
+	{
+		String str = scope String(256);
+		str.AppendF(fmt, params args);
+		Message(str);
+	}
+
+	public static void Message(StringView message,
 		ConsoleColor textColor = DefaultTextColor,
 		ConsoleColor backgroundColor = DefaultBackgroundColor)
 	{
@@ -60,6 +69,7 @@ public static class Log
 		Message("\n", textColor, backgroundColor);
 	}
 
+	/*
 	public static void Message(StringView line,
 		ConsoleColor textColor = DefaultTextColor,
 		ConsoleColor backgroundColor = DefaultBackgroundColor)
@@ -67,6 +77,7 @@ public static class Log
 		String str = scope String(line);
 		Message(str, textColor, backgroundColor);
 	}
+	*/
 
 	/*
 	public static void Message(StringView fmt,

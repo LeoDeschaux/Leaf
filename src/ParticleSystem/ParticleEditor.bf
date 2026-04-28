@@ -8,6 +8,10 @@ using static RaylibBeef.Raylib;
 using ImGui;
 using rlCImGuiBeef;
 using static rlCImGuiBeef.rlCImGuiBeef;
+/*
+using rlImGuiBeef;
+using static rlImGuiBeef.rlImGuiBeef;
+*/
 
 namespace Leaf.ParticleSystem;
 
@@ -56,7 +60,7 @@ class ParticleEditor : BaseScene
 		//
 		DrawFPS(10,10);
 
-		ImGui.Vec2 display_size = ImGui.GetIO().DisplaySize;
+		ImGui.Vec2 display_size = ImGui.GetIO_Nil().DisplaySize;
 		float panelHeight = display_size.y;
 
 		ImGui.SetNextWindowPos(ImGui.Vec2(display_size.x - panelWidth, 0));

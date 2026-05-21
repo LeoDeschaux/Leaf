@@ -7,6 +7,11 @@ namespace Leaf;
 
 public class Utils
 {
+	public static int GetUUID()
+	{
+		return Guid.Create().GetHashCode();
+	}
+
 	public static void OpenFile(String path)
 	{
 #if BF_PLATFORM_WINDOWS

@@ -7,6 +7,7 @@ using Leaf.Serialization;
 
 namespace Leaf;
 
+//[AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.Methods)]
 [AttributeUsage(.Class | .Struct | .Field, .ReflectAttribute, ReflectUser=.Methods)]
 struct AutoSerializeAttribute : Attribute
 {
@@ -33,7 +34,7 @@ struct AutoSerializeAttribute : Attribute
 				}
 
 				SerializationHelper.PrintField(field);
-				Log.Message(fieldAttribute.MyCustomFunction());
+				//Log.Message(fieldAttribute.MyCustomFunction());
 			}
 		}
 	}
@@ -55,7 +56,7 @@ struct AutoSerializeAttribute : Attribute
 				}
 
 				//SerializationHelper.PrintField(field);
-				Log.Message(fieldAttribute.MyCustomFunction());
+				//Log.Message(fieldAttribute.MyCustomFunction());
 			}
 		}
 	}

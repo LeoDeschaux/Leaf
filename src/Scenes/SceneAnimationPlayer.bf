@@ -7,6 +7,7 @@ using static RaylibBeef.Raymath;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneAnimationPlayer : Leaf.BaseScene
 {
 	AnimationPlayer AnimationPlayerV1;

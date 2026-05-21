@@ -1,9 +1,20 @@
 using System;
 using System.Diagnostics;
+using System.Collections;
 namespace Leaf;
 
 public static class Log
 {
+	public static List<String> Logs = new .() ~ {
+		ClearLogs();
+		delete _;
+	};
+
+	public static void ClearLogs()
+	{
+		Logs.ClearAndDeleteItems();
+	}
+
 	private static ConsoleColor DefaultTextColor = ConsoleColor.Cyan;
 	private static ConsoleColor DefaultBackgroundColor = ConsoleColor.Black;
 
@@ -57,6 +68,8 @@ public static class Log
 
 		Console.WriteLine(message);
 		Debug.WriteLine(message);
+
+		Logs.Add(new String(scope $"{message} - {DateTime.Now}"));
 
 		Console.ForegroundColor = ConsoleColor.White;
 		Console.BackgroundColor = ConsoleColor.Black;

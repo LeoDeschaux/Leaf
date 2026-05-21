@@ -61,74 +61,84 @@ class SerializationHelper
 				(T*)field.GetValueReference(entity).Get().DataPtr
 			}
 
-			if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())
+			//Log.Message(field.Name);
+
+			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+				continue;
+
+			/*
+			if(field.FieldType.IsSubtypeOf(typeof(Entity)))
 			{
-				if(field.FieldType == typeof(int))
-				{
-					ImGui.SliderInt(scope $"{field.Name}", GetValuePtr<int32>(), 0, 500);
-					continue;
-				}
-
-				if(field.FieldType == typeof(float))
-				{
-					ImGui.SliderFloat(scope $"{field.Name}", GetValuePtr<float>(), 0, 500);
-				}
-
-				if(field.FieldType == typeof(bool))
-				{
-					ImGui.Checkbox(scope $"{field.Name}", GetValuePtr<bool>());
-				}
-
-				if(field.FieldType == typeof(Vector2))
-				{
-					ImGui.SliderFloat2(scope $"{field.Name}", ref *GetValuePtrRef!<Vector2>(), 0, 500);
-				}
-
-				if(field.FieldType == typeof(Vector3))
-				{
-					ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
-					continue;
-				}
-
-				if(field.FieldType == typeof(Color))
-				{
-					//ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
-					ImGui.ColorEdit4(scope $"{field.Name}", ref *GetValuePtrRef!<Color>());
-					continue;
-				}
-
-				//AutoImGuiField(*field.GetValueReference(entity).Get().DataPtr);
-				//AutoImGuiField(*field.GetValue(entity).Get().DataPtr);
-				//AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
-
-				//var fieldObject = field.GetValueReference(entity).Get();
-
-				//var tPtr = (SerializeEngine.Transform*)field.GetValueReference(entity).Get().DataPtr;
-				//(*tPtr).Position.x = 123;
-				//AutoImGuiField(*tPtr);
-
 				AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
-
-				/*
-				for(var subField in field.FieldType.GetFields())
-				{
-					var parent = field.GetValueReference(entity).Get();
-
-					Log.Message(entity);
-					Log.Message(field.GetValueReference(entity).Get().VariantType);
-					Log.Message(field.GetValueReference(entity).Get().RawVariantType);
-
-
-					if(field.GetValueReference(entity).Get().IsValueType)
-						Log.Message(field.GetValueReference(entity).Get().GetValueData());
-					//Log.Message(subField.GetValueReference(parent).Get());
-
-					AutoImGuiField(field.GetValueReference(entity).Get().GetValueData());
-				}
-				*/
-				//SerializationHelper.PrintField(field);
-				//Log.Message(fieldAttribute.MyCustomFunction());
 			}
+			*/
+
+			//if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())
+			if(field.FieldType == typeof(int))
+			{
+				ImGui.SliderInt(scope $"{field.Name}", GetValuePtr<int32>(), 0, 500);
+				continue;
+			}
+
+			if(field.FieldType == typeof(float))
+			{
+				ImGui.SliderFloat(scope $"{field.Name}", GetValuePtr<float>(), 0, 500);
+			}
+
+			if(field.FieldType == typeof(bool))
+			{
+				ImGui.Checkbox(scope $"{field.Name}", GetValuePtr<bool>());
+			}
+
+			if(field.FieldType == typeof(Vector2))
+			{
+				ImGui.SliderFloat2(scope $"{field.Name}", ref *GetValuePtrRef!<Vector2>(), 0, 500);
+			}
+
+			if(field.FieldType == typeof(Vector3))
+			{
+				ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
+				continue;
+			}
+
+			if(field.FieldType == typeof(Color))
+			{
+				//ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
+				ImGui.ColorEdit4(scope $"{field.Name}", ref *GetValuePtrRef!<Color>());
+				continue;
+			}
+
+			//AutoImGuiField(*field.GetValueReference(entity).Get().DataPtr);
+			//AutoImGuiField(*field.GetValue(entity).Get().DataPtr);
+			//AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
+
+			//var fieldObject = field.GetValueReference(entity).Get();
+
+			//var tPtr = (SerializeEngine.Transform*)field.GetValueReference(entity).Get().DataPtr;
+			//(*tPtr).Position.x = 123;
+			//AutoImGuiField(*tPtr);
+
+			//AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
+
+			/*
+			for(var subField in field.FieldType.GetFields())
+			{
+				var parent = field.GetValueReference(entity).Get();
+
+				Log.Message(entity);
+				Log.Message(field.GetValueReference(entity).Get().VariantType);
+				Log.Message(field.GetValueReference(entity).Get().RawVariantType);
+
+
+				if(field.GetValueReference(entity).Get().IsValueType)
+					Log.Message(field.GetValueReference(entity).Get().GetValueData());
+				//Log.Message(subField.GetValueReference(parent).Get());
+
+				AutoImGuiField(field.GetValueReference(entity).Get().GetValueData());
+			}
+			*/
+			//SerializationHelper.PrintField(field);
+			//Log.Message(fieldAttribute.MyCustomFunction());
 		}
 	}
 }

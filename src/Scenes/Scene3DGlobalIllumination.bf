@@ -22,14 +22,14 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 	float scale;
 
 	[AutoConfig]
-	float cameraSpeed = 200;
+	float cameraSpeed = 7;
 
 	[AutoConfig]
 	float cameraSensitivity = 0.3f;
 
     public this()
     {
-		camera.position = .(6.0f, 6.0f, 6.0f);
+		camera.position = .(-7.0f, 4.0f, -0.5f);
 		camera.target = .(0.0f, 0.0f, 0.0f);
 		camera.up = .(0.0f, 1.0f, 0.0f);
 		camera.fovy = 45.0f;
@@ -134,9 +134,11 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 	        DrawModel(model, position, scale, WHITE);
 			DrawGrid(10, 1.0f);
 	    EndMode3D();
+    }
 
-
-		ImGui.SliderFloat3(nameof(camera.position), ref camera.position, -10, 10);
+	public override void DrawScreenSpace()
+ 	{
+		 ImGui.SliderFloat3(nameof(camera.position), ref camera.position, -10, 10);
 
 		if(ImGui.Button("ResetPos"))
 		{
@@ -146,7 +148,7 @@ class Scene3DGlobalIllumination : Leaf.BaseScene
 			camera.fovy = 45.0f;
 			camera.projection = 0; // camera projection
 		}
-    }
+	}
 
 	// CAMERA CONTROLLER
 	Vector3 GetCameraForward(Camera *camera)

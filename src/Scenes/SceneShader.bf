@@ -20,6 +20,7 @@ using static rlImGuiBeef.rlImGuiBeef;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneShader : Leaf.BaseScene
 {
 	Texture2D image;

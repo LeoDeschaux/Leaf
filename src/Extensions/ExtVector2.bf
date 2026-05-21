@@ -66,5 +66,12 @@ namespace RaylibBeef
 		{
 			return ImGui.ImGui.Vec2(val.x, val.y);
 		}
+
+		public static Vector2 Clamp(Vector2 value, Vector2 min, Vector2 max)
+		{
+			return .(
+				Math.Clamp(value.x, min.x, max.x),
+				Math.Clamp(value.y, min.y, max.y));
+		}
 	}
 }

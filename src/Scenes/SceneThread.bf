@@ -7,6 +7,7 @@ using static RaylibBeef.Raylib;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 public class SceneThread : BaseScene
 {
 	System.Diagnostics.Stopwatch sw = new Stopwatch();

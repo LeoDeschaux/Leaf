@@ -4,6 +4,8 @@ namespace Leaf;
 
 class Entity
 {
+	public int UUID;
+
 	public int DrawOrder = 0; //TODO on get => sort order
 	public bool Visible = true;
 
@@ -11,6 +13,7 @@ class Entity
 
 	public this()
 	{
+		UUID = Utils.GetUUID();
 		Leaf.Engine.EntitySystem.Entities.Add(this);
 		Leaf.AutoSerializeAttribute.Deserialize(this);
 	}

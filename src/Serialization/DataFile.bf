@@ -54,6 +54,9 @@ public class DataFile
 
 	public static DataFile LoadFile(String path)
 	{
+		if(!DataFile.Exist(path))
+			Log.Message(scope $"Error LoadLevel {path} not found");
+
 		Debug.Assert(File.Exists(path));
 
 		String fileContent = scope .();
@@ -99,6 +102,12 @@ public class DataFile
 		String strBuffer = scope .();
 		Json.Serialize(root, strBuffer);
 		Json.Stringify(strBuffer);
+
+		String directory = Path.GetDirectoryPath(path, .. scope .());
+		if (!String.IsNullOrEmpty(directory))
+		{
+		    Directory.CreateDirectory(directory);
+		}
 
 		if(File.WriteAllText(path, strBuffer) case .Err(let error))
 			Console.WriteLine(error);

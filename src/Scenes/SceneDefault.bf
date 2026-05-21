@@ -10,6 +10,7 @@ using Leaf.ParticleSystem;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneDefault : BaseScene
 {
 	public override void Update()

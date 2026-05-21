@@ -11,6 +11,7 @@ using System.Collections;
 
 namespace Leaf.Scenes;
 
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneEntities : BaseScene
 {
 	public Player Player1;

@@ -7,6 +7,8 @@ using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
 namespace Leaf.Scenes;
+
+[Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class SceneDataFile : Leaf.BaseScene
 {
 	private int playerID;

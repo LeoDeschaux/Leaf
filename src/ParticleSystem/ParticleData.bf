@@ -51,11 +51,11 @@ class ParticleData
 	{
 		String fileContent = scope .();
 		if(File.ReadAllText(Path,fileContent,true) case .Err(let error))
-			Console.WriteLine(error);
+			Log.Message(error);
 
 		var result = Json.Deserialize(fileContent);
 		if(result case .Err(let err))
-			Console.WriteLine(scope $"Error:{err}");
+			Log.Message(scope $"Error:{err}");
 
 		var value = result.Value;
 
@@ -73,7 +73,7 @@ class ParticleData
 
 		/*
 		if(File.WriteAllText(Path, strBuffer) case .Err(let error))
-			Console.WriteLine(error);
+			Log.Message(error);
 		*/
 
 		value.Dispose();
@@ -83,15 +83,15 @@ class ParticleData
 	{
 		String fileContent = scope .();
 		if(File.ReadAllText(path,fileContent,true) case .Err(let error))
-			Console.WriteLine(error);
+			Log.Message(error);
 
 		var result = Json.Deserialize(fileContent);
 		if(result case .Err(let err))
-			Console.WriteLine(scope $"Error:{err}");
+			Log.Message(scope $"Error:{err}");
 
 		var value = result.Value;
 
-		Console.WriteLine(value.ToString(.. scope .()));
+		Log.Message(value.ToString(.. scope .()));
 
 		//mGame.Arena.Radius = value["Arena"]["Radius"];
 

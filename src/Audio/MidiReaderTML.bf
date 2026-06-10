@@ -150,7 +150,7 @@ class MidiFile
 			nWallTime = tml.time;
 
 			/*
-			Console.WriteLine(scope $@"""
+			(scope $@"""
 			{midiMessage.type},{(int)midiMessage.key},{(int)midiMessage.velocity},{midiMessage.time}
 			""");
 			*/
@@ -186,7 +186,7 @@ class MidiFile
 				}
 				else
 				{
-					Console.WriteLine("ERROR NOTE NOT FOUND");
+					Log.Message("ERROR NOTE NOT FOUND");
 				}
 			}
 
@@ -233,7 +233,7 @@ class MidiFile
 					}
 					else
 					{
-						Console.WriteLine("ERROR NOTE NOT FOUND");
+						("ERROR NOTE NOT FOUND");
 					}
 				}
 			}

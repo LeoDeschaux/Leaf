@@ -303,7 +303,7 @@ static class AABB
 		else
 			penetration.x = 0;
 
-		//Console.WriteLine(penetration.ToString(.. scope .()));
+		//(penetration.ToString(.. scope .()));
 
 		return result-penetration;
 	}
@@ -324,7 +324,7 @@ static class AABB
 		if(yAxisOverlap)
 			penetration.y = isTopSide ? r1.y+r1.height - r2.y: (r2.y+r2.height - r1.y) * -1f;
 
-		//Console.WriteLine(penetration.ToString(.. scope .()));
+		//(penetration.ToString(.. scope .()));
 
 		if(Math.Abs(penetration.x) < Math.Abs(penetration.y))
 			penetration.y = 0;

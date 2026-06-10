@@ -80,7 +80,7 @@ class Client : Leaf.Entity
 
 		var res = socket.OpenUDP(0);
 		if (res case .Err(let err))
-			Console.WriteLine("Failed to open {}", err);
+			Log.Message("Failed to open {}", err);
 		else if (res case .Ok)
 			Log.Message("OK");
 
@@ -102,7 +102,7 @@ class Client : Leaf.Entity
 		var sendRes = socket.SendTo(messageToSend, messageToSend.Length, sock);
 		if (sendRes case .Err(let err))
 		{
-			Console.WriteLine("Failed to send data: {}", err);
+			Log.Message("Failed to send data: {}", err);
 			//socket.Close();
 			return;
 		}
@@ -147,9 +147,9 @@ class Server : Leaf.Entity
 		listener = new Socket();
 
 		if (listener.OpenUDP(port) case .Ok)
-			Console.WriteLine("Started server at port {0}", port);
+			Log.Message("Started server at port {0}", port);
 		else
-			Console.WriteLine("Cannot start server at port {0}", port);
+			Log.Message("Cannot start server at port {0}", port);
 	}
 
 	public ~this()
@@ -191,7 +191,7 @@ class Server : Leaf.Entity
 	    var res = listener.RecvFrom(buffer, 4096, out clientAddr);
 	    if (res case .Err(let err))
 	    {
-	        //Console.WriteLine("RecvFrom error: {}", err);
+	        //("RecvFrom error: {}", err);
 	        Internal.Free(buffer);
 	        return;
 	    }
@@ -218,12 +218,12 @@ class Server : Leaf.Entity
 	    if (!known)
 	    {
 	        clients.Add(clientAddr);
-	        Console.WriteLine("New client joined from IP {}:{}", clientAddr.sin_addr.ToString(.. scope .()), clientAddr.sin_port);
+	        Log.Message("New client joined from IP {}:{}", clientAddr.sin_addr.ToString(.. scope .()), clientAddr.sin_port);
 	    }
 
 	    String message = scope String((char8*)buffer, readSize);
 	    debugMsg.Add(new String(message));
-	    Console.WriteLine("From client: {}", message);
+	    Log.Message("From client: {}", message);
 
 	    Internal.Free(buffer);
 	}

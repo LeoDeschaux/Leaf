@@ -7,7 +7,7 @@ namespace Leaf;
 
 public class Utils
 {
-	public static int GetUUID()
+	public static int GenerateUUID()
 	{
 		return Guid.Create().GetHashCode();
 	}
@@ -21,9 +21,9 @@ public class Utils
 
 		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 		var res = System.Windows.ShellExecuteW(hwnd, null, file, null, null, System.Windows.SW_SHOW); 
-		Log.Message(res);
+		//Log.Message(res);
 
-		Log.Message(scope $"{dir}/{path}");
+		Log.Message(scope $"OPEN FILE {dir}/{path}");
 #endif
 	}
 

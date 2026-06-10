@@ -3,12 +3,26 @@ using System.IO;
 using System.Collections;
 
 using BJSON;
+using BJSON.Models;
+
 using System.Diagnostics;
 using Leaf.Serialization;
 
 using static Leaf.Scenes.SceneDataFile;
 
 namespace Leaf;
+
+//typealias DataFile = BJSON.Models.JsonOBject;
+
+public class DataArray
+{
+
+}
+
+public class DataNode
+{
+	BJSON.Models.JsonObject;
+}
 
 public class DataFile
 {
@@ -22,6 +36,17 @@ public class DataFile
 	public ~this()
 	{
 		root.Dispose();
+	}
+
+	public BJSON.Models.JsonValue this[StringView path]
+	{
+		get {
+			return root[path.ToString(.. scope .())];
+		}
+
+		set{
+			root[path.ToString(.. scope .())] = value;
+		}
 	}
 
 	public BJSON.Models.JsonValue this[String path]
@@ -91,11 +116,11 @@ public class DataFile
 		/*
 		String fileContent = scope .();
 		if(File.ReadAllText(path,fileContent,true) case .Err(let error))
-			Console.WriteLine(error);
+			Log.Message(error);
 
 		var result = Json.Deserialize(fileContent);
 		if(result case .Err(let err))
-			Console.WriteLine(scope $"Error:{err}");
+			Log.Message(scope $"Error:{err}");
 		var value = result.Value;
 		*/
 
@@ -110,7 +135,7 @@ public class DataFile
 		}
 
 		if(File.WriteAllText(path, strBuffer) case .Err(let error))
-			Console.WriteLine(error);
+			Log.Message(error);
 	}
 
 	public override void ToString(String strBuffer)

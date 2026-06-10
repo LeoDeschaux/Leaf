@@ -126,7 +126,7 @@ class ParticleEditor : BaseScene
 				Random.GetRandomValue(0,GetScreenHeight())
 			));
 
-			Console.WriteLine(stationaryEmitter.Location.ToString(.. scope .()));
+			Log.Message(stationaryEmitter.Location.ToString(.. scope .()));
 		}
 
 		if(ImGui.ButtonEx("Burst", .(100,30)))

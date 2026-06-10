@@ -58,7 +58,7 @@ class Scene3DJolt : Leaf.BaseScene
 			Random r = scope .();
 			Vector3 pos = .(0,10,0);
 			pos.x = (.)r.NextDoubleSigned();
-			Console.WriteLine(pos.x);
+			(pos.x);
 			pos.z = (.)r.NextDoubleSigned();
 			physic.GenerateSphere(pos, .(0,-5,0), 1);
 		}
@@ -68,7 +68,7 @@ class Scene3DJolt : Leaf.BaseScene
 			Random r = scope .();
 			Vector3 pos = .(0,10,0);
 			pos.x = (.)r.NextDoubleSigned();
-			Console.WriteLine(pos.x);
+			(pos.x);
 			pos.z = (.)r.NextDoubleSigned();
 			physic.GenerateBox(pos, .(0,-5,0), .(1,1,1));
 		}

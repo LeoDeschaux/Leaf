@@ -18,7 +18,7 @@ class SceneCSVReader : Leaf.BaseScene
 
 		//PRINT ALL CSV
 		Log.Message(csv.ToString(.. scope .()));
-		Console.WriteLine("-------");
+		Log.Message("-------");
 
 		//PRINT FIRST ROW
 		var row = csv.GetRow(0);
@@ -26,33 +26,33 @@ class SceneCSVReader : Leaf.BaseScene
 		for(var el in row)
 			Log.Message(el);
 		delete row;
-		Console.WriteLine("---------");
+		Log.Message("---------");
 
 		//PRINT ROW "key"
 		var keyRow = csv.GetRow("key");
 		for(var el in keyRow)
 			Log.Message(el);
 		delete keyRow;
-		Console.WriteLine("---------");
+		Log.Message("---------");
 
 		//PRINT FIRST COLUMN
 		var column = csv.GetColumn(0);
 		for(var el in column)
 			Log.Message(el);
 		delete column;
-		Console.WriteLine("---------");
+		Log.Message("---------");
 
 		//PRINT COLUMN "french"
 		var keyCol = csv.GetColumn("french");
 		for(var el in keyCol)
 			Log.Message(el);
 		delete keyCol;
-		Console.WriteLine("---------");
+		Log.Message("---------");
 
 		//PRINT FIRST CELL 
 		var cell = csv.GetCell(0,0);
 		Log.Message(cell);
-		Console.WriteLine("---------");
+		Log.Message("---------");
 
 		//PRINT CELL inside "menu.file" row and "french" column
 		cell = csv.GetCell("menu.file","french");

@@ -39,12 +39,12 @@ class SceneShader : Leaf.BaseScene
 
 		image = LoadTexture("res/images/piece.png");
 		shader = LoadShader("", "res/shaders/swirl.fs");
-		Console.WriteLine("START");
+		Log.Message("START");
     }
 
     public ~this()
     {
-		Console.WriteLine("END");
+		Log.Message("END");
     }
 
     public override void Update()

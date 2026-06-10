@@ -215,11 +215,11 @@ class MidiFile
 		n16 = ifs.Read<uint16>();
 		uint16 nDivision = Swap16(n16);
 
-		Console.WriteLine(nTrackChunks);
+		Log.Message(nTrackChunks);
 
 		for (uint16 nChunk = 0; nChunk < nTrackChunks; nChunk++)
 		{
-			Console.WriteLine("========= NEW TRACK");
+			Log.Message("========= NEW TRACK");
 
 			// Read Track Header
 			n32 = ifs.Read<uint32>();
@@ -350,33 +350,33 @@ class MidiFile
 						switch ((MetaEventName)nType)
 						{
 						case .MetaSequence:
-							Console.WriteLine(scope $"Sequence Number: {ifs.Read<uint8>()} {ifs.Read<uint8>()}");
+							Log.Message(scope $"Sequence Number: {ifs.Read<uint8>()} {ifs.Read<uint8>()}");
 							break;
 						case .MetaText:
-							Console.WriteLine(scope $"Text: {ReadString(nLength)}");
+							Log.Message(scope $"Text: {ReadString(nLength)}");
 							break;
 						case .MetaCopyright:
-							Console.WriteLine(scope $"Copyright: {ReadString(nLength)}");
+							Log.Message(scope $"Copyright: {ReadString(nLength)}");
 							break;
 						case .MetaTrackName:
 							Tracks[nChunk].sName = ReadStringAlloc(nLength);
-							Console.WriteLine(scope $"Track Name: {Tracks[nChunk].sName}");							
+							Log.Message(scope $"Track Name: {Tracks[nChunk].sName}");							
 							break;
 						case .MetaInstrumentName:
 							Tracks[nChunk].sInstrument = ReadStringAlloc(nLength);
-							Console.WriteLine(scope $"Instrument Name: {Tracks[nChunk].sInstrument}");
+							Log.Message(scope $"Instrument Name: {Tracks[nChunk].sInstrument}");
 							break;
 						case .MetaLyrics:
-							Console.WriteLine(scope $"Lyrics: {ReadString(nLength)}");
+							Log.Message(scope $"Lyrics: {ReadString(nLength)}");
 							break;
 						case .MetaMarker:
-							Console.WriteLine(scope $"Marker: {ReadString(nLength)}");
+							Log.Message(scope $"Marker: {ReadString(nLength)}");
 							break;
 						case .MetaCuePoint:
-							Console.WriteLine(scope $"Cue: {ReadString(nLength)}");
+							Log.Message(scope $"Cue: {ReadString(nLength)}");
 							break;
 						case .MetaChannelPrefix:
-							Console.WriteLine(scope $"Prefix: {ifs.Read<uint8>()}");
+							Log.Message(scope $"Prefix: {ifs.Read<uint8>()}");
 							break;
 						case .MetaEndOfTrack:
 							bEndOfTrack = true;
@@ -395,46 +395,46 @@ class MidiFile
 								m_nTempo |= (ifs.Read<uint8>() << 0);
 								*/
 								//m_nBPM = (60000000 / m_nTempo);
-								Console.WriteLine(scope $"Tempo: {m_nTempo} ({m_nBPM} bpm)");
+								Log.Message(scope $"Tempo: {m_nTempo} ({m_nBPM} bpm)");
 							}
 							break;
 						case .MetaSMPTEOffset:
-							Console.WriteLine(scope $"SMPTE: H: {ifs.Read<uint8>()} M: {ifs.Read<uint8>()} S: {ifs.Read<uint8>()} FR: {ifs.Read<uint8>()} FF: {ifs.Read<uint8>()}");
+							Log.Message(scope $"SMPTE: H: {ifs.Read<uint8>()} M: {ifs.Read<uint8>()} S: {ifs.Read<uint8>()} FR: {ifs.Read<uint8>()} FF: {ifs.Read<uint8>()}");
 							break;
 						case .MetaTimeSignature:
-							Console.WriteLine(scope $"Time Signature: {ifs.Read<uint8>()} / {(2 << ifs.Read<uint8>())}");
-							Console.WriteLine(scope $"ClocksPerTick: {ifs.Read<uint8>()}");
+							Log.Message(scope $"Time Signature: {ifs.Read<uint8>()} / {(2 << ifs.Read<uint8>())}");
+							Log.Message(scope $"ClocksPerTick: {ifs.Read<uint8>()}");
 
 							// A MIDI "Beat" is 24 ticks, so specify how many 32nd notes constitute a beat
-							Console.WriteLine(scope $"32per24Clocks: {ifs.Read<uint8>()}");
+							Log.Message(scope $"32per24Clocks: {ifs.Read<uint8>()}");
 							break;
 						case .MetaKeySignature:
-							Console.WriteLine(scope $"Key Signature: {ifs.Read<uint8>()}");
-							Console.WriteLine(scope $"Minor Key: {ifs.Read<uint8>()}");
+							Log.Message(scope $"Key Signature: {ifs.Read<uint8>()}");
+							Log.Message(scope $"Minor Key: {ifs.Read<uint8>()}");
 							break;
 						case .MetaSequencerSpecific:
-							Console.WriteLine(scope $"Sequencer Specific: {ReadString(nLength)}");
+							Log.Message(scope $"Sequencer Specific: {ReadString(nLength)}");
 							break;
 						default:
-							Console.WriteLine(scope $"Unrecognised MetaEvent: {nType}");
+							Log.Message(scope $"Unrecognised MetaEvent: {nType}");
 						}
 					}
 
 					if (nStatus == 0xF0)
 					{
 						// System Exclusive Message Begin
-						Console.WriteLine(scope $"System Exclusive Begin: {ReadString(ReadValue())}");
+						Log.Message(scope $"System Exclusive Begin: {ReadString(ReadValue())}");
 					}
 
 					if (nStatus == 0xF7)
 					{
 						// System Exclusive Message Begin
-						Console.WriteLine(scope $"System Exclusive End: {ReadString(ReadValue())}");
+						Log.Message(scope $"System Exclusive End: {ReadString(ReadValue())}");
 					}
 				}			
 				else
 				{
-					Console.WriteLine(scope $"Unrecognised Status Byte: {nStatus}");
+					Log.Message(scope $"Unrecognised Status Byte: {nStatus}");
 				}
 			}
 		}
@@ -472,7 +472,7 @@ class MidiFile
 					}
 					else
 					{
-						Console.WriteLine("ERROR NOTE NOT FOUND");
+						Log.Message("ERROR NOTE NOT FOUND");
 					}
 				}
 			}

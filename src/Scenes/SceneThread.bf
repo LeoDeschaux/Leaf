@@ -22,11 +22,11 @@ public class SceneThread : BaseScene
 
 		//var sw = System.Diagnostics.Stopwatch.StartNew();
 
-		Console.WriteLine("START THREAD");
+		Log.Message("START THREAD");
 		System.Threading.ThreadStart threadStart = new () => {
 			//TODO
 			sw.Start();
-			Console.WriteLine("threadStart");
+			Log.Message("threadStart");
 			Thread.Sleep(16);
 		};
 
@@ -36,16 +36,16 @@ public class SceneThread : BaseScene
 			sw.Stop();
 
 			Thread.Sleep(500);
-			Console.WriteLine("AddExitNotify");
-			//Console.WriteLine(System.Diagnostics.Stopwatch.GetTimestamp());
+			Log.Message("AddExitNotify");
+			//(System.Diagnostics.Stopwatch.GetTimestamp());
 
 			/*
 			Console.ForegroundColor = ConsoleColor.Red;
 			//60 fps = 16ms
-			Console.WriteLine($"{sw.ElapsedMilliseconds}ms ({sw.Elapsed})");
+			($"{sw.ElapsedMilliseconds}ms ({sw.Elapsed})");
 
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.WriteLine($"{sw.ElapsedMilliseconds}ms ({sw.Elapsed})");
+			($"{sw.ElapsedMilliseconds}ms ({sw.Elapsed})");
 			*/
 
 			Log.Message();
@@ -55,15 +55,15 @@ public class SceneThread : BaseScene
 
 		/*
 		delegate void() dl = new () => {
-		   Console.WriteLine("RemovedExitNotify");
+		   ("RemovedExitNotify");
 		};
 
 		var res = thread.RemovedExitNotify(dl);
 
 		switch (res)
 		{
-		    case .Ok(let newVal): Console.WriteLine("Val: {}", newVal);
-		    case .Err(let newVal): Console.WriteLine("Failed: {}", newVal);
+		    case .Ok(let newVal): ("Val: {}", newVal);
+		    case .Err(let newVal): ("Failed: {}", newVal);
 		}
 		delete dl;
 		*/
@@ -85,7 +85,7 @@ public class SceneThread : BaseScene
 		Thread.Sleep(500);
 		thread.Start();
 
-		Console.WriteLine("@@@@@@@@@@");
+		("@@@@@@@@@@");
 
 		Monitor m = new .();
 		m.Enter();

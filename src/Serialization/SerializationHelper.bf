@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using ImGui;
 using RaylibBeef;
+using System.Diagnostics;
 namespace Leaf.Serialization;
 
 //full path name is : field.FieldType
@@ -40,7 +41,7 @@ class SerializationHelper
 		for(int i = 0; i < depth; i++)
 			Log.Message("  ");
 
-		//Console.WriteLine($"({type.FieldType}) {type.Name}");
+		//($"({type.FieldType}) {type.Name}");
 		Log.Message($"({type.FieldType.GetName(.. scope .())}) {type.Name}");
 
 		for(var subField in type.FieldType.GetFields())
@@ -51,6 +52,9 @@ class SerializationHelper
 	{
 		for (var field in entity.GetType().GetFields())
 		{
+			if(field.HasCustomAttribute<HideInInspectorAttribute>())
+				continue;
+
 			T* GetValuePtr<T>()
 			{
 				return (T*)field.GetValueReference(entity).Get().DataPtr;
@@ -65,6 +69,13 @@ class SerializationHelper
 
 			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
 				continue;
+
+			if(field.HasCustomAttribute<NonEditableAttribute>())
+			{
+				if(field.FieldType == typeof(int))
+					ImGui.Text(scope $"{*GetValuePtr<int>()}");
+				continue;
+			}
 
 			/*
 			if(field.FieldType.IsSubtypeOf(typeof(Entity)))
@@ -83,16 +94,19 @@ class SerializationHelper
 			if(field.FieldType == typeof(float))
 			{
 				ImGui.SliderFloat(scope $"{field.Name}", GetValuePtr<float>(), 0, 500);
+				continue;
 			}
 
 			if(field.FieldType == typeof(bool))
 			{
 				ImGui.Checkbox(scope $"{field.Name}", GetValuePtr<bool>());
+				continue;
 			}
 
 			if(field.FieldType == typeof(Vector2))
 			{
 				ImGui.SliderFloat2(scope $"{field.Name}", ref *GetValuePtrRef!<Vector2>(), 0, 500);
+				continue;
 			}
 
 			if(field.FieldType == typeof(Vector3))
@@ -107,6 +121,16 @@ class SerializationHelper
 				ImGui.ColorEdit4(scope $"{field.Name}", ref *GetValuePtrRef!<Color>());
 				continue;
 			}
+
+			if(field.FieldType == typeof(String))
+			{
+				ImGui.Text(scope $"{*GetValuePtr<String>()}");
+				continue;
+			}
+
+			ImGui.PushStyleColor(.Text, .(255,0,0,255));
+			ImGui.Text(scope $"ERROR - {field.FieldType} not handled");
+			ImGui.PopStyleColor();
 
 			//AutoImGuiField(*field.GetValueReference(entity).Get().DataPtr);
 			//AutoImGuiField(*field.GetValue(entity).Get().DataPtr);
@@ -140,5 +164,101 @@ class SerializationHelper
 			//SerializationHelper.PrintField(field);
 			//Log.Message(fieldAttribute.MyCustomFunction());
 		}
+	}
+
+	public static void AutoSaveField(Object entity, DataFile df)
+	{
+		for (var field in entity.GetType().GetFields())
+		{
+			T* GetValuePtr<T>()
+			{
+				return (T*)field.GetValueReference(entity).Get().DataPtr;
+			}
+
+			mixin GetValuePtrRef<T>()
+			{
+				(T*)field.GetValueReference(entity).Get().DataPtr
+			}
+
+			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+				continue;
+
+			if(field.FieldType == typeof(int))
+			{
+				df[field.Name] = *GetValuePtr<int32>();
+				continue;
+			}
+
+			if(field.FieldType == typeof(String))
+			{
+				df[field.Name] = *GetValuePtr<String>();
+				continue;
+			}
+
+			if(field.FieldType.IsGenericType &&
+				((System.Reflection.SpecializedGenericType)field.FieldType).UnspecializedType == typeof(List<>))
+			{
+				df[field.Name] = BJSON.Models.JsonArray();
+				var list = *GetValuePtr<List<Object>>();
+				int i = 0;
+				for(var obj in list)
+				{
+					df[field.Name][i] = BJSON.Models.JsonObject();
+					AutoSaveField(this, df[field.Name][i]);
+					Log.Message(obj.ToString(.. scope .()));
+					i++;
+				}
+
+				continue;
+			}
+
+			/*
+
+			Log.Message(field.GetValue(entity).Get().VariantType);
+			//var test = field.FieldType;
+			var test = field.GetValue(entity).Get().Get<List<Object>>();
+
+			Log.Message(test.IsSplattable);
+			Log.Message(test.IsArray);
+
+			Log.Message(test.IsSubtypeOf(typeof(List<>)));
+			Log.Message(test.IsSubtypeOf(typeof(List<Object>)));
+
+			Log.Message(test == typeof(List<>));
+			Log.Message(test == typeof(List<Object>));
+
+			Log.Message(test is List);
+			Log.Message(test is List<Object>);
+
+			Log.Message(test is IList);
+			Log.Message(test is System.Collections.IEnumerable<Object>);
+			Log.Message(test is System.Collections.ICollection<Object>);
+			*/
+
+			//Log.Message(field.GetValueReference(entity).Get());
+
+			/*
+			Log.Message(field.FieldType);
+			Log.Message(field.GetType());
+			Log.Message(field.DeclaringType);
+
+			Log.Message(field.FieldType.GetType());
+			Log.Message(field.FieldType.BaseType);
+			Log.Message(field.FieldType.BoxedType);
+			Log.Message(field.FieldType.OuterType);
+			Log.Message(field.FieldType.WrappedType);
+			Log.Message(field.FieldType.BoxedPtrType);
+			Log.Message(field.FieldType.UnderlyingType);
+			Log.Message(field.FieldType.TypeDeclaration);
+			*/
+
+			Debug.FatalError(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
+			Log.Error(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
+		}
+	}
+
+	public static void AutoLoadField(Object entity, DataFile df)
+	{
+
 	}
 }

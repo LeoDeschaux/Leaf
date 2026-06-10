@@ -164,7 +164,7 @@ class GameEngine
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
 		{
-			Console.WriteLine(err);
+			Log.Message(err);
 			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
@@ -172,7 +172,7 @@ class GameEngine
 		CurrentScene.GameEngine = this;
 		CurrentScene.OnFinishedSwitchingScene();
 
-		Console.WriteLine("--- GAME RESTARTED ---");
+		Log.Message("--- GAME RESTARTED ---");
 
 		RestartGameCallBack?.Invoke(CurrentScene);
 		if(RestartGameCallBack != null)
@@ -194,7 +194,7 @@ class GameEngine
 		var obj = sceneType.CreateObject();
 		if(obj case .Err(let err))
 		{
-			Console.WriteLine(err);
+			Log.Message(err);
 			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
@@ -202,7 +202,7 @@ class GameEngine
 		CurrentScene.GameEngine = this;
 		CurrentScene.OnFinishedSwitchingScene();
 
-		Console.WriteLine($"--- LOADED {sceneType} ---");
+		Log.Message($"--- LOADED {sceneType} ---");
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 
 		return CurrentScene;
@@ -218,7 +218,7 @@ class GameEngine
 		var obj = t.CreateObject();
 		if(obj case .Err(let err))
 		{
-			Console.WriteLine(err);
+			Log.Message(err);
 			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
@@ -226,7 +226,7 @@ class GameEngine
 		CurrentScene.GameEngine = this;
 		CurrentScene.OnFinishedSwitchingScene();
 
-		Console.WriteLine($"--- LOADED {t} ---");
+		Log.Message($"--- LOADED {t} ---");
 		Log.Message(Leaf.Engine.EntitySystem.Entities.Count);
 	}	
 

@@ -91,7 +91,7 @@ class Client : Leaf.Entity
 	{
 		if(socket.Connect(serverIp, port, out sock) case .Err)
 		{
-			Console.WriteLine("Failed to connect to server");
+			Log.Message("Failed to connect to server");
 			socket.Close();
 			return;
 		}
@@ -99,7 +99,7 @@ class Client : Leaf.Entity
 		var sendRes = socket.Send(messageToSend, messageToSend.Length);
 		if (sendRes case .Err(let err))
 		{
-			Console.WriteLine("Failed to send data");
+			Log.Message("Failed to send data");
 			socket.Close();
 			return;
 		}
@@ -111,7 +111,7 @@ class Client : Leaf.Entity
 	{
 		if(socket.Connect(serverIp, port, out sock) case .Err)
 		{
-			Console.WriteLine("Failed to connect to server");
+			Log.Message("Failed to connect to server");
 			socket.Close();
 			return;
 		}
@@ -119,7 +119,7 @@ class Client : Leaf.Entity
 		var sendRes = socket.Send(messageToSend, messageToSend.Length);
 		if (sendRes case .Err(let err))
 		{
-			Console.WriteLine("Failed to send data");
+			Log.Message("Failed to send data");
 			socket.Close();
 			return;
 		}
@@ -132,7 +132,7 @@ class Client : Leaf.Entity
 
 		if(recvRes case .Err)
 		{
-			Console.WriteLine("Failed to receive data from server");
+			Log.Message("Failed to receive data from server");
 			Internal.Free(buffer);
 			socket.Close();
 			return;
@@ -195,9 +195,9 @@ class Server : Leaf.Entity
 		port = 9096;
 
 		if (listener.Listen(port) case .Ok)
-			Console.WriteLine("Started server at port {0}", port);
+			Log.Message("Started server at port {0}", port);
 		else
-			Console.WriteLine("Cannot start server at port {0}", port);
+			Log.Message("Cannot start server at port {0}", port);
 	}
 
 	public ~this()
@@ -238,7 +238,7 @@ class Server : Leaf.Entity
 		if (res case .Err(let er))
 		{
 			Log.Message(er);
-			Console.WriteLine("Failed to receive data from socket");
+			Log.Message("Failed to receive data from socket");
 			Internal.Free(buffer);
 			return;
 		}
@@ -255,7 +255,7 @@ class Server : Leaf.Entity
 		String message = scope String((char8*)buffer, readSize);
 
 		debugMsg.Add(new String(message));
-		Console.WriteLine(message);
+		Log.Message(message);
 
 		Internal.Free(buffer);
 	}
@@ -271,13 +271,13 @@ class Server : Leaf.Entity
 		port = 9096;
 
 		if (listener.Listen(port) case .Ok)
-			Console.WriteLine("Started server at port {0}", port);
+			Log.Message("Started server at port {0}", port);
 		else
-			Console.WriteLine("Cannot start server at port {0}", port);
+			Log.Message("Cannot start server at port {0}", port);
 
 		if(client.Connect(serverIp, port, out sock) case .Err)
 		{
-			Console.WriteLine("Failed to connect to server");
+			Log.Message("Failed to connect to server");
 			client.Close();
 			return;
 		}
@@ -285,7 +285,7 @@ class Server : Leaf.Entity
 		var sendRes = client.Send(messageToSend, messageToSend.Length);
 		if (sendRes case .Err(let err))
 		{
-			Console.WriteLine("Failed to send data");
+			Log.Message("Failed to send data");
 			client.Close();
 			return;
 		}
@@ -297,7 +297,7 @@ class Server : Leaf.Entity
 
 		if(recvRes case .Err)
 		{
-			Console.WriteLine("Failed to receive data from server");
+			Log.Message("Failed to receive data from server");
 			Internal.Free(buffer);
 			client.Close();
 			return;

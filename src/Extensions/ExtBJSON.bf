@@ -22,6 +22,19 @@ extension JsonValue
 		Json.Stringify(strBuffer);
 	}
 
+	public JsonValue this[StringView key]
+	{
+		/*
+		get
+		{
+			return this[key.ToString(.. scope .())];
+		}
+		set
+		{
+		}
+		*/
+	}
+
 	public JsonValue this[String key]
 	{
 		get
@@ -98,6 +111,20 @@ extension JsonValue
 
 extension JsonObject
 {
+	/*
+	public JsonValue this[StringView key]
+	{
+		get
+		{
+			return this[key.ToString(.. scope .())];
+		}
+
+		set
+		{
+		}
+	}
+	*/
+
 	public JsonValue this[String key]
 	{
 		get

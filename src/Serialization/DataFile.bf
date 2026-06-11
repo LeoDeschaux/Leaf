@@ -14,19 +14,9 @@ namespace Leaf;
 
 //typealias DataFile = BJSON.Models.JsonOBject;
 
-public class DataArray
-{
-
-}
-
-public class DataNode
-{
-	BJSON.Models.JsonObject;
-}
-
 public class DataFile
 {
-	BJSON.Models.JsonObject root;
+	public BJSON.Models.JsonObject root;
 
 	public this()
 	{

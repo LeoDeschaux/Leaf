@@ -166,8 +166,10 @@ class SerializationHelper
 		}
 	}
 
-	public static void AutoSaveField(Object entity, DataFile df)
+	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df)
 	{
+		df["type"] = entity.GetType().ToString(.. scope .());
+
 		for (var field in entity.GetType().GetFields())
 		{
 			T* GetValuePtr<T>()
@@ -189,6 +191,24 @@ class SerializationHelper
 				continue;
 			}
 
+			if(field.FieldType == typeof(float))
+			{
+				df[field.Name] = *GetValuePtr<float>();
+				continue;
+			}
+
+			if(field.FieldType == typeof(Color))
+			{
+				//df[field.Name] = *GetValuePtr<float>();
+				continue;
+			}
+
+			if(field.FieldType == typeof(Vector3))
+			{
+				//df[field.Name] = *GetValuePtr<float>();
+				continue;
+			}
+
 			if(field.FieldType == typeof(String))
 			{
 				df[field.Name] = *GetValuePtr<String>();
@@ -204,7 +224,7 @@ class SerializationHelper
 				for(var obj in list)
 				{
 					df[field.Name][i] = BJSON.Models.JsonObject();
-					AutoSaveField(this, df[field.Name][i]);
+					AutoSaveField(obj, df[field.Name][i].AsObject());
 					Log.Message(obj.ToString(.. scope .()));
 					i++;
 				}
@@ -257,8 +277,71 @@ class SerializationHelper
 		}
 	}
 
-	public static void AutoLoadField(Object entity, DataFile df)
+	public static void AutoLoadField(Object entity, BJSON.Models.JsonValue df)
 	{
+		df["type"] = entity.GetType().ToString(.. scope .());
 
+		for (var field in entity.GetType().GetFields())
+		{
+			T* GetValuePtr<T>()
+			{
+				return (T*)field.GetValueReference(entity).Get().DataPtr;
+			}
+
+			mixin GetValuePtrRef<T>()
+			{
+				(T*)field.GetValueReference(entity).Get().DataPtr
+			}
+
+			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+				continue;
+
+			if(field.FieldType == typeof(int))
+			{
+				continue;
+			}
+
+			if(field.FieldType == typeof(float))
+			{
+				continue;
+			}
+
+			if(field.FieldType == typeof(Color))
+			{
+				continue;
+			}
+
+			if(field.FieldType == typeof(Vector3))
+			{
+				continue;
+			}
+
+			if(field.FieldType == typeof(String))
+			{
+				continue;
+			}
+
+			/*
+			if(field.FieldType.IsGenericType &&
+				((System.Reflection.SpecializedGenericType)field.FieldType).UnspecializedType == typeof(List<>))
+			{
+				df[field.Name] = BJSON.Models.JsonArray();
+				var list = *GetValuePtr<List<Object>>();
+				int i = 0;
+				for(var obj in list)
+				{
+					df[field.Name][i] = BJSON.Models.JsonObject();
+					AutoSaveField(obj, df[field.Name][i].AsObject());
+					Log.Message(obj.ToString(.. scope .()));
+					i++;
+				}
+
+				continue;
+			}
+			*/
+
+			Debug.FatalError(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
+			Log.Error(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
+		}
 	}
 }

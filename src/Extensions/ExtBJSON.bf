@@ -24,15 +24,14 @@ extension JsonValue
 
 	public JsonValue this[StringView key]
 	{
-		/*
 		get
 		{
 			return this[key.ToString(.. scope .())];
 		}
 		set
 		{
+			this[key.ToString(.. scope .())] = value;
 		}
-		*/
 	}
 
 	public JsonValue this[String key]

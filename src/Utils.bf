@@ -1,12 +1,38 @@
 #pragma warning disable 168
 using System;
 using RaylibBeef;
+using System.Collections;
 using static RaylibBeef.Raylib;
 
 namespace Leaf;
 
 public class Utils
 {
+	public static List<Type> GetListOfBaseType<T>()
+	{
+		var types = new List<Type>();
+		for(var t in Type.Enumerator())
+		{
+			if(t.BaseType == typeof(T))
+			{
+				//Log.Message(t);
+				types.Add(t);
+			}
+		}
+		return types;
+	}
+
+	public static Type ConvertStringToType(StringView strType)
+	{
+		for(Type t in Type.Enumerator())
+		{
+			if(strType == t.ToString(.. scope .()))
+				return t;
+		}
+
+		return null;
+	}
+
 	public static int GenerateUUID()
 	{
 		return Guid.Create().GetHashCode();

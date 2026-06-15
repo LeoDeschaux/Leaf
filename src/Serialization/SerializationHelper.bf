@@ -203,6 +203,14 @@ class SerializationHelper
 				continue;
 			}
 
+			if(field.FieldType == typeof(Vector2))
+			{
+				df[field.Name] = BJSON.Models.JsonObject();
+				df[field.Name]["x"] = (*GetValuePtrRef!<Vector2>()).x;
+				df[field.Name]["y"] = (*GetValuePtrRef!<Vector2>()).y;
+				continue;
+			}
+
 			if(field.FieldType == typeof(Vector3))
 			{
 				df[field.Name] = BJSON.Models.JsonObject();
@@ -228,7 +236,6 @@ class SerializationHelper
 				{
 					df[field.Name][i] = BJSON.Models.JsonObject();
 					AutoSaveField(obj, df[field.Name][i].AsObject());
-					Log.Message(obj.ToString(.. scope .()));
 					i++;
 				}
 
@@ -324,6 +331,14 @@ class SerializationHelper
 				continue;
 			}
 
+			if(field.FieldType == typeof(Vector2))
+			{
+				*GetValuePtrRef!<Vector2>() = Vector2(
+					df[field.Name]["x"],
+					df[field.Name]["y"]);
+				continue;
+			}
+
 			if(field.FieldType == typeof(Vector3))
 			{
 				*GetValuePtrRef!<Vector3>() = Vector3(
@@ -335,6 +350,9 @@ class SerializationHelper
 
 			if(field.FieldType == typeof(String))
 			{
+				String s = *GetValuePtrRef!<String>();
+				s.Clear();
+				s.Append(df[field.Name]);
 				continue;
 			}
 

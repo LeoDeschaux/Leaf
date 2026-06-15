@@ -42,6 +42,8 @@ namespace RaylibBeef
 			return Raymath.Vector2Normalize(this);
 		}
 
+		public float Magnitude() => Raymath.Vector2Length(this);
+
 		public static float Distance(Vector2 left, Vector2 right)
 		{
 			return Raymath.Vector2Distance(left, right);

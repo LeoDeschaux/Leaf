@@ -101,10 +101,15 @@ public extension Raylib
 		DrawText(text, (int32)pos.x, (int32)pos.y, fontSize,color);
 	}
 
-	public static void DrawGuide()
+	public static void DrawDiagonales(Rectangle bounds)
 	{
-		Rectangle bounds = .(.(0,0), .(GetScreenWidth(), GetScreenHeight()));
+		//DIAG
+		DrawLineV(bounds.A, bounds.C, RED);
+		DrawLineV(bounds.D, bounds.B, RED);
+	}
 
+	public static void DrawGuide(Rectangle bounds)
+	{
 		//DIAG
 		DrawLineV(bounds.A, bounds.C, RED);
 		DrawLineV(bounds.D, bounds.B, RED);
@@ -119,6 +124,11 @@ public extension Raylib
 
 		DrawLineV(.(bounds.width/3, bounds.y), .(bounds.width/3,bounds.height), YELLOW);
 		DrawLineV(.((bounds.width/3)*2, bounds.y), .((bounds.width/3)*2,bounds.height), YELLOW);
+	}
+
+	public static void DrawGuide()
+	{
+		DrawGuide(.(.(0,0), .(GetScreenWidth(), GetScreenHeight())));
 	}
 
 	public static Vector2 GetScreenSize()

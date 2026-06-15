@@ -19,9 +19,7 @@ public static class Log
 	private static ConsoleColor DefaultBackgroundColor = ConsoleColor.Black;
 
 	//MessageThreashold(shouldPrintRed: ms > 50)
-
 	//MessageThreashold(colorCoef: ms / 200) between 0f-1f
-
 	//Log.Message("message", ms<20 ? GREEN : RED
 
 	public static void MessageThreashold(bool shouldPrintRed)
@@ -34,23 +32,10 @@ public static class Log
 		//if < 0.5 print red, otherwise green
 	}
 
-	public static void Word()
-	{
-		//TODO
-		Console.Write("");
-	}
-
 	public static void Error(StringView message)
 	{
 		Log.Message(message, .Red, .Yellow);
 	}
-
-	/*
-	public static void Message(StringView message)
-	{
-		Log.Message(message, DefaultTextColor, DefaultBackgroundColor);
-	}
-	*/
 
 	public static void Message(StringView fmt, params Object[] args)
 	{
@@ -60,19 +45,11 @@ public static class Log
 	}
 
 	public static void Message(StringView message,
-		ConsoleColor textColor = DefaultTextColor,
-		ConsoleColor backgroundColor = DefaultBackgroundColor)
+		String file = Compiler.CallerFileName,
+		int lineNum = Compiler.CallerLineNum)
 	{
-		Console.ForegroundColor = textColor;
-		Console.BackgroundColor = backgroundColor;
-
-		Console.WriteLine(message);
-		Debug.WriteLine(message);
-
-		Logs.Add(new String(scope $"{message} - {DateTime.Now}"));
-
-		Console.ForegroundColor = ConsoleColor.White;
-		Console.BackgroundColor = ConsoleColor.Black;
+		Log.Message(message, textColor:DefaultTextColor, backgroundColor:DefaultBackgroundColor,
+			file:file, lineNum:lineNum);
 	}
 
 	public static void Message(
@@ -125,5 +102,24 @@ public static class Log
 		else
 			obj.ToString(str);
 		Message(str, textColor, backgroundColor);
+	}
+
+	public static void Message(StringView message,
+		ConsoleColor textColor = DefaultTextColor,
+		ConsoleColor backgroundColor = DefaultBackgroundColor,
+
+		String file = Compiler.CallerFileName,
+		int lineNum = Compiler.CallerLineNum)
+	{
+		Console.ForegroundColor = textColor;
+		Console.BackgroundColor = backgroundColor;
+
+		Console.WriteLine(message);
+		Debug.WriteLine(message);
+
+		Logs.Add(new String(scope $"[{file}:{lineNum}] {message} - {DateTime.Now}"));
+
+		Console.ForegroundColor = ConsoleColor.White;
+		Console.BackgroundColor = ConsoleColor.Black;
 	}
 }

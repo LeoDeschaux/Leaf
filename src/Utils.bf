@@ -8,7 +8,7 @@ namespace Leaf;
 
 public class Utils
 {
-	public static List<Type> GetListOfBaseType<T>()
+	public static List<Type> GetTypes<T>()
 	{
 		var types = new List<Type>();
 		for(var t in Type.Enumerator())

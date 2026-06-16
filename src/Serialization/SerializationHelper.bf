@@ -48,7 +48,7 @@ class SerializationHelper
 			PrintFields(subField, depth);
 	}
 
-	public static void AutoImGuiField(Object entity)
+	public static void AutoImGuiField(Object entity, int depth = 0)
 	{
 		for (var field in entity.GetType().GetFields())
 		{
@@ -125,6 +125,78 @@ class SerializationHelper
 			if(field.FieldType == typeof(String))
 			{
 				ImGui.Text(scope $"{*GetValuePtr<String>()}");
+				continue;
+			}
+
+			if(!field.FieldType.IsGenericType && field.FieldType.IsSubtypeOf(typeof(Object)))
+			{
+				/*
+				ImGui.PushStyleColor(.Text, .(255,255,0,255));
+				ImGui.Text(scope $"{field.Name}");
+				ImGui.PopStyleColor();
+				*/
+
+				var dl = ImGui.GetWindowDrawList();
+				ImGui.DrawListSplitter splitter = .();
+				splitter.Split(dl, 2);
+
+				splitter.SetCurrentChannel(dl, 1);
+
+				Vector2 min = ImGui.GetCursorScreenPos();
+
+				ImGui.PushStyleColor(.Header, Color(0, 0, 0, 0));
+				ImGui.PushStyleColor(.Border, Color(255, 255, 255, 255));
+				ImGui.PushStyleColor(.Text, Color(255, 255, 255, 255));
+				ImGui.PushStyleColor(.HeaderHovered, Color(0,0,0,0));
+				ImGui.PushStyleColor(.HeaderActive, Color(0,0,0,0));
+
+				Vector2 max = .(0,0);
+				max.x = ImGui.GetWindowPos().x + ImGui.GetContentRegionAvail().x;
+
+				ImGui.BeginGroup();
+
+				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
+				{
+					ImGui.Indent(16*depth);
+					AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr, depth+1);
+					ImGui.Unindent();
+				}
+				ImGui.EndGroup();
+
+				ImGui.PopStyleColor(5);
+
+				max.y = ImGui.GetItemRectMax().y;
+				
+				splitter.SetCurrentChannel(dl, 0);
+
+				var color = ImGui.GetColorU32(depth == 0 ? .(0.30f, 0.1f, 0.1f, 0.7f) : .(0.30f, 0.30f, 0.1f, 0.7f));
+
+				dl.AddRectFilled(min, max, color);
+				splitter.Merge(dl);
+
+				/*
+				Vector2 min = ImGui.GetCursorScreenPos();
+
+				ImGui.BeginGroup();
+				if(ImGui.CollapsingHeader(scope $"{field.Name}"))
+				{
+					ImGui.Indent(16*depth);
+					AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr, depth+1);
+					ImGui.Unindent();
+				}
+				ImGui.EndGroup();
+
+				Vector2 max = ImGui.GetItemRectMax();
+
+				ImGui.GetWindowDrawList().AddRectFilled(
+				    min,
+				    max,
+				    ImGui.GetColorU32(.(0.12f, 0.12f, 0.12f, 1.0f))
+				);
+				*/
+
+				//ImGui.Separator();
+
 				continue;
 			}
 

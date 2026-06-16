@@ -8,7 +8,7 @@ using Leaf.Serialization;
 namespace Leaf;
 
 //[AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.Methods)]
-[AttributeUsage(.Class | .Struct | .Field, .ReflectAttribute, ReflectUser=.Methods)]
+[AttributeUsage(.Class | .Struct | .Field | .All, .ReflectAttribute, ReflectUser=.Methods)]
 struct AutoSerializeAttribute : Attribute
 {
 	public this()
@@ -23,6 +23,11 @@ struct AutoSerializeAttribute : Attribute
 
 	public static void Serialize(Entity entity)
 	{
+		for(var m in entity.GetType().GetMethods())
+		{
+			//if(m.Type)
+		}
+
 		for (var field in entity.GetType().GetFields())
 		{
 			if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())

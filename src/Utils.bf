@@ -13,7 +13,8 @@ public class Utils
 		var types = new List<Type>();
 		for(var t in Type.Enumerator())
 		{
-			if(t.BaseType == typeof(T))
+			//if(t.BaseType == typeof(T))
+			if(t.IsSubtypeOf(typeof(T)))
 			{
 				//Log.Message(t);
 				types.Add(t);

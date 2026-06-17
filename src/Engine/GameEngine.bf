@@ -165,7 +165,7 @@ class GameEngine
 		if(obj case .Err(let err))
 		{
 			Log.Message(err);
-			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
 		CurrentScene = (BaseScene)obj;
@@ -195,7 +195,7 @@ class GameEngine
 		if(obj case .Err(let err))
 		{
 			Log.Message(err);
-			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
 		CurrentScene = (BaseScene)obj;

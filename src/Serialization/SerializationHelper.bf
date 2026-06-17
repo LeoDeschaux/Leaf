@@ -4,6 +4,7 @@ using System.Collections;
 using ImGui;
 using RaylibBeef;
 using System.Diagnostics;
+
 namespace Leaf.Serialization;
 
 //full path name is : field.FieldType
@@ -48,12 +49,23 @@ class SerializationHelper
 			PrintFields(subField, depth);
 	}
 
-	public static void AutoImGuiField(Object entity, int depth = 0)
+	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false)
 	{
+		int CountFields()
+		{
+			int i = 0;
+			for(var f in entity.GetType().GetFields())
+				i++;
+			return i;
+		}
+
 		for (var field in entity.GetType().GetFields())
 		{
+			//ImGui.Text(CountFields().ToString(.. scope .()));
 			if(field.HasCustomAttribute<HideInInspectorAttribute>())
 				continue;
+
+			var DataPtr = field.GetValueReference(entity).Get().DataPtr;
 
 			T* GetValuePtr<T>()
 			{
@@ -65,9 +77,13 @@ class SerializationHelper
 				(T*)field.GetValueReference(entity).Get().DataPtr
 			}
 
+			//ImGui.Button(scope $"x:{field.FieldType.GetName(.. scope .())}");
+
 			//Log.Message(field.Name);
 
-			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
+
+			if(!force && !hasTag)
 				continue;
 
 			if(field.HasCustomAttribute<NonEditableAttribute>())
@@ -85,7 +101,7 @@ class SerializationHelper
 			*/
 
 			//if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())
-			if(field.FieldType == typeof(int))
+			if(field.FieldType == typeof(int) || field.FieldType == typeof(int32))
 			{
 				ImGui.SliderInt(scope $"{field.Name}", GetValuePtr<int32>(), 0, 500);
 				continue;
@@ -128,32 +144,34 @@ class SerializationHelper
 				continue;
 			}
 
-			if(!field.FieldType.IsGenericType && field.FieldType.IsSubtypeOf(typeof(Object)))
+			if(field.FieldType.IsStruct)
 			{
-				/*
+				ImGui.BeginColoredGroup(.(0.3f, 0.1f, 0.3f, 1f));
+				defer ImGui.EndColoredGroup();
+
+				if(field.FieldType == typeof(Camera2D))
+				{
+					Camera2D* cam = GetValuePtrRef!<Camera2D>(); 
+					AutoImGuiField(cam,depth+1,true);
+					continue;
+				}
+
+				if(field.FieldType == typeof(Camera3D))
+				{
+					Camera3D* cam = GetValuePtrRef!<Camera3D>(); 
+					AutoImGuiField(cam,depth+1,true);
+					continue;
+				}
+			}
+
+			if(!field.FieldType.IsGenericType &&
+				(field.FieldType.IsSubtypeOf(typeof(Object)) || field.FieldType.IsInterface))
+			{
 				ImGui.PushStyleColor(.Text, .(255,255,0,255));
 				ImGui.Text(scope $"{field.Name}");
 				ImGui.PopStyleColor();
-				*/
 
-				var dl = ImGui.GetWindowDrawList();
-				ImGui.DrawListSplitter splitter = .();
-				splitter.Split(dl, 2);
-
-				splitter.SetCurrentChannel(dl, 1);
-
-				Vector2 min = ImGui.GetCursorScreenPos();
-
-				ImGui.PushStyleColor(.Header, Color(0, 0, 0, 0));
-				ImGui.PushStyleColor(.Border, Color(255, 255, 255, 255));
-				ImGui.PushStyleColor(.Text, Color(255, 255, 255, 255));
-				ImGui.PushStyleColor(.HeaderHovered, Color(0,0,0,0));
-				ImGui.PushStyleColor(.HeaderActive, Color(0,0,0,0));
-
-				Vector2 max = .(0,0);
-				max.x = ImGui.GetWindowPos().x + ImGui.GetContentRegionAvail().x;
-
-				ImGui.BeginGroup();
+				ImGui.BeginColoredGroup(RaylibBeef.Raylib.RayToImGuiColor(Raylib.RED));
 
 				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
 				{
@@ -161,41 +179,8 @@ class SerializationHelper
 					AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr, depth+1);
 					ImGui.Unindent();
 				}
-				ImGui.EndGroup();
 
-				ImGui.PopStyleColor(5);
-
-				max.y = ImGui.GetItemRectMax().y;
-				
-				splitter.SetCurrentChannel(dl, 0);
-
-				var color = ImGui.GetColorU32(depth == 0 ? .(0.30f, 0.1f, 0.1f, 0.7f) : .(0.30f, 0.30f, 0.1f, 0.7f));
-
-				dl.AddRectFilled(min, max, color);
-				splitter.Merge(dl);
-
-				/*
-				Vector2 min = ImGui.GetCursorScreenPos();
-
-				ImGui.BeginGroup();
-				if(ImGui.CollapsingHeader(scope $"{field.Name}"))
-				{
-					ImGui.Indent(16*depth);
-					AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr, depth+1);
-					ImGui.Unindent();
-				}
-				ImGui.EndGroup();
-
-				Vector2 max = ImGui.GetItemRectMax();
-
-				ImGui.GetWindowDrawList().AddRectFilled(
-				    min,
-				    max,
-				    ImGui.GetColorU32(.(0.12f, 0.12f, 0.12f, 1.0f))
-				);
-				*/
-
-				//ImGui.Separator();
+				ImGui.EndColoredGroup();
 
 				continue;
 			}
@@ -203,38 +188,6 @@ class SerializationHelper
 			ImGui.PushStyleColor(.Text, .(255,0,0,255));
 			ImGui.Text(scope $"ERROR - {field.FieldType} not handled");
 			ImGui.PopStyleColor();
-
-			//AutoImGuiField(*field.GetValueReference(entity).Get().DataPtr);
-			//AutoImGuiField(*field.GetValue(entity).Get().DataPtr);
-			//AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
-
-			//var fieldObject = field.GetValueReference(entity).Get();
-
-			//var tPtr = (SerializeEngine.Transform*)field.GetValueReference(entity).Get().DataPtr;
-			//(*tPtr).Position.x = 123;
-			//AutoImGuiField(*tPtr);
-
-			//AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
-
-			/*
-			for(var subField in field.FieldType.GetFields())
-			{
-				var parent = field.GetValueReference(entity).Get();
-
-				Log.Message(entity);
-				Log.Message(field.GetValueReference(entity).Get().VariantType);
-				Log.Message(field.GetValueReference(entity).Get().RawVariantType);
-
-
-				if(field.GetValueReference(entity).Get().IsValueType)
-					Log.Message(field.GetValueReference(entity).Get().GetValueData());
-				//Log.Message(subField.GetValueReference(parent).Get());
-
-				AutoImGuiField(field.GetValueReference(entity).Get().GetValueData());
-			}
-			*/
-			//SerializationHelper.PrintField(field);
-			//Log.Message(fieldAttribute.MyCustomFunction());
 		}
 	}
 

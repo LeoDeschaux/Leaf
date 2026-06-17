@@ -59,16 +59,6 @@ namespace RaylibBeef
 			strBuffer.Append(scope $"x:{x},y:{y}");
 		}
 
-		public static operator Vector2(ImGui.ImGui.Vec2 val)
-		{
-			return Vector2(val.x, val.y);
-		}
-
-		public static operator ImGui.ImGui.Vec2(Vector2 val)
-		{
-			return ImGui.ImGui.Vec2(val.x, val.y);
-		}
-
 		public static Vector2 Clamp(Vector2 value, Vector2 min, Vector2 max)
 		{
 			return .(

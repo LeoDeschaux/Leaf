@@ -8,7 +8,7 @@ using Leaf.Serialization;
 namespace Leaf;
 
 //[AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.Methods)]
-[AttributeUsage(.Class | .Struct | .Field | .All, .ReflectAttribute, ReflectUser=.Methods)]
+[AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.All)]
 struct AutoSerializeAttribute : Attribute
 {
 	public this()

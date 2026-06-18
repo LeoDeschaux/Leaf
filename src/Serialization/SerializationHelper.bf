@@ -191,7 +191,7 @@ class SerializationHelper
 		}
 	}
 
-	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df, bool force = false)
+	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
 	{
 		df["Type"] = entity.GetType().ToString(.. scope .());
 
@@ -199,6 +199,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
+				continue;
+
 			Log.Message(field.Name);
 
 			T* GetValuePtr<T>()
@@ -293,7 +296,7 @@ class SerializationHelper
 		}
 	}
 
-	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, bool force = false)
+	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
 	{
 		var entity;
 		Type type = Utils.ConvertStringToType(df["Type"]);
@@ -311,6 +314,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
+				continue;
+
 			T* GetValuePtr<T>()
 			{
 				return (T*)field.GetValueReference(entity).Get().DataPtr;

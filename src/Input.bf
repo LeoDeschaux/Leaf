@@ -128,4 +128,31 @@ class InputSystem : Leaf.Entity
 
 		return res;
 	}
+
+	public void InitDefaultBindings()
+	{
+		BindAxis("XAxis", new () => IsKeyDown(KeyboardKey.KEY_A) ? -1 : 0);
+		BindAxis("XAxis", new () => IsKeyDown(KeyboardKey.KEY_D) ? 1 : 0);
+		BindAxis("XAxis", new () => IsKeyDown(KeyboardKey.KEY_LEFT) ? -1 : 0);
+		BindAxis("XAxis", new () => IsKeyDown(KeyboardKey.KEY_RIGHT) ? 1 : 0);
+
+		BindAxis("YAxis", new () => IsKeyDown(KeyboardKey.KEY_W) ? -1 : 0);
+		BindAxis("YAxis", new () => IsKeyDown(KeyboardKey.KEY_S) ? 1 : 0);
+		BindAxis("YAxis", new () => IsKeyDown(KeyboardKey.KEY_UP) ? -1 : 0);
+		BindAxis("YAxis", new () => IsKeyDown(KeyboardKey.KEY_DOWN) ? 1 : 0);
+
+		BindAction("Jump", new () => IsKeyPressed(KeyboardKey.KEY_UP));
+		BindAction("Jump", new () => IsKeyPressed(KeyboardKey.KEY_SPACE));
+
+		BindAction("ReleaseJump", new () => IsKeyReleased(KeyboardKey.KEY_UP));
+		BindAction("ReleaseJump", new () => IsKeyReleased(KeyboardKey.KEY_SPACE));
+
+		BindAction("Sneak", new () => IsKeyDown(KeyboardKey.KEY_LEFT_CONTROL));
+		BindAction("Sprint", new () => IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT));
+
+		BindAction("MeleeAttack", new () => IsKeyPressed(KeyboardKey.KEY_Z));
+		BindAction("RangeAttack", new () => IsKeyPressed(KeyboardKey.KEY_X));
+		BindAction("RangeAttack", new () => IsKeyDown(KeyboardKey.KEY_X)); //hold
+		BindAction("Dash", new () => IsKeyPressed(KeyboardKey.KEY_C));
+	}
 }

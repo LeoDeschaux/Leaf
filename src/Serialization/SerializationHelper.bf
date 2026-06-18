@@ -7,6 +7,16 @@ using System.Diagnostics;
 
 namespace Leaf.Serialization;
 
+public enum DataTypesFlags
+{
+	NONE,
+	PRIMITIVES,
+	STRUCTS,
+	OBJECTS,
+	LISTS,
+	ALL = .PRIMITIVES | STRUCTS | OBJECTS | LISTS,
+}
+
 //full path name is : field.FieldType
 class SerializationHelper
 {
@@ -49,7 +59,7 @@ class SerializationHelper
 			PrintFields(subField, depth);
 	}
 
-	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false)
+	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
 	{
 		int CountFields()
 		{
@@ -61,6 +71,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
+				continue;
+
 			//ImGui.Text(CountFields().ToString(.. scope .()));
 			if(field.HasCustomAttribute<HideInInspectorAttribute>())
 				continue;
@@ -78,11 +91,9 @@ class SerializationHelper
 			}
 
 			//ImGui.Button(scope $"x:{field.FieldType.GetName(.. scope .())}");
-
 			//Log.Message(field.Name);
 
 			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
-
 			if(!force && !hasTag)
 				continue;
 
@@ -93,14 +104,6 @@ class SerializationHelper
 				continue;
 			}
 
-			/*
-			if(field.FieldType.IsSubtypeOf(typeof(Entity)))
-			{
-				AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr);
-			}
-			*/
-
-			//if (let fieldAttribute = field.GetCustomAttribute<AutoSerializeAttribute>())
 			if(field.FieldType == typeof(int) || field.FieldType == typeof(int32))
 			{
 				ImGui.SliderInt(scope $"{field.Name}", GetValuePtr<int32>(), 0, 500);
@@ -133,7 +136,6 @@ class SerializationHelper
 
 			if(field.FieldType == typeof(Color))
 			{
-				//ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
 				ImGui.ColorEdit4(scope $"{field.Name}", ref *GetValuePtrRef!<Color>());
 				continue;
 			}
@@ -149,24 +151,22 @@ class SerializationHelper
 				ImGui.BeginColoredGroup(.(0.3f, 0.1f, 0.3f, 1f));
 				defer ImGui.EndColoredGroup();
 
-				if(field.FieldType == typeof(Camera2D))
-				{
-					Camera2D* cam = GetValuePtrRef!<Camera2D>(); 
-					AutoImGuiField(cam,depth+1,true);
-					continue;
-				}
+				var variant = field.GetValueReference(entity).Get();
+				var boxed = variant.GetBoxed().Get();
+				defer delete boxed;
 
-				if(field.FieldType == typeof(Camera3D))
-				{
-					Camera3D* cam = GetValuePtrRef!<Camera3D>(); 
-					AutoImGuiField(cam,depth+1,true);
-					continue;
-				}
+				AutoImGuiField(boxed, depth, true);
+				field.SetValue(entity, boxed);
+
+				continue;
 			}
 
 			if(!field.FieldType.IsGenericType &&
 				(field.FieldType.IsSubtypeOf(typeof(Object)) || field.FieldType.IsInterface))
 			{
+				if(ignoreFlags.HasFlag(.OBJECTS))
+					continue;
+
 				ImGui.PushStyleColor(.Text, .(255,255,0,255));
 				ImGui.Text(scope $"{field.Name}");
 				ImGui.PopStyleColor();
@@ -191,12 +191,16 @@ class SerializationHelper
 		}
 	}
 
-	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df)
+	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df, bool force = false)
 	{
 		df["Type"] = entity.GetType().ToString(.. scope .());
 
+		Log.Message(entity.GetType().ToString(.. scope .()));
+
 		for (var field in entity.GetType().GetFields())
 		{
+			Log.Message(field.Name);
+
 			T* GetValuePtr<T>()
 			{
 				return (T*)field.GetValueReference(entity).Get().DataPtr;
@@ -207,10 +211,11 @@ class SerializationHelper
 				(T*)field.GetValueReference(entity).Get().DataPtr
 			}
 
-			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
+			if(!force && !hasTag)
 				continue;
 
-			if(field.FieldType == typeof(int))
+			if(field.FieldType == typeof(int) || field.FieldType == typeof(int32))
 			{
 				df[field.Name] = *GetValuePtr<int32>();
 				continue;
@@ -228,29 +233,46 @@ class SerializationHelper
 				continue;
 			}
 
-			if(field.FieldType == typeof(Vector2))
-			{
-				df[field.Name] = BJSON.Models.JsonObject();
-				df[field.Name]["x"] = (*GetValuePtrRef!<Vector2>()).x;
-				df[field.Name]["y"] = (*GetValuePtrRef!<Vector2>()).y;
-				continue;
-			}
-
-			if(field.FieldType == typeof(Vector3))
-			{
-				df[field.Name] = BJSON.Models.JsonObject();
-				df[field.Name]["x"] = (*GetValuePtrRef!<Vector3>()).x;
-				df[field.Name]["y"] = (*GetValuePtrRef!<Vector3>()).y;
-				df[field.Name]["z"] = (*GetValuePtrRef!<Vector3>()).z;
-				continue;
-			}
-
 			if(field.FieldType == typeof(String))
 			{
 				df[field.Name] = *GetValuePtr<String>();
 				continue;
 			}
 
+			if(field.FieldType.IsStruct && !field.FieldType.IsStatic)
+			{
+				df[field.Name] = BJSON.Models.JsonObject();
+
+				var variant = field.GetValueReference(entity).Get();
+				var boxed = variant.GetBoxed().Get();
+
+				AutoSaveField(boxed, df[field.Name].AsObject(), true);
+
+				delete boxed;
+				continue;
+			}
+
+			if(!field.FieldType.IsGenericType &&
+				(field.FieldType.IsSubtypeOf(typeof(Object)) || field.FieldType.IsInterface))
+			{
+				Log.Message(field.FieldType.GetName(.. scope .()), .DarkMagenta);
+				df[field.Name] = BJSON.Models.JsonObject();
+				//AutoSaveField(*(Object*)field.GetValueReference(entity).Get().DataPtr, df[field.Name].AsObject(), true);
+
+				var variant = field.GetValueReference(entity).Get();
+
+				if(*(Object*)variant.DataPtr == null)
+				{
+					df[field.Name] = BJSON.Models.JsonNull();
+					continue;
+				}
+				//var i = variant.GetBoxed().GetValueOrDefault();
+
+				AutoSaveField(*(Object*)variant.DataPtr, df[field.Name].AsObject(), true);
+
+				continue;
+			}
+			
 			if(field.FieldType.IsGenericType &&
 				((System.Reflection.SpecializedGenericType)field.FieldType).UnspecializedType == typeof(List<>))
 			{
@@ -263,65 +285,29 @@ class SerializationHelper
 					AutoSaveField(obj, df[field.Name][i].AsObject());
 					i++;
 				}
-
 				continue;
 			}
-
-			/*
-
-			Log.Message(field.GetValue(entity).Get().VariantType);
-			//var test = field.FieldType;
-			var test = field.GetValue(entity).Get().Get<List<Object>>();
-
-			Log.Message(test.IsSplattable);
-			Log.Message(test.IsArray);
-
-			Log.Message(test.IsSubtypeOf(typeof(List<>)));
-			Log.Message(test.IsSubtypeOf(typeof(List<Object>)));
-
-			Log.Message(test == typeof(List<>));
-			Log.Message(test == typeof(List<Object>));
-
-			Log.Message(test is List);
-			Log.Message(test is List<Object>);
-
-			Log.Message(test is IList);
-			Log.Message(test is System.Collections.IEnumerable<Object>);
-			Log.Message(test is System.Collections.ICollection<Object>);
-			*/
-
-			//Log.Message(field.GetValueReference(entity).Get());
-
-			/*
-			Log.Message(field.FieldType);
-			Log.Message(field.GetType());
-			Log.Message(field.DeclaringType);
-
-			Log.Message(field.FieldType.GetType());
-			Log.Message(field.FieldType.BaseType);
-			Log.Message(field.FieldType.BoxedType);
-			Log.Message(field.FieldType.OuterType);
-			Log.Message(field.FieldType.WrappedType);
-			Log.Message(field.FieldType.BoxedPtrType);
-			Log.Message(field.FieldType.UnderlyingType);
-			Log.Message(field.FieldType.TypeDeclaration);
-			*/
 
 			Debug.FatalError(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
 			Log.Error(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
 		}
 	}
 
-	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null)
+	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, bool force = false)
 	{
 		var entity;
 		Type type = Utils.ConvertStringToType(df["Type"]);
 
-		if(entity == null)
+		if(type == null)
 		{
-			//entity = new Object();
-			entity = type.CreateObject().Get();
+			Log.Error("ERROR - type not found");
+			return null;
 		}
+
+		Log.Message(type);
+
+		if(entity == null)
+			entity = type.CreateObject().Get();
 
 		for (var field in entity.GetType().GetFields())
 		{
@@ -335,7 +321,8 @@ class SerializationHelper
 				(T*)field.GetValueReference(entity).Get().DataPtr
 			}
 
-			if(!field.HasCustomAttribute<AutoSerializeAttribute>() && !field.FieldType.HasCustomAttribute<AutoSerializeAttribute>())
+			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
+			if(!force && !hasTag)
 				continue;
 
 			if(field.FieldType == typeof(int))
@@ -356,28 +343,39 @@ class SerializationHelper
 				continue;
 			}
 
-			if(field.FieldType == typeof(Vector2))
-			{
-				*GetValuePtrRef!<Vector2>() = Vector2(
-					df[field.Name]["x"],
-					df[field.Name]["y"]);
-				continue;
-			}
-
-			if(field.FieldType == typeof(Vector3))
-			{
-				*GetValuePtrRef!<Vector3>() = Vector3(
-					df[field.Name]["x"],
-					df[field.Name]["y"],
-					df[field.Name]["z"]);
-				continue;
-			}
-
 			if(field.FieldType == typeof(String))
 			{
 				String s = *GetValuePtrRef!<String>();
 				s.Clear();
 				s.Append(df[field.Name]);
+				continue;
+			}
+
+			if(field.FieldType.IsStruct)
+			{
+				var variant = field.GetValueReference(entity).Get();
+				var boxed = variant.GetBoxed().Get();
+
+				var tmp = AutoLoadField(df[field.Name], boxed, true);
+				field.SetValue(entity, tmp);
+
+				delete boxed;
+
+				continue;
+			}
+
+			if(!field.FieldType.IsGenericType &&
+				(field.FieldType.IsSubtypeOf(typeof(Object)) || field.FieldType.IsInterface))
+			{
+				Log.Message(field.FieldType.GetName(.. scope .()), .DarkMagenta);
+
+				var variant = field.GetValueReference(entity).Get();
+
+				if(df[field.Name].IsNull())
+					continue;
+
+				AutoLoadField(df[field.Name].AsObject(), *(Object*)variant.DataPtr, true);
+
 				continue;
 			}
 
@@ -388,8 +386,9 @@ class SerializationHelper
 				int i = 0;
 				for(var obj in df[field.Name].AsArray().Get())
 				{
-					AutoLoadField(df[field.Name][i].AsObject());
 					Log.Message(obj.ToString(.. scope .()));
+					var instance = AutoLoadField(df[field.Name][i].AsObject(), null, true);
+					(entity as List<Object>).Add(instance);
 					i++;
 				}
 

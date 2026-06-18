@@ -4,7 +4,7 @@ namespace RaylibBeef
 {
 	extension Vector3
 	{
-		public static Vector2 UP = .(0,-1);
+		public static Vector2 UP => .(0,-1);
 
 		public static Vector3 operator*(Vector3 left, Vector3 right)
 		{
@@ -26,6 +26,20 @@ namespace RaylibBeef
 			return .(left.x-right.x, left.y-right.y, left.z-right.z);
 		}
 
+		//VECTOR2
+
+		public static Vector3 operator+(Vector3 left, Vector2 right)
+		{
+			return .(left.x+right.x, left.y+right.y, left.z);
+		}
+
+		public static Vector3 operator*(Vector3 left, Vector2 right)
+		{
+			return .(left.x*right.x, left.y*right.y, left.z);
+		}
+
+		//FLOAT
+
 		public static Vector3 operator*(Vector3 left, float right)
 		{
 			return .(left.x*right, left.y*right, left.z*right);
@@ -35,6 +49,9 @@ namespace RaylibBeef
 		{
 			return .(left.x/right, left.y/right, left.z/right);
 		}
+
+		
+
 
 		public Vector3 Normalized()
 		{

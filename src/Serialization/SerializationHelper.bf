@@ -198,8 +198,17 @@ class SerializationHelper
 		}
 	}
 
-	public static void AutoSaveField(Object entity, BJSON.Models.JsonObject df, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
+	public static BJSON.Models.JsonObject AutoSaveField(Object entity, BJSON.Models.JsonObject df,
+		StringView objectName = Compiler.CallerExpression[0], bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool wrap = true)
 	{
+		var df;
+		if(wrap && (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
+		{
+			if(!df.ContainsKey(objectName))
+				df[objectName] = BJSON.Models.JsonObject();
+			df = df[objectName].AsObject();
+		}
+
 		df["Type"] = entity.GetType().ToString(.. scope .());
 
 		Log.Message(entity.GetType().ToString(.. scope .()));
@@ -258,12 +267,12 @@ class SerializationHelper
 
 			if(field.FieldType.IsStruct && !field.FieldType.IsStatic)
 			{
-				df[field.Name] = BJSON.Models.JsonObject();
+				//df[field.Name] = BJSON.Models.JsonObject();
 
 				var variant = field.GetValueReference(entity).Get();
 				var boxed = variant.GetBoxed().Get();
 
-				AutoSaveField(boxed, df[field.Name].AsObject(), true);
+				AutoSaveField(boxed, df, field.Name, true);
 
 				delete boxed;
 				continue;
@@ -273,7 +282,7 @@ class SerializationHelper
 				(field.FieldType.IsSubtypeOf(typeof(Object)) || field.FieldType.IsInterface))
 			{
 				Log.Message(field.FieldType.GetName(.. scope .()), .DarkMagenta);
-				df[field.Name] = BJSON.Models.JsonObject();
+				//df[field.Name] = BJSON.Models.JsonObject();
 				//AutoSaveField(*(Object*)field.GetValueReference(entity).Get().DataPtr, df[field.Name].AsObject(), true);
 
 				var variant = field.GetValueReference(entity).Get();
@@ -285,7 +294,7 @@ class SerializationHelper
 				}
 				//var i = variant.GetBoxed().GetValueOrDefault();
 
-				AutoSaveField(*(Object*)variant.DataPtr, df[field.Name].AsObject(), true);
+				AutoSaveField(*(Object*)variant.DataPtr, df, field.Name, true);
 
 				continue;
 			}
@@ -308,16 +317,26 @@ class SerializationHelper
 			Debug.FatalError(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
 			Log.Error(scope $"ERROR - {field.Name} ({field.FieldType}) not handled");
 		}
+
+		return df;
 	}
 
-	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
+	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, StringView objectName = Compiler.CallerExpression[1], bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
 	{
+		Log.Message(scope $"trying to load {objectName}");
+
 		var entity;
+		var df;
+		if(entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object)))
+		{
+			df = df[objectName].AsObject();
+		}
+
 		Type type = Utils.ConvertStringToType(df["Type"]);
 
 		if(type == null)
 		{
-			Log.Error("ERROR - type not found");
+			Log.Error(scope $"ERROR - type not found {objectName}");
 			return null;
 		}
 
@@ -383,7 +402,7 @@ class SerializationHelper
 				var variant = field.GetValueReference(entity).Get();
 				var boxed = variant.GetBoxed().Get();
 
-				var tmp = AutoLoadField(df[field.Name], boxed, true);
+				var tmp = AutoLoadField(df, boxed, field.Name, true);
 				field.SetValue(entity, tmp);
 
 				delete boxed;
@@ -401,7 +420,7 @@ class SerializationHelper
 				if(df[field.Name].IsNull())
 					continue;
 
-				AutoLoadField(df[field.Name].AsObject(), *(Object*)variant.DataPtr, true);
+				AutoLoadField(df, *(Object*)variant.DataPtr, field.Name, true);
 
 				continue;
 			}

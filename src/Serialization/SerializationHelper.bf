@@ -71,8 +71,15 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
-			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
-				continue;
+			if(ignoreTypes != null)
+			{
+				bool shouldBeIgnored = false;
+				for(var ignoreType in ignoreTypes)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+						shouldBeIgnored = true;
+				if(shouldBeIgnored)
+					continue;
+			}
 
 			//ImGui.Text(CountFields().ToString(.. scope .()));
 			if(field.HasCustomAttribute<HideInInspectorAttribute>())
@@ -199,8 +206,15 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
-			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
-				continue;
+			if(ignoreTypes != null)
+			{
+				bool shouldBeIgnored = false;
+				for(var ignoreType in ignoreTypes)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+						shouldBeIgnored = true;
+				if(shouldBeIgnored)
+					continue;
+			}
 
 			Log.Message(field.Name);
 
@@ -314,8 +328,15 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
-			if(ignoreTypes != null && ignoreTypes.Contains(field.FieldType))
-				continue;
+			if(ignoreTypes != null)
+			{
+				bool shouldBeIgnored = false;
+				for(var ignoreType in ignoreTypes)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+						shouldBeIgnored = true;
+				if(shouldBeIgnored)
+					continue;
+			}
 
 			T* GetValuePtr<T>()
 			{

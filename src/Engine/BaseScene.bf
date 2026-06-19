@@ -34,6 +34,8 @@ class BaseScene : Entity
 		delete mTimeline;
 	}
 
+	public virtual void Init(){};
+
 	public virtual void OnFinishedSwitchingScene(){};
 	public virtual void OnBeforeExit(){};
 	public virtual void PostEntities(){};

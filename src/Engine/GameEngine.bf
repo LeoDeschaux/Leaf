@@ -127,6 +127,7 @@ class GameEngine
 	{
 		CurrentScene = scene;
 		CurrentScene.GameEngine = this;
+		CurrentScene.Init();
 	}
 
 	public void RunGame(BaseScene scene = null)
@@ -170,6 +171,7 @@ class GameEngine
 
 		CurrentScene = (BaseScene)obj;
 		CurrentScene.GameEngine = this;
+		CurrentScene.Init();
 		CurrentScene.OnFinishedSwitchingScene();
 
 		Log.Message("--- GAME RESTARTED ---");

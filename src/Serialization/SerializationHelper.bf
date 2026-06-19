@@ -327,7 +327,8 @@ class SerializationHelper
 
 		var entity;
 		var df;
-		if(entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object)))
+
+		if(objectName != String.Empty && (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
 		{
 			df = df[objectName].AsObject();
 		}

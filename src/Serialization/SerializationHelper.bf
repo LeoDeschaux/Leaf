@@ -61,6 +61,9 @@ class SerializationHelper
 
 	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
 	{
+		ImGui.PushID(entity.ToString(.. scope .()));
+		defer ImGui.PopID();
+
 		int CountFields()
 		{
 			int i = 0;
@@ -75,7 +78,7 @@ class SerializationHelper
 			{
 				bool shouldBeIgnored = false;
 				for(var ignoreType in ignoreTypes)
-					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType == ignoreType)
 						shouldBeIgnored = true;
 				if(shouldBeIgnored)
 					continue;
@@ -162,8 +165,13 @@ class SerializationHelper
 				var boxed = variant.GetBoxed().Get();
 				defer delete boxed;
 
-				AutoImGuiField(boxed, depth, true);
-				field.SetValue(entity, boxed);
+				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
+				{
+					ImGui.Indent(16*depth);
+					AutoImGuiField(boxed, depth, true);
+					ImGui.Unindent();
+					field.SetValue(entity, boxed);
+				}
 
 				continue;
 			}
@@ -199,11 +207,14 @@ class SerializationHelper
 	}
 
 	public static BJSON.Models.JsonObject AutoSaveField(Object entity, BJSON.Models.JsonObject df,
-		StringView objectName = Compiler.CallerExpression[0], bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool wrap = true)
+		StringView objectName = Compiler.CallerExpression[0], bool force = false,
+		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool wrap = true)
 	{
 		var df;
-		if(wrap && (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
+		if(wrap) //&& (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
 		{
+			Debug.Assert(objectName != String.Empty);
+
 			if(!df.ContainsKey(objectName))
 				df[objectName] = BJSON.Models.JsonObject();
 			df = df[objectName].AsObject();
@@ -219,7 +230,7 @@ class SerializationHelper
 			{
 				bool shouldBeIgnored = false;
 				for(var ignoreType in ignoreTypes)
-					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType == ignoreType)
 						shouldBeIgnored = true;
 				if(shouldBeIgnored)
 					continue;
@@ -321,17 +332,18 @@ class SerializationHelper
 		return df;
 	}
 
-	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null, StringView objectName = Compiler.CallerExpression[1], bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
+	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null,
+		StringView objectName = Compiler.CallerExpression[1], bool force = false,
+		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool unwrap = true)
 	{
 		Log.Message(scope $"trying to load {objectName}");
 
 		var entity;
 		var df;
 
-		if(objectName != String.Empty && (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
-		{
+		//if(objectName != String.Empty && entity != null)
+		if(unwrap)
 			df = df[objectName].AsObject();
-		}
 
 		Type type = Utils.ConvertStringToType(df["Type"]);
 
@@ -352,7 +364,7 @@ class SerializationHelper
 			{
 				bool shouldBeIgnored = false;
 				for(var ignoreType in ignoreTypes)
-					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType.GetType() == ignoreType)
+					if(field.FieldType.IsSubtypeOf(ignoreType) || field.FieldType == ignoreType)
 						shouldBeIgnored = true;
 				if(shouldBeIgnored)
 					continue;
@@ -421,7 +433,7 @@ class SerializationHelper
 				if(df[field.Name].IsNull())
 					continue;
 
-				AutoLoadField(df, *(Object*)variant.DataPtr, field.Name, true);
+				*(Object*)variant.DataPtr = AutoLoadField(df, *(Object*)variant.DataPtr, field.Name, true);
 
 				continue;
 			}

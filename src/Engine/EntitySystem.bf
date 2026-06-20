@@ -64,7 +64,6 @@ public class EntitySystem
 		}
 	}
 
-	
 	public void CleanDeletedEntities()
 	{
 		var del = scope List<Entity>();
@@ -78,17 +77,6 @@ public class EntitySystem
 
 		for(var e in del)
 			delete e;
-	}
-
-	public void CleanDeletedEntitiesOld()
-	{
-		int i = Entities.Count-1;
-		for (; i >= 0; i--)
-		{
-			var entity = Entities[i];
-			if(entity.[Friend]DeleteNextFrame)
-				delete entity;
-		}
 	}
 
 	public void Draw()

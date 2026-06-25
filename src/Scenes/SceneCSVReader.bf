@@ -14,11 +14,38 @@ class SceneCSVReader : Leaf.BaseScene
 {
     public this()
     {
+		Console.Clear();
+
 		var csv = scope CSVReader("res/localization.csv");
 
 		//PRINT ALL CSV
 		Log.Message(csv.ToString(.. scope .()));
+
+		Log.Message(csv.GetCell("menu.file", "french"));
+
+		/*
 		Log.Message("-------");
+
+		//set existing cell
+		csv.SetCell("menu.file", "english", "SuperFile");
+
+		//non existing row
+		csv.SetCell("menu.option", "english", "MyOptions");
+		csv.SetCell("menu.option", "french", "MyOptions");
+
+		//non existing column (existing row)
+		csv.SetCell("menu.file", "japanese", "naruto");
+
+		//non existing column & non existing row
+		csv.SetCell("asset.name", "espagnol", "cabron");
+
+		Log.Message(csv.ToString(.. scope .()));
+
+		//save CSV
+		csv.SaveTo("res/loca.csv");
+		*/
+
+		/*
 
 		//PRINT FIRST ROW
 		var row = csv.GetRow(0);
@@ -57,6 +84,7 @@ class SceneCSVReader : Leaf.BaseScene
 		//PRINT CELL inside "menu.file" row and "french" column
 		cell = csv.GetCell("menu.file","french");
 		Log.Message(cell);
+		*/
     }
 
     public ~this()

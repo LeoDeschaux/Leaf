@@ -68,6 +68,7 @@ class BaseScene : Entity
 			PhysicComponent.Display = m_displayDebug;
 			Raycast.Display = m_displayDebug;
 			DebugDrawCalls.Display = m_displayDebug;
+			LeafDebug.DisplayDebug = m_displayDebug;
 		}
 	}
 

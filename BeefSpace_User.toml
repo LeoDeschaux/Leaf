@@ -1,12 +1,12 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Program.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["src\\Scenes\\SceneCSVReader.bf", "src\\Serialization\\CSVReader.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
-X = -1602
-Y = -1
-Width = 644
+X = 0
+Y = 0
+Width = 1178
 Height = 884
 ShowKind = "ShowMaximized"
 
@@ -44,12 +44,23 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "Program.bf"
-TabWidth = 91.81818
+TabLabel = "SceneCSVReader.bf"
+TabWidth = 135.4545
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Program.bf"
-CursorPos = 182
+FilePath = "src\\Scenes\\SceneCSVReader.bf"
+CursorPos = 749
+VertPos = 264.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "CSVReader.bf"
+TabWidth = 103.6364
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Serialization\\CSVReader.bf"
+CursorPos = 1820
+VertPos = 1298.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -72,7 +83,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 227.0
+RequestedHeight = 387.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

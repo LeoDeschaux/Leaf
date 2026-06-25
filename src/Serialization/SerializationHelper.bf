@@ -182,11 +182,13 @@ class SerializationHelper
 				if(ignoreFlags.HasFlag(.OBJECTS))
 					continue;
 
+				/*
 				ImGui.PushStyleColor(.Text, .(255,255,0,255));
 				ImGui.Text(scope $"{field.Name}");
 				ImGui.PopStyleColor();
+				*/
 
-				ImGui.BeginColoredGroup(RaylibBeef.Raylib.RayToImGuiColor(Raylib.RED));
+				ImGui.BeginColoredGroup(RaylibBeef.Raylib.RayToImGuiColor(.(30,50,20,255)));
 
 				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
 				{

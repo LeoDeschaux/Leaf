@@ -14,8 +14,13 @@ using static rlCImGuiBeef.rlCImGuiBeef;
 using rlImGuiBeef;
 using static rlImGuiBeef.rlImGuiBeef;
 */
-
 using Leaf.Engine;
+
+class LeafDebug
+{
+	public static bool DisplayDebug = false;
+}
+
 
 namespace Leaf;
 

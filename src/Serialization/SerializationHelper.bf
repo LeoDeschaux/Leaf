@@ -512,4 +512,56 @@ class SerializationHelper
 
 		return entity;
 	}
+
+	public static Object Clone(Object sourceObject)
+	{
+		Type type = sourceObject.GetType();
+		var clone = type.CreateObject().Get();
+
+		/*
+		if(clone case .Err(let err))
+		{
+			Console.WriteLine(err);
+			Log.Message("Error - can't CreateObject() have you put [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+		}
+		*/
+
+		
+
+		for(var field in type.GetFields())
+		{
+			var ptr = field.GetValueReference(sourceObject).Get().DataPtr;
+
+			Log.Message(field.Name);
+
+			mixin Parse<T>()
+			{
+				if(field.FieldType == typeof(T))
+				{
+					field.SetValue(clone, *(T*)ptr);
+					continue;
+				}
+			}
+
+			Parse!<bool>();
+			Parse!<int>();
+			Parse!<float>();
+
+			if(field.FieldType == typeof(String))
+			{
+				String s = *(String*)field.GetValueReference(clone).Get().DataPtr;
+				s.Clear();
+				s.Append(*(String*)ptr);
+				continue;
+			}
+
+			if(field.FieldType == typeof(Object))
+			{
+				field.SetValue(clone, Clone(*(Object*)ptr));
+				continue;
+			}
+		}
+
+		return clone;
+	}
 }

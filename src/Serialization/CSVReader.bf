@@ -122,7 +122,6 @@ class CSVReader
 
 		if(rowIndex == -1)
 		{
-			//MissingFields.Add((rowKey, columnKey));
 			if(!MissingFields.Contains((rowKey, columnKey)))
 				MissingFields.Add((new String(rowKey), new String(columnKey)));
 			return rowKey;
@@ -301,6 +300,13 @@ class CSVReader
 			for(int columnIndex = 0; columnIndex < row.Count; columnIndex++)
 			{
 				var cell = row[columnIndex];
+
+				if(cell.Contains(','))
+				{
+					cell.Insert(0, '"');
+					cell.Insert(cell.Length, '"');
+				}
+
 				strBuffer.Append(cell);
 
 				if(columnIndex < parsedFile[0].Count-1)

@@ -1,6 +1,8 @@
-namespace Leaf.Serialization;
+namespace Leaf;
+
 
 interface ISerializable
 {
+	//public void Serialize(Serializer s);
 	abstract void ImGui();
 }

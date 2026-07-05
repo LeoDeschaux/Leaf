@@ -59,7 +59,16 @@ class SerializationHelper
 			PrintFields(subField, depth);
 	}
 
-	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false, DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null)
+	public static void AutoImGuiField(FieldInfo field, Object entity, int depth = 0, bool force = false,
+		List<Type> ignoreTypes = null,
+		delegate bool(FieldInfo) Conditional = null, delegate String(String) FormartString = null)
+	{
+
+	}
+
+	public static void AutoImGuiField(Object entity, int depth = 0, bool force = false,
+		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null,
+		delegate bool(FieldInfo) Conditional = null, delegate String(String) FormartString = null)
 	{
 		ImGui.PushID(entity.ToString(.. scope .()));
 		defer ImGui.PopID();
@@ -74,6 +83,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(Conditional != null && Conditional(field))
+				continue;
+
 			if(ignoreTypes != null)
 			{
 				bool shouldBeIgnored = false;
@@ -107,6 +119,20 @@ class SerializationHelper
 			if(!force && !hasTag)
 				continue;
 
+			String fieldName = scope String(field.Name);
+			if(FormartString != null)
+				fieldName = FormartString(fieldName);
+
+			var min = 0f;
+			var max = 500f;
+
+			if(field.HasCustomAttribute<RangeAttribute>())
+			{
+				var range = field.GetCustomAttribute<RangeAttribute>().Get();
+				min = range.minVal;
+				max = range.maxVal;
+			}
+
 			if(field.HasCustomAttribute<NonEditableAttribute>())
 			{
 				if(field.FieldType == typeof(int))
@@ -116,37 +142,37 @@ class SerializationHelper
 
 			if(field.FieldType == typeof(int) || field.FieldType == typeof(int32))
 			{
-				ImGui.SliderInt(scope $"{field.Name}", GetValuePtr<int32>(), 0, 500);
+				ImGui.SliderInt(fieldName, GetValuePtr<int32>(), (.)min, (.)max);
 				continue;
 			}
 
 			if(field.FieldType == typeof(float))
 			{
-				ImGui.SliderFloat(scope $"{field.Name}", GetValuePtr<float>(), 0, 500);
+				ImGui.SliderFloat(fieldName, GetValuePtr<float>(), (.)min, (.)max);
 				continue;
 			}
 
 			if(field.FieldType == typeof(bool))
 			{
-				ImGui.Checkbox(scope $"{field.Name}", GetValuePtr<bool>());
+				ImGui.Checkbox(fieldName, GetValuePtr<bool>());
 				continue;
 			}
 
 			if(field.FieldType == typeof(Vector2))
 			{
-				ImGui.SliderFloat2(scope $"{field.Name}", ref *GetValuePtrRef!<Vector2>(), 0, 500);
+				ImGui.SliderFloat2(fieldName, ref *GetValuePtrRef!<Vector2>(), (.)min, (.)max);
 				continue;
 			}
 
 			if(field.FieldType == typeof(Vector3))
 			{
-				ImGui.SliderFloat3(scope $"{field.Name}", ref *GetValuePtrRef!<Vector3>(), 0, 500);
+				ImGui.SliderFloat3(fieldName, ref *GetValuePtrRef!<Vector3>(), (.)min, (.)max);
 				continue;
 			}
 
 			if(field.FieldType == typeof(Color))
 			{
-				ImGui.ColorEdit4(scope $"{field.Name}", ref *GetValuePtrRef!<Color>());
+				ImGui.ColorEdit4(fieldName, ref *GetValuePtrRef!<Color>());
 				continue;
 			}
 
@@ -162,10 +188,11 @@ class SerializationHelper
 				defer ImGui.EndColoredGroup();
 
 				var variant = field.GetValueReference(entity).Get();
+
 				var boxed = variant.GetBoxed().Get();
 				defer delete boxed;
 
-				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
+				if (ImGui.CollapsingHeader(fieldName))
 				{
 					ImGui.Indent(16*depth);
 					AutoImGuiField(boxed, depth, true);
@@ -188,9 +215,9 @@ class SerializationHelper
 				ImGui.PopStyleColor();
 				*/
 
-				ImGui.BeginColoredGroup(RaylibBeef.Raylib.RayToImGuiColor(.(30,50,20,255)));
+				ImGui.BeginColoredGroup(.(30,50,20,255));
 
-				if (ImGui.CollapsingHeader(scope $"{field.Name}"))
+				if (ImGui.CollapsingHeader(fieldName))
 				{
 					ImGui.Indent(16*depth);
 					AutoImGuiField(*(Object*)field.GetValueReference(entity).Get().DataPtr, depth+1);
@@ -210,7 +237,8 @@ class SerializationHelper
 
 	public static BJSON.Models.JsonObject AutoSaveField(Object entity, BJSON.Models.JsonObject df,
 		StringView objectName = Compiler.CallerExpression[0], bool force = false,
-		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool wrap = true)
+		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool wrap = true,
+		delegate bool(FieldInfo) Conditional = null)
 	{
 		var df;
 		if(wrap) //&& (entity.GetType().IsObject || entity.GetType().IsStruct || entity.GetType().IsSubtypeOf(typeof(Object))))
@@ -228,6 +256,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(Conditional != null && Conditional(field))
+				continue;
+
 			if(ignoreTypes != null)
 			{
 				bool shouldBeIgnored = false;
@@ -253,6 +284,12 @@ class SerializationHelper
 			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
 			if(!force && !hasTag)
 				continue;
+
+			if(field.FieldType == typeof(bool))
+			{
+				df[field.Name] = *GetValuePtr<bool>();
+				continue;
+			}
 
 			if(field.FieldType == typeof(int) || field.FieldType == typeof(int32))
 			{
@@ -336,9 +373,13 @@ class SerializationHelper
 
 	public static Object AutoLoadField(BJSON.Models.JsonValue df, Object entity = null,
 		StringView objectName = Compiler.CallerExpression[1], bool force = false,
-		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool unwrap = true)
+		DataTypesFlags ignoreFlags = .NONE, List<Type> ignoreTypes = null, bool unwrap = true,
+		delegate bool(FieldInfo) Conditional = null)
 	{
-		Log.Message(scope $"trying to load {objectName}");
+		Log.Message("---");
+		Log.Message(scope $"trying to load (name:{objectName})");
+
+		Log.Message(df.ToString(.. scope .()));
 
 		var entity;
 		var df;
@@ -347,7 +388,10 @@ class SerializationHelper
 		if(unwrap)
 			df = df[objectName].AsObject();
 
-		Type type = Utils.ConvertStringToType(df["Type"]);
+		String s = scope String((StringView)df["Type"]);
+		Log.Message(scope $"trying to load (type string:{s})");
+
+		Type type = Utils.ConvertStringToType(s);
 
 		if(type == null)
 		{
@@ -355,13 +399,16 @@ class SerializationHelper
 			return null;
 		}
 
-		Log.Message(type);
+		Log.Message(scope $"trying to load (type:{type})");
 
 		if(entity == null)
 			entity = type.CreateObject().Get();
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(Conditional != null && Conditional(field))
+				continue;
+
 			if(ignoreTypes != null)
 			{
 				bool shouldBeIgnored = false;

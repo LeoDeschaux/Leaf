@@ -3,6 +3,7 @@ using System.Interop;
 
 namespace Leaf;
 
+[Reflect(.All)]
 public struct Vec2Int : System.IHashable
 {
 	public int x;

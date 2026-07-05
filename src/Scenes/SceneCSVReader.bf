@@ -21,7 +21,10 @@ class SceneCSVReader : Leaf.BaseScene
 		//PRINT ALL CSV
 		Log.Message(csv.ToString(.. scope .()));
 
-		Log.Message(csv.GetCell("menu.file", "french"));
+		Log.Message("-----");
+
+		//Log.Message(csv.GetCell("menu.file", "french"));
+		Log.Message(csv.GetCell("menu.file", "english"));
 
 		/*
 		Log.Message("-------");
@@ -40,10 +43,10 @@ class SceneCSVReader : Leaf.BaseScene
 		csv.SetCell("asset.name", "espagnol", "cabron");
 
 		Log.Message(csv.ToString(.. scope .()));
+		*/
 
 		//save CSV
-		csv.SaveTo("res/loca.csv");
-		*/
+		//csv.SaveTo("res/localization.csv");
 
 		/*
 

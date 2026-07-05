@@ -7,6 +7,11 @@ using Leaf.Serialization;
 
 namespace Leaf;
 
+[AttributeUsage(.Field | .StaticField, .ReflectAttribute, ReflectUser=.Methods)]
+struct RangeAttribute : this(float minVal, float maxVal), Attribute
+{
+}
+
 //[AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.Methods)]
 [AttributeUsage(.All, .ReflectAttribute | .AlwaysIncludeTarget, ReflectUser=.All)]
 struct AutoSerializeAttribute : Attribute

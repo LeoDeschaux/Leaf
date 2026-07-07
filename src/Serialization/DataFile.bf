@@ -95,6 +95,23 @@ public class DataFile
 		return res;
 	}
 
+	public static DataFile LoadFileFromString(String content)
+	{
+		if(content.IsEmpty)
+			content.Append("{}");
+
+		var result = Json.Deserialize(content);
+		if(result case .Err(let err))
+			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
+
+		var res = new DataFile();
+		res.root.Dispose();
+
+		res.root = result.Get().AsObject();
+
+		return res;
+	}
+
 	public void SaveFileAppend()
 	{
 

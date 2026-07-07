@@ -65,10 +65,10 @@ public class Utils
 
 		char16* fp = path.ToScopedNativeWChar!();
 
+		Log.Message(scope $"trying to open {path}");
+
 		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 		var res = System.Windows.ShellExecuteW(hwnd, null, fp, null, null, System.Windows.SW_SHOW); 
-
-		Log.Message(scope $"trying to open {path}");
 #endif
 	}
 
@@ -86,15 +86,29 @@ public class Utils
 
 		filePath = System.IO.Path.GetFullPath(filePath, .. scope .());
 		appPath = System.IO.Path.GetFullPath(appPath, .. scope .());
+		
+		if(!System.IO.File.Exists(filePath))
+		{
+			Log.Error(scope $"filePath does not exists {filePath}");
+			return;
+		}
+		if(!System.IO.File.Exists(appPath))
+		{
+			Log.Error(scope $"appPath does not exists {appPath}");
+			return;
+		}
 
 		char16* fp = filePath.ToScopedNativeWChar!();
 		char16* ap = appPath.ToScopedNativeWChar!();
 
-		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
+		Log.Message(scope $"trying to open {filePath} with {appPath}");
 
+		System.Windows.Handle hwnd = System.Windows.GetStdHandle(0);
 		var res = System.Windows.ShellExecuteW(hwnd, null, ap, fp, null, System.Windows.SW_SHOW); 
 
-		Log.Message(scope $"trying to open {filePath} with {appPath}");
+		if(res.IsInvalid)
+			return;
+
 #endif
 	}
 

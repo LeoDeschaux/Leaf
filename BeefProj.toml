@@ -14,6 +14,7 @@ BJSON = "*"
 Jolt = "*"
 rlCImGuiBeef = "*"
 ImGui = "*"
+MiniZ = "*"
 
 [Configs.Debug.Win64]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"

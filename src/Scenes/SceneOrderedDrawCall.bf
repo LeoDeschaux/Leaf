@@ -33,8 +33,10 @@ class SceneOrderedDrawCall : Leaf.BaseScene
     }
 }
 
+namespace Leaf;
 class OrderedDrawCall : Leaf.Entity
 {
+	bool deleteAfterDraw = true;
 	delegate void() drawCallRef;
 
 	public this(int DrawOrder, delegate void () DrawCall)
@@ -51,5 +53,8 @@ class OrderedDrawCall : Leaf.Entity
 	public override void Draw()
 	{
 		drawCallRef?.Invoke();
+
+		if(deleteAfterDraw)
+			DeleteNextFrame();
 	}
 }

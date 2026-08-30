@@ -4,6 +4,7 @@ using System;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Rlgl;
 using static RaylibBeef.Color;
+using static RaylibBeef.Raymath;
 
 namespace RaylibBeef;
 
@@ -144,9 +145,119 @@ public extension Raylib
 		DrawLineV(.(mPos.x, bounds.x), .(mPos.x,bounds.height), ORANGE);
 		DrawLineV(.(bounds.x, mPos.y), .(bounds.width,mPos.y), ORANGE);
 
+		
+
 		//DrawText(scope $"{mPos.x/bounds.width},{mPos.y/bounds.height}",mPos, 24, ORANGE);
 
 		DrawText(scope $"{Math.Floor((mPos.x/bounds.width)*100)}%", .(mPos.x, bounds.x), 24, ORANGE);
 		DrawText(scope $"{Math.Floor((mPos.y/bounds.height)*100)}%", .(bounds.y, mPos.y), 24, ORANGE);
+	}
+
+	public static void DrawArrow(Vector2 position, Vector2 direction)
+	{
+		float length = 60.0f;    
+		float headSize = 20.0f;
+
+		float mag = Vector2Length(direction);
+		if (mag <= 0.0001f)
+			return;
+
+		var dir = direction / mag;
+		var end = position + (dir * length);
+
+		DrawLineEx(position, end, 3f, RED);
+
+		var perp = Vector2(-dir.y, dir.x);
+		end += (headSize/2) * dir;
+		var left = end - dir * headSize + perp * (headSize * 0.6f);
+		var right = end - dir * headSize - perp * (headSize * 0.6f);
+
+		DrawTriangle(left, end, right, RED);
+	}
+
+	public static void DrawArrow(
+	    Vector2 start,
+	    Vector2 end,
+	    float thickness = 2.0f,
+	    float headLength = 12.0f,
+	    float headWidth = 8.0f)
+	{
+	    Vector2 direction = end - start;
+	    float length = Vector2Length(direction);
+
+	    if (length <= 0.001f)
+	        return;
+
+	    direction /= length;
+
+	    // Perpendicular direction
+	    Vector2 perpendicular = Vector2(-direction.y, direction.x);
+
+	    // Base of the arrowhead
+	    Vector2 headBase = end - direction * headLength;
+
+	    Vector2 left = headBase + perpendicular * (headWidth * 0.5f);
+	    Vector2 right = headBase - perpendicular * (headWidth * 0.5f);
+
+	    // Shaft stops at the arrowhead
+	    Vector2 shaftEnd = headBase;
+
+	    Raylib.DrawLineEx(start, shaftEnd, thickness, WHITE);
+
+	    // Pointy arrowhead
+	    Raylib.DrawTriangleFan(
+		    &Vector2[3] (end, right, left),
+		    3,
+		    WHITE
+		);
+	}
+
+	public static void DrawCurvedArrow(
+	    Vector2 start,
+	    Vector2 end,
+	    float curve,
+	    float thickness = 2.0f,
+	    float headLength = 12.0f,
+	    float headWidth = 8.0f)
+	{
+	    Vector2 direction = end - start;
+	    float length = Vector2Length(direction);
+
+	    if (length <= 0.001f)
+	        return;
+
+	    direction /= length;
+
+	    // Perpendicular direction
+	    Vector2 perpendicular = Vector2(-direction.y, direction.x);
+
+	    // Control point
+	    Vector2 middle = (start + end) * 0.5f;
+	    Vector2 control = middle + perpendicular * curve;
+
+		// Direction of the curve at the end
+		Vector2 arrowDirection = end - control;
+		arrowDirection = arrowDirection.Normalized();
+		Vector2 arrowPerpendicular = Vector2(-arrowDirection.y, arrowDirection.x);
+
+		// Arrowhead base
+		Vector2 headBase = end - (arrowDirection * headLength);
+		Vector2 left = headBase + arrowPerpendicular * (headWidth * 0.5f);
+		Vector2 right = headBase - arrowPerpendicular * (headWidth * 0.5f);
+
+	    // Smooth quadratic Bézier
+	    Raylib.DrawSplineBezierQuadratic(
+	        &Vector2[3] (start,control, end - (arrowDirection*headLength)),
+			3,
+	        thickness,
+	        WHITE
+	    );
+
+	    Raylib.DrawTriangle(
+	        end,
+	        right,
+	        left,
+	        WHITE
+	    );
 	}
 }

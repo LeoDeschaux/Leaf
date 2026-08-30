@@ -288,6 +288,7 @@ class SerializationHelper
 			if(field.FieldType == typeof(bool))
 			{
 				df[field.Name] = *GetValuePtr<bool>();
+				Log.Message(scope $"(AutoSer) {field.Name} {*GetValuePtr<bool>()}");
 				continue;
 			}
 
@@ -419,6 +420,8 @@ class SerializationHelper
 					continue;
 			}
 
+			Log.Message(field.Name);
+
 			T* GetValuePtr<T>()
 			{
 				return (T*)field.GetValueReference(entity).Get().DataPtr;
@@ -432,6 +435,12 @@ class SerializationHelper
 			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
 			if(!force && !hasTag)
 				continue;
+
+			if(field.FieldType == typeof(bool))
+			{
+				*GetValuePtr<bool>() = df[field.Name];
+				continue;
+			}
 
 			if(field.FieldType == typeof(int))
 			{
@@ -532,7 +541,7 @@ class SerializationHelper
 		{
 			var ptr = field.GetValueReference(sourceObject).Get().DataPtr;
 
-			Log.Message(field.Name);
+			//Log.Message(field.Name);
 
 			mixin Parse<T>()
 			{

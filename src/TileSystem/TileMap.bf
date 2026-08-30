@@ -2,6 +2,7 @@ using System;
 using Leaf;
 using RaylibBeef;
 using System.Collections;
+using System.Collections;
 using static RaylibBeef.Raylib;
 using static RaylibBeef.Raymath;
 
@@ -49,7 +50,71 @@ class TileMap : Leaf.Entity
 		*/
     }
 
-	public void AddTile(Vec2Int tileIndex, Tile tile)
+	public Vec2Int GetTileIndex(Tile tile)
+	{
+		for (var pair in mTiles)
+		{
+		    if (pair.value == tile)
+		        return pair.key;
+		}
+
+		ThrowUnimplemented();
+
+		//return tile.TileIndex;
+	}
+
+	public void MoveTile(Tile tile, Vec2Int to)
+	{
+		mTiles.Remove(tile.TileIndex);
+		tile.[Friend]TileIndex = to;
+		mTiles.Add(to, tile);
+	}
+
+	public void MoveTileDumb(Tile tile, Vec2Int to)
+	{
+		tile.[Friend]TileIndex = to;
+	}
+
+	public void MoveTiles(List<Tile> tiles, List<Vec2Int> destinations)
+	{
+		for(var tile in tiles)
+		{
+			mTiles.Remove(tile.TileIndex);
+		}
+
+		for(int i = 0; i < tiles.Count; i++)
+		{
+			Tile t = tiles[i];
+			Vec2Int dest = destinations[i];
+
+			t.[Friend]TileIndex = dest;
+			mTiles.Add(t.TileIndex, t);
+
+			//update pos
+			t.Position = GetTilePositionFromIndex(t.TileIndex);
+		}
+	}
+
+	public void Synchronize()
+	{
+		List<Tile> tilesToUpdate = scope .();
+
+		for(var item in mTiles)
+		{
+			if(item.key != item.value.TileIndex)
+			{
+				Log.Message(scope $"ERROR {item.key} != {item.value.TileIndex}");
+				tilesToUpdate.Add(item.value);
+			}
+		}
+
+		for(var tile in tilesToUpdate)
+			mTiles.Remove(tile.TileIndex);
+		for(var tile in tilesToUpdate)
+			mTiles.Add(tile.TileIndex, tile);
+	}
+
+	public void AddTile(Tile tile, Vec2Int tileIndex)
 	{
 		if(mTiles.ContainsKey(tileIndex))
 			return;
@@ -65,6 +130,9 @@ class TileMap : Leaf.Entity
 
 	public Tile GetTileAtIndex(Vec2Int tileIndex)
 	{
+		if(!ExistAtIndex(tileIndex))
+			return null;
+
 		return mTiles.GetValue(tileIndex);
 	}
 

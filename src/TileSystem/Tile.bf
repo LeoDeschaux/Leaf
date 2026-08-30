@@ -8,11 +8,13 @@ namespace Leaf;
 
 class Tile : Leaf.Entity
 {
-	public Vec2Int TileIndex;
+	public Vec2Int TileIndex {get; private set;};
 	public TileMap TileMap;
 
 	public Vector2 Position;
 	public Vector2 Size => .(TileMap.TileSize, TileMap.TileSize);
+	public Vector2 Scale = .(1,1);
+	public float Rotation = 0;
 
     public this(TileMap tileMap, Vec2Int tileIndex)
     {

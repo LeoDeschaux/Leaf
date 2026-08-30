@@ -8,6 +8,16 @@ namespace Leaf;
 
 public class Utils
 {
+	public static List<T> ToList<T>(IEnumerator<T> enumerator)
+	{
+		List<T> list = new .();
+
+		for(var item in enumerator)
+			list.Add(item);
+
+		return list;
+	}
+
 	public static List<Type> GetTypes<T>()
 	{
 		var types = new List<Type>();

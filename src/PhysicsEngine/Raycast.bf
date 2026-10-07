@@ -65,7 +65,8 @@ public static class Raycast
 				Runtime.Assert(hitPoint.x != float.NaN);
 				Runtime.Assert(hitPoint.y != float.NaN);
 
-				results.Add(.(phc, hitPoint));
+				if(!hitPoint.x.IsNaN && !hitPoint.y.IsNaN)
+					results.Add(.(phc, hitPoint));
 			}
 		}
 

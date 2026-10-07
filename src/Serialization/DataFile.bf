@@ -143,6 +143,8 @@ public class DataFile
 
 		if(File.WriteAllText(path, strBuffer) case .Err(let error))
 			Log.Message(error);
+
+		Log.Message(scope $"Saved {path}");
 	}
 
 	public override void ToString(String strBuffer)

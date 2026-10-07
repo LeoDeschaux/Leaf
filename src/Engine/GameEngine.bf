@@ -7,9 +7,16 @@ using static RaylibBeef.Raylib;
 using static RaylibBeef.Rlgl;
 using static RaylibBeef.Raymath;
 
+#define USE_IMGUI
+
+#if BF_PLATFORM_WINDOWS
+#endif
+
+#if USE_IMGUI
 using ImGui;
 using rlCImGuiBeef;
 using static rlCImGuiBeef.rlCImGuiBeef;
+#endif
 /*
 using rlImGuiBeef;
 using static rlImGuiBeef.rlImGuiBeef;
@@ -20,7 +27,6 @@ class LeafDebug
 {
 	public static bool DisplayDebug = false;
 }
-
 
 namespace Leaf;
 
@@ -49,9 +55,14 @@ class GameEngine
 		preferences = DataFile.LoadFileOrCreate("res/pref.json");
 		//windowWidth = 1280;//(int32)preferences["WindowWidth"].data.number;
 		//windowHeight = 720;//(int32)preferences["WindowHeight"].data.number;
-		windowWidth = (int32)preferences["WindowWidth"];
-		windowHeight = (int32)preferences["WindowHeight"];
 
+		var dfWidth = (int32)preferences["WindowWidth"];
+		var dfHeight = (int32)preferences["WindowHeight"];
+
+		if(dfWidth != 0)
+			windowWidth = dfWidth;
+		if(dfHeight != 0)
+			windowHeight = dfHeight;
 	}
 
 	private void SavePreferences()
@@ -86,12 +97,14 @@ class GameEngine
 		InitWindow(windowWidth, windowHeight, scope $"Title");
 		InitAudioDevice();
 
+#if USE_IMGUI
 		rlCImGuiBeef.rlCImGuiSetup();
 		//rlImGuiBeef.rlImGuiSetup(true);
 
 		ImGui.IO* ioptr = ImGui.GetIO_Nil();
 		ioptr.ConfigFlags |= ImGui.ConfigFlags.DockingEnable;
 		ioptr.ConfigFlags |= ImGui.ConfigFlags.ViewportsEnable;
+#endif
 
 		//GetMonitorPosition(0);
 		SetWindowMonitor((int32)preferences["CurrentMonitor"]);
@@ -119,9 +132,10 @@ class GameEngine
 
 		//delete CurrentScene;
 
+#if USE_IMGUI
 		rlCImGuiBeef.rlCImGuiShutdown();
 		//rlImGuiBeef.rlImGuiShutdown();
-
+#endif
 		AssetLoader.Unload();
 
 		CloseAudioDevice();
@@ -141,7 +155,11 @@ class GameEngine
 			SetupGame(scene);
 
 #if BF_PLATFORM_WASM
-		Leaf.Engine.WebEngine.EmscriptenMainLoop(() => Self.Tick());
+		Leaf.Engine.WebEngine.EmscriptenMainLoop(() => {
+			Self.Tick();
+			if(m_exitReady)
+				Leaf.Engine.WebEngine.Exit();
+		});
 #else
 		while (!WindowShouldClose() && !m_exitReady)
 		{
@@ -171,7 +189,7 @@ class GameEngine
 		if(obj case .Err(let err))
 		{
 			Log.Message(err);
-			Log.Message("Error - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+			Log.Message("Error GameEngine.ImplRestartGame() - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
 		CurrentScene = (BaseScene)obj;
@@ -202,7 +220,7 @@ class GameEngine
 		if(obj case .Err(let err))
 		{
 			Log.Message(err);
-			Log.Message("Error - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
+			Log.Message("Error GameEngine.ChangeGame() - can't CreateObject() have you put [Reflect(.All), AlwaysInclude(IncludeAllMethods=true)] above the constructor ?", ConsoleColor.Red);
 		}
 
 		CurrentScene = (BaseScene)obj;
@@ -260,11 +278,11 @@ class GameEngine
 		ViewportConsole.NewFrame();
 
 		BeginDrawing();
+#if USE_IMGUI
 		rlCImGuiBeef.rlCImGuiBegin();
 		//rlImGuiBeef.rlImGuiBegin();
-
+#endif
 		CurrentScene.InternalDraw();
-
 		BeginMode2D(CurrentScene.Camera);
 		EntitySystem.Draw();
 		DebugDrawCalls.Render();
@@ -272,7 +290,6 @@ class GameEngine
 		EndMode2D();
 
 		EntitySystem.DrawScreenSpace();
-
 		Leaf.AutoConfigAttribute.Update(Leaf.Engine.EntitySystem.Entities);
 
 		/*
@@ -286,8 +303,10 @@ class GameEngine
 		);
 		*/
 
+#if USE_IMGUI
 		rlCImGuiBeef.rlCImGuiEnd();
 		//rlImGuiBeef.rlImGuiEnd();
+#endif
 
 		EntitySystem.DrawAboveImGui();
 		CurrentScene.DebugDraw();
@@ -306,5 +325,6 @@ class GameEngine
 
 		if(hasRestartBeenAsked)
 			ImplRestartGame();
+
 	}
 }

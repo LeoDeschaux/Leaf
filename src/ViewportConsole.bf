@@ -6,7 +6,7 @@ namespace Leaf;
 class ViewportConsole
 {
 	static int lineIndex = 0;
-	static float xMargin = 10;
+	static float xMargin = 100;
 	static float ySpacing = 30;
 	static int fontSize = 24;
 

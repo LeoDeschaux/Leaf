@@ -5,7 +5,7 @@ using static Jolt.Jolt;
 
 namespace Leaf;
 
-#if BP_PLATFORM_WINDOWS
+#if disableBF_PLATFORM_WINDOWS
 class PhysicBody
 {
 	public int ID;

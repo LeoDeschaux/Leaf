@@ -6,7 +6,7 @@ using static Jolt.Jolt;
 
 namespace Leaf;
 
-#if BP_PLATFORM_WINDOWS
+#if disableBF_PLATFORM_WINDOWS
 class PhysicEngine3D
 {
 	struct Layers

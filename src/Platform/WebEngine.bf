@@ -30,6 +30,20 @@ public class WebEngine
 	[CLink, CallingConvention(.Stdcall)]
 	private static extern double emscripten_get_now();
 
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern void emscripten_cancel_main_loop();
+
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern void emscripten_force_exit(int32 status);
+
+	[CLink, CallingConvention(.Stdcall)]
+	private static extern void emscripten_exit_with_live_runtime();
+	public static void Exit(){
+		emscripten_cancel_main_loop();
+		emscripten_exit_with_live_runtime();
+	};
+	//public static void Exit() => emscripten_force_exit(127);
+
 	public static void EmscriptenMainLoop(em_callback_func tickFunction)
 	{
 		emscripten_set_main_loop(=> tickFunction, 0, 1);

@@ -13,7 +13,7 @@ using static Jolt.Jolt;
 
 namespace Leaf.Scenes;
 
-#if BP_PLATFORM_WINDOWS
+#if disableBF_PLATFORM_WINDOWS
 
 [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class Scene3DJolt : Leaf.BaseScene
@@ -58,7 +58,6 @@ class Scene3DJolt : Leaf.BaseScene
 			Random r = scope .();
 			Vector3 pos = .(0,10,0);
 			pos.x = (.)r.NextDoubleSigned();
-			(pos.x);
 			pos.z = (.)r.NextDoubleSigned();
 			physic.GenerateSphere(pos, .(0,-5,0), 1);
 		}
@@ -68,7 +67,6 @@ class Scene3DJolt : Leaf.BaseScene
 			Random r = scope .();
 			Vector3 pos = .(0,10,0);
 			pos.x = (.)r.NextDoubleSigned();
-			(pos.x);
 			pos.z = (.)r.NextDoubleSigned();
 			physic.GenerateBox(pos, .(0,-5,0), .(1,1,1));
 		}

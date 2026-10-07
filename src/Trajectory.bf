@@ -57,12 +57,10 @@ class Trajectory
 	{
 		var duration;
 		if(duration == 0)
-			duration = float.MinValue;
+			duration = 0.0001f;
 
 	    float displacementY = -(target.y - startPos.y);
-	    Vector2 displacementX = Vector2(target.x - startPos.x, 0);
-
-	    //Debug.Assert(height > displacementY);
+	    float displacementX = target.x - startPos.x;
 
 	    float sqrtHeight = Math.Sqrt(height);
 	    float sqrtHeightMinusDisp = Math.Sqrt(height - displacementY);
@@ -70,10 +68,10 @@ class Trajectory
 
 	    float gravity = 2 * totalSqrt * totalSqrt / (duration * duration);
 
-	    Vector2 velocityY = Vector2.UP * Math.Sqrt(2 * gravity * height);
-	    Vector2 velocityX = displacementX / duration;
+	    float velocityY = -Math.Sqrt(2 * gravity * height);
+	    float velocityX = displacementX / duration;
 
-	    return LaunchData(startPos, target, velocityX + velocityY * -Math.Sign(-gravity), duration, gravity);
+	    return LaunchData(startPos, target, Vector2(velocityX, velocityY * -Math.Sign(-gravity)), duration, gravity);
 	}
 
 

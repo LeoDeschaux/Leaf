@@ -6,9 +6,14 @@ using System.Collections;
 
 namespace Leaf;
 
+#if BF_PLATFORM_WINDOWS
+//#define USE_MINIZ
+#endif
+
+#if USE_MINIZ
+
 class FilePack
 {
-#if BF_PLATFORM_WINDOWS
 	public class FindFileData
 	{
 		public enum Flags
@@ -56,10 +61,6 @@ class FilePack
 	}
 }
 
-#if BF_DEPENDS_MINIZ
-using static MiniZ.MiniZ;
-using Leaf;
-
 class ZipFilePack : FilePack
 {
 	public static void UnzipArchive(String archivePath, String destination = "")
@@ -78,17 +79,17 @@ class ZipFilePack : FilePack
 		else
 			destination.Append(destDir);
 
-	    ZipArchive zip = .();
+	    MiniZ.MiniZ.ZipArchive zip = .();
 
-	    if (!ZipReaderInitFile(&zip, zipPath, 0))
+	    if (!MiniZ.MiniZ.ZipReaderInitFile(&zip, zipPath, 0))
 	        return;
 
-	    int fileCount = (int)ZipReaderGetNumFiles(&zip);
+	    int fileCount = (int)MiniZ.MiniZ.ZipReaderGetNumFiles(&zip);
 
 	    for (int i = 0; i < fileCount; i++)
 	    {
-	        ZipArchiveFileStat fileStat = .();
-	        if (!ZipReaderFileStat(&zip, (.)i, &fileStat))
+	        MiniZ.MiniZ.ZipArchiveFileStat fileStat = .();
+	        if (!MiniZ.MiniZ.ZipReaderFileStat(&zip, (.)i, &fileStat))
 	            continue;
 
 			/*
@@ -101,17 +102,17 @@ class ZipFilePack : FilePack
 	        String filename = scope String(fileStat.mFilename.ToString(.. scope .()));
 			String outPath = scope $"{destination}/{filename}";
 
-	        if (ZipReaderIsFileADirectory(&zip, (.)i))
+	        if (MiniZ.MiniZ.ZipReaderIsFileADirectory(&zip, (.)i))
 	            CreateDirectoryRecursive(outPath);
 	        else
 	        {
 	            CreateDirectoryRecursiveForFile(outPath);
-	            if (!ZipReaderExtractToFile(&zip, (.)i, outPath, 0))
-					Log.Message(scope $"Failed to extract {filename}");
+	            if (!MiniZ.MiniZ.ZipReaderExtractToFile(&zip, (.)i, outPath, 0))
+					Leaf.Log.Message(scope $"Failed to extract {filename}");
 	        }
 	    }
 
-		ZipReaderEnd(&zip);
+		MiniZ.MiniZ.ZipReaderEnd(&zip);
 	}
 
 	public static void CreateDirectoryRecursive(String path)
@@ -163,16 +164,16 @@ class ZipFilePack : FilePack
 		if(destination == "")
 			destination = directoryPath;
 
-		var za = ZipArchive();
-		ZipWriterInitFile(&za, destination, 0);
+		var za = MiniZ.MiniZ.ZipArchive();
+		MiniZ.MiniZ.ZipWriterInitFile(&za, destination, 0);
 
 		AddDirectoryToZip(&za, directoryPath, directoryPath);
 
-		[Friend]zip_writer_finalize_archive(&za);
-		[Friend]zip_writer_end(&za);
+		MiniZ.MiniZ.zip_writer_finalize_archive(&za);
+		MiniZ.MiniZ.zip_writer_end(&za);
 	}
 
-	public static void AddDirectoryToZip(ZipArchive* zip, String currentPath, String basePath)
+	public static void AddDirectoryToZip(MiniZ.MiniZ.ZipArchive* zip, String currentPath, String basePath)
 	{
 		for(var dir in Directory.EnumerateDirectories(currentPath))
 		{
@@ -197,13 +198,13 @@ class ZipFilePack : FilePack
 
 			//Log.Message(scope $"{fileName}, {filePath}, {relativePath}, {currentPath}, {rawPath}");
 
-			Log.Message(scope $"{relativePath}, {rawPath}");
+			Leaf.Log.Message(scope $"{relativePath}, {rawPath}");
 
 			if(fileName.Contains(".zip"))
 				continue;
 
-            if(!ZipWriterAddFile(zip,relativePath.CStr(),rawPath.CStr(),null,0,.None))
-				Log.Message("ERROR Zip failed to add file");
+            if(!MiniZ.MiniZ.ZipWriterAddFile(zip,relativePath.CStr(),rawPath.CStr(),null,0,.None))
+				Leaf.Log.Message("ERROR Zip failed to add file");
 	    }
 	}
 
@@ -440,13 +441,10 @@ class ZipFilePack : FilePack
 	{
 		return base.OpenFile(file);
 	}
-#endif
 }
-#endif
 
 static class FilePackManager
 {
-#if BF_PLATFORM_WINDOWS
 
 	public static List<FilePack> sFilePacks = new .() ~ DeleteContainerAndItems!(_);
 
@@ -835,6 +833,6 @@ static class FilePackManager
 			}	
 		}
 		return false;
-#endif
 	}
 }
+#endif

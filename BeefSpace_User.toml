@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Win64"
-RecentFilesList = ["src\\Scenes\\SceneCSVReader.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\String.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+RecentFilesList = ["d:\\Software\\Beef\\BeefLibs\\C2Beef-Binding-Generator\\Jolt\\src\\JoltImpl.bf", "src\\Scenes\\Scene3DAnimationPlayer.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "src\\Extensions\\ExtDraw.bf", "src\\Scenes\\SceneCSVReader.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\String.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
 
 [MainWindow]
 X = 0
@@ -32,6 +32,8 @@ TabLabel = "Workspace"
 TabWidth = 110.9091
 TabIsPinned = false
 Type = "ProjectPanel"
+ScrollPos = 0.0
+OpenFolders = ["WF:Libs"]
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 IsFillWidget = true
@@ -43,15 +45,53 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "SceneCSVReader.bf"
 TabWidth = 135.4545
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src\\Scenes\\SceneCSVReader.bf"
-CursorPos = 485
+CursorPos = 774
 VertPos = 396.0
 ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "ExtDraw.bf"
+TabWidth = 89.0909
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Extensions\\ExtDraw.bf"
+CursorPos = 553
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "RaylibAsepriteBeef.bf"
+TabWidth = 155.4545
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf"
+CursorPos = 9523
+VertPos = 7810.0
+ProjectName = "raylib-aseprite-beef"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Scene3DAnimationPlayer.bf"
+TabWidth = 191.8182
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src\\Scenes\\Scene3DAnimationPlayer.bf"
+CursorPos = 1396
+VertPos = 1056.0
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "JoltImpl.bf"
+TabWidth = 97.27273
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "d:\\Software\\Beef\\BeefLibs\\C2Beef-Binding-Generator\\Jolt\\src\\JoltImpl.bf"
+CursorPos = 254
+ProjectName = "Jolt"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 363.0
@@ -120,6 +160,9 @@ TabLabel = "Errors"
 TabWidth = 82.72727
 TabIsPinned = false
 Type = "ErrorsPanel"
+ShowErrors = true
+ShowWarnings = true
+Scope = "Entire Workspace"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Profile"

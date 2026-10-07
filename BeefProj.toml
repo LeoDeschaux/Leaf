@@ -7,14 +7,14 @@ StartupObject = "Leaf.Program"
 [Dependencies]
 corlib = "*"
 corlib = "*"
-raylib-aseprite-beef = "*"
-raylib-beef = "*"
 TinySoundFontBeef = "*"
+raylib-beef = "*"
 BJSON = "*"
-Jolt = "*"
-rlCImGuiBeef = "*"
 ImGui = "*"
-MiniZ = "*"
+Jolt = "*"
+LuaTinker = "*"
+rlCImGuiBeef = "*"
+raylib-aseprite-beef = "*"
 
 [Configs.Debug.Win64]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
@@ -24,7 +24,7 @@ PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(
 [Configs.Debug.wasm32]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
 TargetName = "leaf"
-OtherLinkFlags = "$(LinkFlags) -o index.html --use-preload-plugins -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1 -s FORCE_FILESYSTEM"
+OtherLinkFlags = "$(LinkFlags) -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s USE_GLFW=3"
 DebugCommand = ""
 
 [Configs.Debug.Win32]
@@ -32,7 +32,7 @@ TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"
 PostBuildCmds = ["CopyFilesIfNewer(\"$(ProjectDir)/res\",\"$(ProjectDir)/dist/$(Platform)_$(Configuration)\")"]
 
 [Configs.Release.wasm32]
-OtherLinkFlags = "$(LinkFlags) -o index.html -Wall -std=c99 -D_DEFAULT_SOURCE --use-preload-plugins --preload-file res -Wno-missing-braces -Wunused-result -Os -I. -I C:/raylib/raylib/src -I C:/raylib/raylib/src/external -L. -L C:/raylib/raylib/src -s USE_GLFW=3 -s TOTAL_MEMORY=67108864 -s FORCE_FILESYSTEM=1 --shell-file D:/Software/Beef/wasm/shell.html C:/raylib/raylib/src/web/libraylib.a -DPLATFORM_WEB -s EXPORTED_FUNCTIONS=['_free','_malloc','_main'] -s EXPORTED_RUNTIME_METHODS=ccall"
+OtherLinkFlags = "$(LinkFlags) -o index.html --use-preload-plugins -DPLATFORM_WEB --shell-file D:/Software/Beef/wasm/shell.html -s ASYNCIFY=1 -O2 -g4 --profiling -v -s FORCE_FILESYSTEM -s STACK_SIZE=16777216 -s TOTAL_MEMORY=134217728 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=1"
 
 [Configs.Release.Win64]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"

@@ -2,6 +2,7 @@
 using System;
 using RaylibBeef;
 using System.Collections;
+using System.IO;
 using static RaylibBeef.Raylib;
 
 namespace Leaf;
@@ -166,5 +167,48 @@ public class Utils
 		);
 
 		return colors[index%colors.Count];
+	}
+
+	public static void CreateDirectoryRecursive(String path)
+	{
+	    if (path.IsEmpty)
+	        return;
+
+	    String temp = scope String(path);
+	    temp.Replace("\\", "/");
+
+	    int len = temp.Length;
+
+	    for (int i = 1; i < len; i++)
+	    {
+	        if (temp[i] == '/')
+	        {
+	            String subPath = scope String(temp.Substring(0, i));
+
+	            if (!Directory.Exists(subPath))
+	                Directory.CreateDirectory(subPath);
+	        }
+	    }
+
+	    if (!Directory.Exists(temp))
+	        Directory.CreateDirectory(temp);
+	}
+
+	public static void CreateDirectoryRecursiveForFile(String filePath)
+	{
+	    if (filePath.IsEmpty)
+	        return;
+
+	    String path = scope String(filePath);
+	    path.Replace("\\", "/");
+
+	    int lastSlash = path.LastIndexOf('/');
+
+	    if (lastSlash <= 0)
+	        return;
+
+	    String dirPath = scope String(path.Substring(0, lastSlash));
+
+	    CreateDirectoryRecursive(dirPath);
 	}
 }

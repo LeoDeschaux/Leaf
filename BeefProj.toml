@@ -7,14 +7,12 @@ StartupObject = "Leaf.Program"
 [Dependencies]
 corlib = "*"
 corlib = "*"
-TinySoundFontBeef = "*"
-raylib-beef = "*"
 BJSON = "*"
 ImGui = "*"
+TinySoundFontBeef = "*"
 Jolt = "*"
-LuaTinker = "*"
-rlCImGuiBeef = "*"
 raylib-aseprite-beef = "*"
+rlCImGuiBeef = "*"
 
 [Configs.Debug.Win64]
 TargetDirectory = "$(ProjectDir)/dist/$(Platform)_$(Configuration)"

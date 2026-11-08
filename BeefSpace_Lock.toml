@@ -1,0 +1,6 @@
+FileVersion = 1
+
+[Locks.KeraLua.Git]
+URL = "https://github.com/disarray2077/KeraLua-Beef"
+Tag = ""
+Hash = "040234950fc476a8ee1f5dbb80659b82b073fd5b"

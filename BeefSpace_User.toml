@@ -1,14 +1,14 @@
 FileVersion = 1
 LastConfig = "Debug"
-LastPlatform = "Win64"
-RecentFilesList = ["d:\\Software\\Beef\\BeefLibs\\C2Beef-Binding-Generator\\Jolt\\src\\JoltImpl.bf", "src\\Scenes\\Scene3DAnimationPlayer.bf", "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf", "src\\Extensions\\ExtDraw.bf", "src\\Scenes\\SceneCSVReader.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\String.bf", "Disassembly", "Disassembly", "Disassembly", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Math.bf", "d:\\Software\\Beef\\BeefLibs\\corlib\\src\\Int32.bf", "Disassembly", "src\\Audio\\MidiReaderOld.bf", "src\\Game.bf"]
+LastPlatform = "Linux64"
+RecentFilesList = ["src/Program.bf", "/home/leo/Beef/BeefLibs/corlib/src/Bitfield.bf", "/home/leo/Programming/Beef/BJSON/src/Models/JsonValue.bf", "src/Scenes/SceneCSVReader.bf", "d:/Software/Beef/BeefLibs/C2Beef-Binding-Generator/Jolt/src/JoltImpl.bf", "src/Scenes/Scene3DAnimationPlayer.bf", "d:/Software/Beef/BeefLibs/raylib-aseprite-beef/src/RaylibAsepriteBeef.bf", "src/Extensions/ExtDraw.bf", "d:/Software/Beef/BeefLibs/corlib/src/String.bf", "Disassembly", "Disassembly", "Disassembly", "d:/Software/Beef/BeefLibs/corlib/src/Math.bf", "d:/Software/Beef/BeefLibs/corlib/src/Int32.bf", "Disassembly", "src/Audio/MidiReaderOld.bf", "src/Game.bf"]
 
 [MainWindow]
 X = 0
 Y = 0
-Width = 1178
-Height = 884
-ShowKind = "ShowMaximized"
+Width = 1920
+Height = 1004
+ShowKind = "ShowNormal"
 
 [MainDockingFrame]
 Type = "DockingFrame"
@@ -29,11 +29,10 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Workspace"
-TabWidth = 110.9091
+TabWidth = 98.0
 TabIsPinned = false
 Type = "ProjectPanel"
 ScrollPos = 0.0
-OpenFolders = ["WF:Libs"]
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 IsFillWidget = true
@@ -45,53 +44,63 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneCSVReader.bf"
-TabWidth = 135.4545
+Active = true
+TabLabel = "Program.bf"
+TabWidth = 82.0
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\SceneCSVReader.bf"
-CursorPos = 774
+FilePath = "src/Program.bf"
+CursorPos = 466
+VertPos = 355.377
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Bitfield.bf"
+TabWidth = 74.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "/home/leo/Beef/BeefLibs/corlib/src/Bitfield.bf"
+CursorPos = 5549
+VertPos = 4623.0
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "JsonValue.bf"
+TabWidth = 86.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "/home/leo/Programming/Beef/BJSON/src/Models/JsonValue.bf"
+CursorPos = 729
+VertPos = 720.0
+ProjectName = "BJSON"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "SceneCSVReader.bf"
+TabWidth = 115.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src/Scenes/SceneCSVReader.bf"
+CursorPos = 591
 VertPos = 396.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "ExtDraw.bf"
-TabWidth = 89.0909
+TabWidth = 79.0
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Extensions\\ExtDraw.bf"
+FilePath = "src/Extensions/ExtDraw.bf"
 CursorPos = 553
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "RaylibAsepriteBeef.bf"
-TabWidth = 155.4545
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "d:\\Software\\Beef\\BeefLibs\\raylib-aseprite-beef\\src\\RaylibAsepriteBeef.bf"
-CursorPos = 9523
-VertPos = 7810.0
-ProjectName = "raylib-aseprite-beef"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Scene3DAnimationPlayer.bf"
-TabWidth = 191.8182
+TabWidth = 154.0
 TabIsPinned = false
 Type = "SourceViewPanel"
-FilePath = "src\\Scenes\\Scene3DAnimationPlayer.bf"
-CursorPos = 1396
-VertPos = 1056.0
+FilePath = "src/Scenes/Scene3DAnimationPlayer.bf"
+CursorPos = 1395
 ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
-TabLabel = "JoltImpl.bf"
-TabWidth = 97.27273
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "d:\\Software\\Beef\\BeefLibs\\C2Beef-Binding-Generator\\Jolt\\src\\JoltImpl.bf"
-CursorPos = 254
-ProjectName = "Jolt"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 RequestedWidth = 363.0
@@ -99,15 +108,15 @@ RequestedHeight = 194.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Autocomplete"
-TabWidth = 128.1818
+TabWidth = 112.0
 TabIsPinned = false
 Type = "AutoCompletePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Call Stack"
-TabWidth = 102.7273
+TabWidth = 91.0
 TabIsPinned = false
 Type = "CallStackPanel"
 
@@ -119,19 +128,19 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Output"
-TabWidth = 90.90909
+TabWidth = 81.0
 TabIsPinned = false
 Type = "OutputPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Immediate"
-TabWidth = 109.0909
+TabWidth = 99.0
 TabIsPinned = false
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Watch"
-TabWidth = 85.45454
+TabWidth = 77.0
 TabIsPinned = false
 Type = "WatchPanel"
 Columns = [{Width = 187.0}, {Width = 454.0}, {Width = 187.0}]
@@ -144,20 +153,20 @@ EvalStr = ""
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Auto Watches"
-TabWidth = 128.1818
+TabWidth = 109.0
 TabIsPinned = false
 Type = "AutoWatchPanel"
 Columns = [{Width = 187.0}, {Width = 187.0}, {Width = 187.0}]
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
-TabWidth = 116.3636
+TabWidth = 103.0
 TabIsPinned = false
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Errors"
-TabWidth = 82.72727
+TabWidth = 77.0
 TabIsPinned = false
 Type = "ErrorsPanel"
 ShowErrors = true
@@ -166,12 +175,12 @@ Scope = "Entire Workspace"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]
 TabLabel = "Profile"
-TabWidth = 84.54546
+TabWidth = 80.0
 TabIsPinned = false
 Type = "ProfilePanel"
 
 [[Breakpoints]]
-File = "src\\SceneNetworking.bf"
+File = "src/SceneNetworking.bf"
 Line = 30
 Column = 2
 

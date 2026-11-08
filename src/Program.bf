@@ -21,10 +21,10 @@ class Program
 	}
 
 	public static void Main()
-	{
+		{
 		var gameEngine = new GameEngine();
 		Log.Message(GetBuildVersion());
-		gameEngine.RunGame(new Leaf.Scenes.SceneCSVReader());
+		gameEngine.RunGame(new Leaf.Scenes.SceneDefault());
 		delete gameEngine;
 	}
 }

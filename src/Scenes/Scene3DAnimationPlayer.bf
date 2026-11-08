@@ -53,7 +53,7 @@ class Scene3DAnimationPlayer : Leaf.BaseScene
 
 		// Update model animation
 		anim = modelAnimations[animIndex];
-		animCurrentFrame = (animCurrentFrame + 1)%anim.keyframeCount;
+		animCurrentFrame = (animCurrentFrame + 1)%anim.frameCount;
 		UpdateModelAnimation(model, anim, animCurrentFrame);
     }
 

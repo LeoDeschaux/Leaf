@@ -13,8 +13,6 @@ using static Jolt.Jolt;
 
 namespace Leaf.Scenes;
 
-#if disableBF_PLATFORM_WINDOWS
-
 [Reflect(.Methods), AlwaysInclude(IncludeAllMethods=true)]
 class Scene3DJolt : Leaf.BaseScene
 {
@@ -132,4 +130,3 @@ class Scene3DJolt : Leaf.BaseScene
 		//DrawRectangle(0,0,100,100, YELLOW);
 	}
 }
-#endif

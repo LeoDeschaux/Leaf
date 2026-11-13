@@ -6,7 +6,6 @@ using static Jolt.Jolt;
 
 namespace Leaf;
 
-#if disableBF_PLATFORM_WINDOWS
 class PhysicEngine3D
 {
 	struct Layers
@@ -26,6 +25,7 @@ class PhysicEngine3D
 	JPH_JobSystem* jobSystem;
 
 	float cDeltaTime;
+	float timeAccumulator;
 	JPH_PhysicsSystem* system;
 	public JPH_BodyInterface* BodyInterface;
 	JPH_BodyID floorId;
@@ -210,6 +210,7 @@ class PhysicEngine3D
 
 		// We simulate the physics world in discrete time steps. 60 Hz is a good rate to update the physics system.
 		cDeltaTime = 1.0f / 60.0f;
+		timeAccumulator = 0;
 
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
@@ -222,6 +223,26 @@ class PhysicEngine3D
 	{
 		++step;
 
+		// Accumulate the real frame time so the simulation advances at the same speed regardless of the frame rate.
+		// Without this the world was stepped once per frame with a fixed 1/60 s, making it run faster than
+		// real time on displays rendering above 60 FPS.
+		timeAccumulator += Time.DeltaTime;
+
+		// Don't try to catch up more than a few steps at once (e.g. after a long stall or a breakpoint),
+		// otherwise the simulation can enter a spiral of death.
+		const int cMaxStepsPerFrame = 5;
+		if (timeAccumulator > cDeltaTime * cMaxStepsPerFrame)
+			timeAccumulator = cDeltaTime * cMaxStepsPerFrame;
+
+		// Step the world in fixed 1 / 60th of a second increments.
+		const int cCollisionSteps = 1;
+		while (timeAccumulator >= cDeltaTime)
+		{
+			JPH_PhysicsSystem_Update(system, cDeltaTime, cCollisionSteps, jobSystem);
+			timeAccumulator -= cDeltaTime;
+		}
+
+		// Read the simulated state back into our bodies after stepping.
 		for(var body in bodies)
 		{
 			JPH_BodyInterface_GetCenterOfMassPosition(BodyInterface, (.)body.ID, &body.Position);
@@ -229,12 +250,6 @@ class PhysicEngine3D
 
 			JPH_BodyInterface_GetRotation(BodyInterface, (.)body.ID, &body.Rotation);
 		}
-
-		// If you take larger steps than 1 / 60th of a second you need to do multiple collision steps in order to keep the simulation stable. Do 1 collision step per 1 / 60th of a second (round up).
-		const int cCollisionSteps = 1;
-
-		// Step the world
-		JPH_PhysicsSystem_Update(system, cDeltaTime, cCollisionSteps, jobSystem);
 	}
 
 	public void Apply()
@@ -245,4 +260,3 @@ class PhysicEngine3D
 		}
 	}
 }
-#endif

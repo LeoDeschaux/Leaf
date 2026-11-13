@@ -5,7 +5,6 @@ using static Jolt.Jolt;
 
 namespace Leaf;
 
-#if disableBF_PLATFORM_WINDOWS
 class PhysicBody
 {
 	public int ID;
@@ -44,4 +43,3 @@ class BoxPhysic : PhysicBody
 	{
 	}
 }
-#endif

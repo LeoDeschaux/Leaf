@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Linux64"
-RecentFilesList = ["src/Program.bf", "/home/leo/Beef/BeefLibs/corlib/src/Bitfield.bf", "/home/leo/Programming/Beef/BJSON/src/Models/JsonValue.bf", "src/Scenes/SceneCSVReader.bf", "d:/Software/Beef/BeefLibs/C2Beef-Binding-Generator/Jolt/src/JoltImpl.bf", "src/Scenes/Scene3DAnimationPlayer.bf", "d:/Software/Beef/BeefLibs/raylib-aseprite-beef/src/RaylibAsepriteBeef.bf", "src/Extensions/ExtDraw.bf", "d:/Software/Beef/BeefLibs/corlib/src/String.bf", "Disassembly", "Disassembly", "Disassembly", "d:/Software/Beef/BeefLibs/corlib/src/Math.bf", "d:/Software/Beef/BeefLibs/corlib/src/Int32.bf", "Disassembly", "src/Audio/MidiReaderOld.bf", "src/Game.bf"]
+RecentFilesList = ["src/PhysicsEngine/JoltBeef/PhysicEngine3D.bf", "src/Scenes/Scene3DJolt.bf", "src/Program.bf", "d:/Software/Beef/BeefLibs/C2Beef-Binding-Generator/Jolt/src/JoltImpl.bf", "d:/Software/Beef/BeefLibs/raylib-aseprite-beef/src/RaylibAsepriteBeef.bf", "d:/Software/Beef/BeefLibs/corlib/src/String.bf", "Disassembly", "Disassembly", "Disassembly", "d:/Software/Beef/BeefLibs/corlib/src/Math.bf", "d:/Software/Beef/BeefLibs/corlib/src/Int32.bf", "Disassembly", "src/Audio/MidiReaderOld.bf"]
 
 [MainWindow]
 X = 0
@@ -33,6 +33,7 @@ TabWidth = 98.0
 TabIsPinned = false
 Type = "ProjectPanel"
 ScrollPos = 0.0
+OpenFolders = ["WF:Libs", "PI:Jolt", "PI:Leaf", "PI:Leaf/PhysicsEngine", "PI:Leaf/PhysicsEngine/JoltBeef"]
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
 IsFillWidget = true
@@ -44,62 +45,23 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
+TabLabel = "Scene3DJolt.bf"
+TabWidth = 104.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src/Scenes/Scene3DJolt.bf"
+CursorPos = 1624
+VertPos = 432.5977
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Program.bf"
 TabWidth = 82.0
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src/Program.bf"
-CursorPos = 466
-VertPos = 355.377
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Bitfield.bf"
-TabWidth = 74.0
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "/home/leo/Beef/BeefLibs/corlib/src/Bitfield.bf"
-CursorPos = 5549
-VertPos = 4623.0
-ProjectName = "corlib"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "JsonValue.bf"
-TabWidth = 86.0
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "/home/leo/Programming/Beef/BJSON/src/Models/JsonValue.bf"
-CursorPos = 729
-VertPos = 720.0
-ProjectName = "BJSON"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "SceneCSVReader.bf"
-TabWidth = 115.0
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src/Scenes/SceneCSVReader.bf"
-CursorPos = 591
-VertPos = 396.0
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "ExtDraw.bf"
-TabWidth = 79.0
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src/Extensions/ExtDraw.bf"
-CursorPos = 553
-ProjectName = "Leaf"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Scene3DAnimationPlayer.bf"
-TabWidth = 154.0
-TabIsPinned = false
-Type = "SourceViewPanel"
-FilePath = "src/Scenes/Scene3DAnimationPlayer.bf"
-CursorPos = 1395
+CursorPos = 309
+VertPos = 249.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -122,7 +84,7 @@ Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets]]
 RequestedWidth = 250.0
-RequestedHeight = 387.0
+RequestedHeight = 271.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.Tabs]]

@@ -3,19 +3,20 @@ using System.Collections;
 using RaylibBeef;
 using Leaf;
 using static Jolt.Jolt;
+using static RaylibBeef.Raymath;
 
 namespace Leaf;
 
 class PhysicEngine3D
 {
-	struct Layers
+	public struct Layers
 	{
 		public static JPH_ObjectLayer NON_MOVING = 0;
 		public static JPH_ObjectLayer MOVING = 1;
 		public static JPH_ObjectLayer NUM_LAYERS = 2;
 	};
 
-	struct BroadPhaseLayers
+	public struct BroadPhaseLayers
 	{
 		public static JPH_BroadPhaseLayer NON_MOVING = 0;
 		public static JPH_BroadPhaseLayer MOVING = 1;
@@ -46,9 +47,6 @@ class PhysicEngine3D
 
 			delete body;
 		}
-
-		// Remove and destroy the floor
-		JPH_BodyInterface_RemoveAndDestroyBody(BodyInterface, floorId);
 
 		JPH_JobSystem_Destroy(jobSystem);
 
@@ -90,28 +88,38 @@ class PhysicEngine3D
 		settings.objectVsBroadPhaseLayerFilter = objectVsBroadPhaseLayerFilter;
 		system = JPH_PhysicsSystem_Create(&settings);
 		BodyInterface = JPH_PhysicsSystem_GetBodyInterface(system);
+	}
 
-		//
+	public void GenerateFloor()
+	{
 		floorId = .();
-		{
-			// Next we can create a rigid body to serve as the floor, we make a large box
-			// Create the settings for the collision volume (the shape). 
-			// Note that for simple shapes (like boxes) you can also directly construct a BoxShape.
-			JPH_Vec3 boxHalfExtents = .(100.0f, 1.0f, 100.0f);
-			JPH_BoxShape* floorShape = JPH_BoxShape_Create(&boxHalfExtents, JPH_DEFAULT_CONVEX_RADIUS);
+		// Next we can create a rigid body to serve as the floor, we make a large box
+		// Create the settings for the collision volume (the shape). 
+		// Note that for simple shapes (like boxes) you can also directly construct a BoxShape.
+		JPH_Vec3 boxHalfExtents = .(100.0f, 1.0f, 100.0f);
+		JPH_BoxShape* floorShape = JPH_BoxShape_Create(&boxHalfExtents, JPH_DEFAULT_CONVEX_RADIUS);
 
-			JPH_Vec3 floorPosition = .(0.0f, -1.0f, 0.0f);
-			JPH_BodyCreationSettings* floorSettings = JPH_BodyCreationSettings_Create3(
-				(JPH_Shape*)floorShape,
-				&floorPosition,
-				null, // Identity, 
-				JPH_MotionType.Static,
-				Layers.NON_MOVING);
+		JPH_Vec3 floorPosition = .(0.0f, -1.0f, 0.0f);
+		JPH_BodyCreationSettings* floorSettings = JPH_BodyCreationSettings_Create3(
+			(JPH_Shape*)floorShape,
+			&floorPosition,
+			null, // Identity, 
+			JPH_MotionType.Static,
+			Layers.NON_MOVING);
 
-			// Create the actual rigid body
-			floorId = JPH_BodyInterface_CreateAndAddBody(BodyInterface, floorSettings,JPH_Activation.DontActivate);
-			JPH_BodyCreationSettings_Destroy(floorSettings);
-		}
+		// Create the actual rigid body
+		floorId = JPH_BodyInterface_CreateAndAddBody(BodyInterface, floorSettings,JPH_Activation.DontActivate);
+		JPH_BodyCreationSettings_Destroy(floorSettings);
+		JPH_Shape_Destroy((JPH_Shape*)floorShape);
+
+		BoxPhysic b = new .(this);
+		b.ID = floorId;
+		b.HalfExtents = boxHalfExtents;
+		b.Position = floorPosition;
+		b.Velocity = default;
+		b.Rotation = IdentityRotation();
+
+		bodies.Add(b);
 	}
 
 	/*
@@ -136,7 +144,8 @@ class PhysicEngine3D
 	}
 	*/
 
-	public SpherePhysic GenerateSphere(Vector3 position, Vector3 velocity, float radius)
+	public SpherePhysic GenerateSphere(Vector3 position, Vector3 velocity, float radius,
+		JPH_Quat* rotation = null, float gravityFactor = 1.0f, JPH_MotionType motionType = .Dynamic, JPH_ObjectLayer layers = Layers.MOVING)
 	{
 		// Sphere
 		int sphereId = .();
@@ -146,23 +155,26 @@ class PhysicEngine3D
 			JPH_BodyCreationSettings* sphereSettings = JPH_BodyCreationSettings_Create3(
 				(JPH_Shape*)sphereShape,
 				&spherePosition,
-				null, // Identity, 
-				JPH_MotionType.Dynamic,
-				Layers.MOVING);
+				rotation,
+				motionType,
+				layers);
 
 			sphereId = (.)JPH_BodyInterface_CreateAndAddBody(BodyInterface, sphereSettings, JPH_Activation.Activate);
 			JPH_BodyCreationSettings_Destroy(sphereSettings);
+			JPH_Shape_Destroy((JPH_Shape*)sphereShape);
 		}
 
 		// Now you can interact with the dynamic body, in this case we're going to give it a velocity.
 		// (note that if we had used CreateBody then we could have set the velocity straight on the body before adding it to the physics system)
 		JPH_Vec3 vel = velocity;
 		JPH_BodyInterface_SetLinearVelocity(BodyInterface, (.)sphereId, &vel);
+		JPH_BodyInterface_SetGravityFactor(BodyInterface, (.)sphereId, gravityFactor);
 
 		SpherePhysic sphere = new .(this);
 		sphere.ID = sphereId;
 		sphere.Position = position;
 		sphere.Velocity = velocity;
+		sphere.Rotation = rotation != null ? *rotation : IdentityRotation();
 		sphere.Radius = radius;
 
 		bodies.Add(sphere);
@@ -170,7 +182,8 @@ class PhysicEngine3D
 		return sphere;
 	}
 
-	public BoxPhysic GenerateBox(Vector3 position, Vector3 velocity, Vector3 halfExtents)
+	public BoxPhysic GenerateBox(Vector3 position, Vector3 velocity, Vector3 halfExtents,
+		JPH_Quat* rotation = null, float gravityFactor = 1.0f, JPH_MotionType motionType = .Dynamic, JPH_ObjectLayer layers = Layers.MOVING)
 	{
 	    int boxId = .();
 	    {
@@ -181,26 +194,165 @@ class PhysicEngine3D
 	        JPH_BodyCreationSettings* boxSettings = JPH_BodyCreationSettings_Create3(
 	            (JPH_Shape*)boxShape,
 	            &boxPosition,
-	            null,
-	            JPH_MotionType.Dynamic,
-	            Layers.MOVING);
+	            rotation,
+	            motionType,
+	            layers);
 
 	        boxId = (.)JPH_BodyInterface_CreateAndAddBody(BodyInterface, boxSettings, JPH_Activation.Activate);
 	        JPH_BodyCreationSettings_Destroy(boxSettings);
+	        JPH_Shape_Destroy((JPH_Shape*)boxShape);
 	    }
 
 	    JPH_Vec3 vel = velocity;
 	    JPH_BodyInterface_SetLinearVelocity(BodyInterface, (.)boxId, &vel);
+		JPH_BodyInterface_SetGravityFactor(BodyInterface, (.)boxId, gravityFactor);
 
 	    BoxPhysic b = new .(this);
 	    b.ID = boxId;
 	    b.HalfExtents = halfExtents;
 	    b.Position = position;
 	    b.Velocity = velocity;
+		b.Rotation = rotation != null ? *rotation : IdentityRotation();
 
 	    bodies.Add(b);
 
 	    return b;
+	}
+
+	public PhysicBody GenerateMesh(Vector3 position, Vector3 velocity, Vector3* vertices, int vertexCount,
+		uint32* indices, int indexCount, JPH_Quat* rotation = null, float gravityFactor = 1.0f,
+		JPH_MotionType motionType = .Dynamic, JPH_ObjectLayer layers = Layers.MOVING)
+	{
+		if(vertices == null || indices == null || vertexCount < 3 || indexCount < 3)
+			return null;
+
+		int triangleCount = indexCount / 3;
+
+		var triangles = new JPH_IndexedTriangle[triangleCount];
+		defer delete triangles;
+
+		for(int i = 0; i < triangleCount; i++)
+		{
+			triangles[i].i1 = indices[i * 3];
+			triangles[i].i2 = indices[i * 3 + 1];
+			triangles[i].i3 = indices[i * 3 + 2];
+			triangles[i].materialIndex = 0;
+			triangles[i].userData = 0;
+		}
+
+		JPH_MeshShapeSettings* settings = JPH_MeshShapeSettings_Create2(
+			(JPH_Vec3*)vertices, (uint32)vertexCount, triangles.Ptr, (uint32)triangleCount);
+
+		if(settings == null)
+			return null;
+
+		JPH_MeshShape* shape = JPH_MeshShapeSettings_CreateShape(settings);
+		JPH_ShapeSettings_Destroy((JPH_ShapeSettings*)settings);
+
+		if(shape == null)
+			return null;
+
+		return GenerateShape((JPH_Shape*)shape, position, velocity, rotation, gravityFactor, motionType, layers);
+	}
+
+	public PhysicBody GenerateConvexHull(Vector3 position, Vector3 velocity, Vector3* vertices, int vertexCount,
+		JPH_Quat* rotation = null, float gravityFactor = 1.0f, JPH_MotionType motionType = .Dynamic,
+		JPH_ObjectLayer layers = Layers.MOVING)
+	{
+		if(vertices == null || vertexCount < 4)
+			return null;
+
+		var uniqueVertices = new List<JPH_Vec3>();
+		defer delete uniqueVertices;
+
+		for(int i = 0; i < vertexCount; i++)
+		{
+			bool found = false;
+
+			for(var existing in uniqueVertices)
+			{
+				if(Vector3DistanceSqr(existing, vertices[i]) < 0.00000001f)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if(!found)
+				uniqueVertices.Add(vertices[i]);
+		}
+
+		if(uniqueVertices.Count < 4)
+			return null;
+
+		JPH_ConvexHullShapeSettings* settings = JPH_ConvexHullShapeSettings_Create(
+			uniqueVertices.Ptr, (uint32)uniqueVertices.Count, JPH_DEFAULT_CONVEX_RADIUS);
+
+		if(settings == null)
+			return null;
+
+		JPH_ConvexHullShape* shape = JPH_ConvexHullShapeSettings_CreateShape(settings);
+		JPH_ShapeSettings_Destroy((JPH_ShapeSettings*)settings);
+
+		if(shape == null)
+			return null;
+
+		return GenerateShape((JPH_Shape*)shape, position, velocity, rotation, gravityFactor, motionType, layers);
+	}
+
+	public PhysicBody GenerateShape(JPH_Shape* shape, Vector3 position, Vector3 velocity, JPH_Quat* rotation = null,
+		float gravityFactor = 1.0f, JPH_MotionType motionType = .Dynamic, JPH_ObjectLayer layers = Layers.MOVING)
+	{
+		if(shape == null)
+			return null;
+
+		JPH_Vec3 bodyPosition = position;
+		JPH_BodyCreationSettings* settings = JPH_BodyCreationSettings_Create3(shape, &bodyPosition, rotation, motionType, layers);
+
+		if(settings == null)
+		{
+			JPH_Shape_Destroy(shape);
+			return null;
+		}
+
+		int id = (.)JPH_BodyInterface_CreateAndAddBody(BodyInterface, settings, JPH_Activation.Activate);
+		JPH_BodyCreationSettings_Destroy(settings);
+		JPH_Shape_Destroy(shape);
+
+		JPH_Vec3 vel = velocity;
+		JPH_BodyInterface_SetLinearVelocity(BodyInterface, (.)id, &vel);
+		JPH_BodyInterface_SetGravityFactor(BodyInterface, (.)id, gravityFactor);
+
+		ShapePhysic body = new .(this);
+		body.ID = id;
+		body.Position = position;
+		body.Velocity = velocity;
+		body.Rotation = rotation != null ? *rotation : IdentityRotation();
+
+		bodies.Add(body);
+
+		return body;
+	}
+
+	static JPH_Quat IdentityRotation()
+	{
+		JPH_Quat rotation;
+		rotation.x = 0;
+		rotation.y = 0;
+		rotation.z = 0;
+		rotation.w = 1;
+		return rotation;
+	}
+
+	public void DestroyBody(PhysicBody body)
+	{
+		if(body == null)
+			return;
+
+		JPH_BodyInterface_RemoveAndDestroyBody(BodyInterface, (.)body.ID);
+
+		bodies.Remove(body);
+		delete body;
 	}
 
 	public void StartSimulation()
@@ -255,8 +407,6 @@ class PhysicEngine3D
 	public void Apply()
 	{
 		for(var body in bodies)
-		{
 			JPH_BodyInterface_SetLinearVelocity(BodyInterface, (.)body.ID, &body.Velocity);
-		}
 	}
 }

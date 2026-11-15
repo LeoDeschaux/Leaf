@@ -10,7 +10,6 @@ Filter = ""
 
 [Projects]
 Leaf = {Path = "."}
-ImGui = "*"
 ImGui = {Path = "../imgui-beef"}
 BJSON = {Path = "../BJSON"}
 raylib-beef = {Path = "../raylib-beef/raylib-beef"}

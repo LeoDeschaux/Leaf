@@ -59,6 +59,41 @@ class SerializationHelper
 			PrintFields(subField, depth);
 	}
 
+	private static int64 GetEnumValue(FieldInfo field, Object entity)
+	{
+		void* data = field.GetValueReference(entity).Get().DataPtr;
+		Type underlying = field.FieldType.UnderlyingType;
+
+		if(underlying == typeof(int8)) return *(int8*)data;
+		if(underlying == typeof(uint8)) return *(uint8*)data;
+		if(underlying == typeof(int16)) return *(int16*)data;
+		if(underlying == typeof(uint16)) return *(uint16*)data;
+		if(underlying == typeof(int32)) return *(int32*)data;
+		if(underlying == typeof(uint32)) return *(uint32*)data;
+		if(underlying == typeof(int64)) return *(int64*)data;
+		if(underlying == typeof(uint64)) return (int64)*(uint64*)data;
+		if(underlying == typeof(int)) return *(int*)data;
+		if(underlying == typeof(uint)) return (int64)*(uint*)data;
+		return 0;
+	}
+
+	private static void SetEnumValue(FieldInfo field, Object entity, int64 value)
+	{
+		void* data = field.GetValueReference(entity).Get().DataPtr;
+		Type underlying = field.FieldType.UnderlyingType;
+
+		if(underlying == typeof(int8)) *(int8*)data = (int8)value;
+		else if(underlying == typeof(uint8)) *(uint8*)data = (uint8)value;
+		else if(underlying == typeof(int16)) *(int16*)data = (int16)value;
+		else if(underlying == typeof(uint16)) *(uint16*)data = (uint16)value;
+		else if(underlying == typeof(int32)) *(int32*)data = (int32)value;
+		else if(underlying == typeof(uint32)) *(uint32*)data = (uint32)value;
+		else if(underlying == typeof(int64)) *(int64*)data = value;
+		else if(underlying == typeof(uint64)) *(uint64*)data = (uint64)value;
+		else if(underlying == typeof(int)) *(int*)data = (int)value;
+		else if(underlying == typeof(uint)) *(uint*)data = (uint)value;
+	}
+
 	public static void AutoImGuiField(FieldInfo field, Object entity, int depth = 0, bool force = false,
 		List<Type> ignoreTypes = null,
 		delegate bool(FieldInfo) Conditional = null, delegate String(String) FormartString = null)
@@ -122,6 +157,28 @@ class SerializationHelper
 			String fieldName = scope String(field.Name);
 			if(FormartString != null)
 				fieldName = FormartString(fieldName);
+
+			if(field.FieldType.IsEnum)
+			{
+				int64 enumValue = GetEnumValue(field, entity);
+
+				String preview = scope String();
+				Enum.EnumToString(field.FieldType, preview, enumValue);
+
+				if(ImGui.BeginCombo(fieldName, preview))
+				{
+					for(var (name, value) in Enum.GetEnumerator(field.FieldType))
+					{
+						bool selected = value == enumValue;
+						if(ImGui.Selectable(scope $"{name}", selected))
+							SetEnumValue(field, entity, value);
+						if(selected)
+							ImGui.SetItemDefaultFocus();
+					}
+					ImGui.EndCombo();
+				}
+				continue;
+			}
 
 			var min = 0f;
 			var max = 500f;
@@ -285,6 +342,12 @@ class SerializationHelper
 			if(!force && !hasTag)
 				continue;
 
+			if(field.FieldType.IsEnum)
+			{
+				df[field.Name] = (int)GetEnumValue(field, entity);
+				continue;
+			}
+
 			if(field.FieldType == typeof(bool))
 			{
 				df[field.Name] = *GetValuePtr<bool>();
@@ -435,6 +498,12 @@ class SerializationHelper
 			bool hasTag = field.HasCustomAttribute<AutoSerializeAttribute>() || field.FieldType.HasCustomAttribute<AutoSerializeAttribute>();
 			if(!force && !hasTag)
 				continue;
+
+			if(field.FieldType.IsEnum)
+			{
+				SetEnumValue(field, entity, (int64)(int)df[field.Name]);
+				continue;
+			}
 
 			if(field.FieldType == typeof(bool))
 			{

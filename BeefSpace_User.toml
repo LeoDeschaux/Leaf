@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "Debug"
 LastPlatform = "Linux64"
-RecentFilesList = ["src/PhysicsEngine/JoltBeef/PhysicEngine3D.bf", "src/Scenes/Scene3DJolt.bf", "src/Program.bf", "d:/Software/Beef/BeefLibs/C2Beef-Binding-Generator/Jolt/src/JoltImpl.bf", "d:/Software/Beef/BeefLibs/raylib-aseprite-beef/src/RaylibAsepriteBeef.bf", "d:/Software/Beef/BeefLibs/corlib/src/String.bf", "Disassembly", "Disassembly", "Disassembly", "d:/Software/Beef/BeefLibs/corlib/src/Math.bf", "d:/Software/Beef/BeefLibs/corlib/src/Int32.bf", "Disassembly", "src/Audio/MidiReaderOld.bf"]
+RecentFilesList = ["src/Scenes/Scene3DJolt.bf", "src/PhysicsEngine/JoltBeef/PhysicEngine3D.bf", "src/Program.bf", "d:/Software/Beef/BeefLibs/C2Beef-Binding-Generator/Jolt/src/JoltImpl.bf", "d:/Software/Beef/BeefLibs/raylib-aseprite-beef/src/RaylibAsepriteBeef.bf", "d:/Software/Beef/BeefLibs/corlib/src/String.bf", "Disassembly", "Disassembly", "Disassembly", "d:/Software/Beef/BeefLibs/corlib/src/Math.bf", "d:/Software/Beef/BeefLibs/corlib/src/Int32.bf", "Disassembly", "src/Audio/MidiReaderOld.bf"]
 
 [MainWindow]
 X = 0
@@ -45,13 +45,24 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "PhysicEngine3D.bf"
+TabWidth = 123.0
+TabIsPinned = false
+Type = "SourceViewPanel"
+FilePath = "src/PhysicsEngine/JoltBeef/PhysicEngine3D.bf"
+CursorPos = 4127
+VertPos = 1873.853
+ProjectName = "Leaf"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Scene3DJolt.bf"
-TabWidth = 104.0
+TabWidth = 94.0
 TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src/Scenes/Scene3DJolt.bf"
-CursorPos = 1624
-VertPos = 432.5977
+CursorPos = 922
+VertPos = 712.8832
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
@@ -61,7 +72,6 @@ TabIsPinned = false
 Type = "SourceViewPanel"
 FilePath = "src/Program.bf"
 CursorPos = 309
-VertPos = 249.0
 ProjectName = "Leaf"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]

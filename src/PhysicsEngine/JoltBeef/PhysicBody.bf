@@ -43,3 +43,11 @@ class BoxPhysic : PhysicBody
 	{
 	}
 }
+
+class ShapePhysic : PhysicBody
+{
+	public this(PhysicEngine3D e)
+	{
+		engine = e;
+	}
+}

@@ -84,13 +84,22 @@ public class DataFile
 		//fileContent.Replace("\\", "\\\\");
 
 		var result = Json.Deserialize(fileContent);
-		if(result case .Err(let err))
-			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
 
 		var res = new DataFile();
-		res.root.Dispose();
 
-		res.root = result.Get().AsObject();
+		if(result case .Err(let err))
+		{
+			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
+			return res;
+		}
+
+		if(result.Get().AsObject() case .Ok(let root))
+		{
+			res.root.Dispose();
+			res.root = root;
+		}
+		else
+			Log.Message(scope $"Error:{path} root is not a JSON object", ConsoleColor.Red);
 
 		return res;
 	}
@@ -101,13 +110,22 @@ public class DataFile
 			content.Append("{}");
 
 		var result = Json.Deserialize(content);
-		if(result case .Err(let err))
-			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
 
 		var res = new DataFile();
-		res.root.Dispose();
 
-		res.root = result.Get().AsObject();
+		if(result case .Err(let err))
+		{
+			Log.Message(scope $"Error:{err}", ConsoleColor.Red);
+			return res;
+		}
+
+		if(result.Get().AsObject() case .Ok(let root))
+		{
+			res.root.Dispose();
+			res.root = root;
+		}
+		else
+			Log.Message("Error: content root is not a JSON object", ConsoleColor.Red);
 
 		return res;
 	}

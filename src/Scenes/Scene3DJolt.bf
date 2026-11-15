@@ -40,6 +40,8 @@ class Scene3DJolt : Leaf.BaseScene
 
 		physic.Init();
 		physic.StartSimulation();
+
+		physic.GenerateFloor();
 	}
 
 	public ~this()

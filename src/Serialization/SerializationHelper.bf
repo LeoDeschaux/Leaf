@@ -499,6 +499,10 @@ class SerializationHelper
 			if(!force && !hasTag)
 				continue;
 
+			var dfObject = df.As<BJSON.Models.JsonObject>();
+			if(!dfObject.ContainsKey(field.Name))
+				continue;
+
 			if(field.FieldType.IsEnum)
 			{
 				SetEnumValue(field, entity, (int64)(int)df[field.Name]);

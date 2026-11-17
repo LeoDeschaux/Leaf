@@ -161,8 +161,14 @@ class GameEngine
 				Leaf.Engine.WebEngine.Exit();
 		});
 #else
-		while (!WindowShouldClose() && !m_exitReady)
+		while (!m_exitReady)
 		{
+			if(CurrentScene != null && CurrentScene.ExitRequested)
+				break;
+
+			if(WindowShouldClose() && (CurrentScene == null || CurrentScene.CanClose()))
+				break;
+
 			Tick();
 		}
 #endif

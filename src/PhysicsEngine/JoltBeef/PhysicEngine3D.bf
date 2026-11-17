@@ -906,6 +906,25 @@ class PhysicEngine3D
 			timeAccumulator -= cDeltaTime;
 		}
 
+		SyncBodies();
+	}
+
+	public void StepOnce()
+	{
+		if(!initialized || system == null)
+			return;
+
+		if(cDeltaTime <= 0.0f)
+			cDeltaTime = 1.0f / 60.0f;
+
+		OnFixedStep.Invoke(cDeltaTime);
+		JPH_PhysicsSystem_Update(system, cDeltaTime, 1, jobSystem);
+		SyncBodies();
+		timeAccumulator = 0.0f;
+	}
+
+	void SyncBodies()
+	{
 		for(var body in bodies)
 		{
 			JPH_BodyInterface_GetCenterOfMassPosition(BodyInterface, (.)body.ID, &body.Position);

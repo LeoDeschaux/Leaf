@@ -40,6 +40,18 @@ class BaseScene : Entity
 	public virtual void OnBeforeExit(){};
 	public virtual void PostEntities(){};
 
+	public bool ExitRequested { get; private set; }
+
+	public virtual bool CanClose()
+	{
+		return true;
+	}
+
+	public void RequestExit()
+	{
+		ExitRequested = true;
+	}
+
 	/*Example
 		protected override void Restart()
 		{

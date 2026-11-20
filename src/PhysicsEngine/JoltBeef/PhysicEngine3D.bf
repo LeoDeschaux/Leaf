@@ -63,6 +63,8 @@ class PhysicEngine3D
 
 	public const uint32 ALL_LAYERS = 0xFFFFFFFF;
 
+	public uint32[4] LayerCollisionMasks = .(ALL_LAYERS, ALL_LAYERS, ALL_LAYERS, ALL_LAYERS);
+
 	bool initialized;
 	JPH_JobSystem* jobSystem;
 
@@ -135,7 +137,8 @@ class PhysicEngine3D
 		JPH_ObjectLayerPairFilter* objectLayerPairFilterTable = JPH_ObjectLayerPairFilterTable_Create((uint32)Layers.NUM_LAYERS);
 		for(uint32 a = 0; a < Layers.NUM_LAYERS; a++)
 			for(uint32 b = 0; b < Layers.NUM_LAYERS; b++)
-				JPH_ObjectLayerPairFilterTable_EnableCollision(objectLayerPairFilterTable, a, b);
+				if((LayerCollisionMasks[a] & (1u << (int)b)) != 0)
+					JPH_ObjectLayerPairFilterTable_EnableCollision(objectLayerPairFilterTable, a, b);
 
 		JPH_BroadPhaseLayerInterface* broadPhaseLayerInterfaceTable = JPH_BroadPhaseLayerInterfaceTable_Create((uint32)Layers.NUM_LAYERS, (uint32)BroadPhaseLayers.NUM_LAYERS);
 		JPH_BroadPhaseLayerInterfaceTable_MapObjectToBroadPhaseLayer(broadPhaseLayerInterfaceTable, Layers.NON_MOVING, BroadPhaseLayers.NON_MOVING);
@@ -879,6 +882,19 @@ class PhysicEngine3D
 		delete body;
 	}
 
+	public void SetBodyEnabled(PhysicBody body, bool enabled)
+	{
+		if(body == null || BodyInterface == null)
+			return;
+
+		bool added = JPH_BodyInterface_IsAdded(BodyInterface, (.)body.ID);
+
+		if(enabled && !added)
+			JPH_BodyInterface_AddBody(BodyInterface, (.)body.ID, JPH_Activation.Activate);
+		else if(!enabled && added)
+			JPH_BodyInterface_RemoveBody(BodyInterface, (.)body.ID);
+	}
+
 	public void StartSimulation()
 	{
 		Active = this;
@@ -927,6 +943,9 @@ class PhysicEngine3D
 	{
 		for(var body in bodies)
 		{
+			if(!JPH_BodyInterface_IsAdded(BodyInterface, (.)body.ID))
+				continue;
+
 			JPH_BodyInterface_GetCenterOfMassPosition(BodyInterface, (.)body.ID, &body.Position);
 			JPH_BodyInterface_GetLinearVelocity(BodyInterface, (.)body.ID, &body.Velocity);
 			JPH_BodyInterface_GetRotation(BodyInterface, (.)body.ID, &body.Rotation);

@@ -313,6 +313,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(!field.IsInstanceField)
+				continue;
+
 			if(Conditional != null && Conditional(field))
 				continue;
 
@@ -470,6 +473,9 @@ class SerializationHelper
 
 		for (var field in entity.GetType().GetFields())
 		{
+			if(!field.IsInstanceField)
+				continue;
+
 			if(Conditional != null && Conditional(field))
 				continue;
 
